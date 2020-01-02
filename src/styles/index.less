@@ -1,0 +1,102 @@
+body,
+html,
+#app {
+    height: 100%;
+}
+
+/* 单独作为一个文件存在的CSS初始化代码 */
+/* 哪个页面需要初始化,就直接导入即可 */
+
+body,
+div,
+span,
+a,
+input,
+img,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+p,
+strong,
+em,
+del,
+ins,
+i,
+header,
+nav,
+footer {
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+input {
+    border: none;
+    outline: none;
+}
+
+img {
+    border: none;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+i {
+    font-style: normal;
+}
+
+.w {
+    width: 1004px;
+    margin: 0 auto;
+}
+
+body {
+    font: 14px "微软雅黑";
+}
+
+.clearfix::after {
+    content: ".";
+    clear: both;
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+// 限制搜索框内容显示
+.tangram-suggestion {
+    overflow: hidden;
+
+    td {
+        white-space: nowrap;
+        line-height: 10%
+    }
+}
+// 去除地图左下角信息
+.anchorBL{
+    display: none;
+    visibility: hidden;
+}
+::-webkit-scrollbar {
+    visibility: hidden;
+  }
+@media (width:1200px) {
+    font-size: 120px;
+}
