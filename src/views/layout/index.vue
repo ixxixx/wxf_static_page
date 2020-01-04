@@ -45,12 +45,12 @@ export default {
     color: #333;
 }
 .el-header {
-    background-color: #fff;
-    color: #333;
+    background-color: rgb(72, 122, 156);
+    color: #fff;
     line-height: 1;
 }
 .el-main {
-    background-color: #eee;
+    background-color: rgb(82, 164, 197);
     color: #333;
 }
 </style>

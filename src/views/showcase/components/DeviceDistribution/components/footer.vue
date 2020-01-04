@@ -381,6 +381,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@keyframes footerdh{/*定义从右边滑入文字的动画*/
+    0%{transform: translatey(50px);opacity: 0;}
+    100%{transform:translateX(0px);opacity: 1; }
+}
 // 显示按钮
 .el-icon-circle-plus {
   font-size: 10/96rem;
@@ -390,6 +394,8 @@ export default {
   top: 75%;
 }
 .footer {
+   animation: footerdh 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
+      animation-fill-mode: forwards;/*定义动画结束的状态*/
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -423,9 +429,9 @@ export default {
       }
       .fire-notes {
         position: absolute;
-        bottom: 0;
+        bottom: 3%;
         width: 100%;
-        height: 55%;
+        height: 53%;
         overflow: hidden;
         background-color: transparent;
         ul {
@@ -437,7 +443,7 @@ export default {
             padding-right: 5/96rem;
             font-size: 7/96rem;
             color: #fff;
-            line-height: 1.9;
+            line-height: 1.7;
             text-indent: 1em;
           }
         }
@@ -459,9 +465,9 @@ export default {
       }
       .fault-notes {
         position: absolute;
-        bottom: 0;
+        bottom: 3%;
         width: 100%;
-        height: 55%;
+        height: 53%;
         overflow: hidden;
         background-color: transparent;
         ul {
@@ -473,7 +479,7 @@ export default {
             padding-right: 5/96rem;
             font-size: 7/96rem;
             color: #fff;
-            line-height: 1.9;
+            line-height: 1.7;
             text-indent: 1em;
           }
         }

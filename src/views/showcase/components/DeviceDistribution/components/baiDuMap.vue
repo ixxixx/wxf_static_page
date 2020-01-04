@@ -1,49 +1,54 @@
 <template>
-   <div id="mapbox">
-            <baidu-map
-              :center="center"
-              :zoom="zoom"
-              :scroll-wheel-zoom="true"
-              class="baidu-m"
-              @ready="handler"
-              :mapStyle="mapStyle"
-            >
-              <!-- 必须给容器指高度，不然地图将显示在一个高度为0的容器中，看不到 -->
-              <bm-map-type
-                :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']"
-                anchor="BMAP_ANCHOR_TOP_LEFT"
-              ></bm-map-type>
-              <!-- 标记 -->、
-              <bm-marker
-                :position="{ lng: 102.73333, lat: 25.05 }"
-                :dragging="true"
-                animation="BMAP_ANIMATION_BOUNCE"
-              >
-              </bm-marker>
-              <bm-local-search
-                :keyword="keyword"
-                :location="location"
-                :auto-viewport="autoViewport"
-                :panel="panel"
-                :select-first-result="selectFirstResult"
-                @searchcomplete="searchcomplete"
-              ></bm-local-search>
-              <bm-control>
-                <bm-auto-complete
-                  v-model="keyword"
-                  :sugStyle="{ zIndex: 999999 }"
-                >
-                  <el-input
-                    style="top:5px;left:100px"
-                    v-model="mapvalue"
-                    placeholder="请搜索活动地址"
-                    size="mini"
-                    clearable
-                  ></el-input>
-                </bm-auto-complete>
-              </bm-control>
-            </baidu-map>
-          </div>
+  <div id="mapbox">
+    <baidu-map
+      :center="center"
+      :zoom="zoom"
+      :scroll-wheel-zoom="true"
+      class="baidu-m"
+      @ready="handler"
+      :mapStyle="mapStyle"
+    >
+      <!-- 必须给容器指高度，不然地图将显示在一个高度为0的容器中，看不到 -->
+      <bm-map-type
+        :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']"
+        anchor="BMAP_ANCHOR_TOP_LEFT"
+      ></bm-map-type>
+      <!-- 标记 -->、
+      <bm-marker v-for="(item, index) in this.infoMarkerData" :key="index"
+        :position="{ lng: item.value[0], lat: item.value[1]}"
+        :dragging="false"
+        @click="infoWindowOpen(index)"
+      >
+        <bm-info-window
+          :show='item.show'
+          @close="infoWindowClose(index)"
+          @open="infoWindowOpen(index)"
+          ><p>项目名称: {{item.name}}</p>
+          <p>设备数量: {{item.deviceF}}</p>
+          <p>子设备数量: {{item.deviceS}}</p>
+        </bm-info-window>
+      </bm-marker>
+      <bm-local-search
+        :keyword="keyword"
+        :location="location"
+        :auto-viewport="autoViewport"
+        :panel="panel"
+        :select-first-result="selectFirstResult"
+        @searchcomplete="searchcomplete"
+      ></bm-local-search>
+      <bm-control>
+        <bm-auto-complete v-model="keyword" :sugStyle="{ zIndex: 999999 }">
+          <el-input
+            style="top:5px;left:100px"
+            v-model="mapvalue"
+            placeholder="请搜索活动地址"
+            size="mini"
+            clearable
+          ></el-input>
+        </bm-auto-complete>
+      </bm-control>
+    </baidu-map>
+  </div>
 </template>
 
 <script>
@@ -63,6 +68,8 @@ export default {
       selectFirstResult: true,
       location: '深圳',
       autoViewport: true,
+      show: true,
+      infoMarkerData: [],
       // 地图颜色
       mapStyle: {
         styleJson: [
@@ -236,25 +243,41 @@ export default {
         this.search.lng = ''
         this.search.lat = ''
       }
+    },
+    infoWindowClose (index) {
+      this.infoMarkerData[index].show = false
+    },
+    infoWindowOpen (index) {
+      this.infoMarkerData[index].show = true
+    },
+    infoMarker () {
+      this.$http('/js/bdm-data.json').then(res => {
+        this.infoMarkerData = res.data
+        console.log(this.infoMarkerData)
+      }
+      )
     }
+  },
+  mounted () {
+    this.infoMarker()
   }
 }
 </script>
 
 <style lang="less" scoped>
 #mapbox {
-        width: 100%;
-        height: 100%;
-        margin-top: 30/96rem;
-        border: 1px solid #ccc;
-        .baidu-m {
-          height: 100%;
-        //   .BMap_mask {
-        //   }
-        }
-        .el-input__inner {
-          background-color: transparent;
-          color: #fff;
-        }
-      }
+  width: 100%;
+  height: 100%;
+  margin-top: 30/96rem;
+  border: 1px solid #ccc;
+  .baidu-m {
+    height: 100%;
+    //   .BMap_mask {
+    //   }
+  }
+  .el-input__inner {
+    background-color: transparent;
+    color: #fff;
+  }
+}
 </style>

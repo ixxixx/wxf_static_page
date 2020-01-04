@@ -1,0 +1,32 @@
+[{
+    "value": [113.8953, 22.901],
+    "show": false,
+    "name": "东莞NB消防",
+    "deviceF": 29,
+    "deviceS": 16
+},{
+    "value": [116.69, 23.39],
+    "show": false,
+    "name": "汕头烟感消防",
+    "deviceF": 27,
+    "deviceS": 14
+},{
+    "value": [115.375279, 22.786211],
+    "show": false,
+    "name": "汕尾电器消防",
+    "deviceF": 24,
+    "deviceS": 18
+},{
+    "value": [118.1, 24.46],
+    "show": false,
+    "name": "厦门燃气消防",
+    "deviceF": 20,
+    "deviceS": 12
+},{
+    "value": [114.07, 22.62],
+    "show": false,
+    "name": "深圳LoRa消防",
+    "deviceF": 19,
+    "deviceS": 10
+}
+]

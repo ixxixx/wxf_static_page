@@ -13,12 +13,11 @@
     </div>
     <div class="total-title">
       <ul>
-        <li>设备类型分布</li>
-        <li @click="allGetPointData">全部</li>
-        <li @click="dqaqGetPointData">电器安全</li>
-        <li @click="rqtcbjGetPointData">燃气探测警报</li>
-        <li @click="hzywbjGetPointData">火灾烟雾警报</li>
-        <li @click="wlwgGetPointData">物联网关</li>
+        <li :class="{ Acolor: this.colorShow[0] }" @click="allGetPointData">全部</li>
+        <li :class="{ Acolor: this.colorShow[1] }" @click="dqaqGetPointData">电器安全</li>
+        <li :class="{ Acolor: this.colorShow[2] }" @click="rqtcbjGetPointData ">燃气探测警报</li>
+        <li :class="{ Acolor: this.colorShow[3] }" @click="hzywbjGetPointData ">火灾烟雾警报</li>
+        <li :class="{ Acolor: this.colorShow[4] }" @click="wlwgGetPointData ">物联网关</li>
       </ul>
     </div>
     <i @click="navB" v-show="!navShow" class="el-icon-circle-plus navjia"></i>
@@ -46,7 +45,7 @@
         </li>
         <li>
           <i></i>
-          <p>NB</p>
+          <p  @click.stop="Urgentmessage">NB</p>
         </li>
       </ul>
       <i @click="navS" class="el-icon-error" v-show="navShow"></i>
@@ -58,54 +57,54 @@
       class="el-icon-circle-plus sidebarjia"
     ></i>
     <div class="sidebar" v-show="sidebarShow" @dblclick="sidebarS">
-      <div class="sidebar-title">事件状态</div>
-      <div class="sidebar-one notes">
-        <div class="yuan"><p>火警</p></div>
-        <span class="time">2019年12月23日 星期二</span>
-        <span class="address">深圳市龙华新区大浪街道办大浪大浪</span>
+      <div @click.once="clickAddsjzt" class="sidebar-title">事件状态
+      <i @click.stop="sidebarS" class="el-icon-error" v-show="sidebarShow"></i>
+
       </div>
-      <div class="sidebar-two notes">
-        <div class="yuan"><p>故障</p></div>
-        <span class="time">2019年12月24日 星期二</span>
-        <span class="address">深圳市龙华新区大浪街道办石岩石岩</span>
-      </div>
-      <div class="sidebar-three notes">
-        <div class="yuan">
-          <p class="mt3">事件<br />比例</p>
-        </div>
-        <span class="time">2019年12月25日 星期三</span>
-        <span class="address">深圳市龙华新区龙华街道办龙华龙华</span>
-      </div>
-      <i @click="sidebarS" class="el-icon-error" v-show="sidebarShow"></i>
+      <ul>
+        <li v-for="(item, index) in this.sjztData" :key="index" class="sidebar-one notes">
+          <div class="yuan"><p>{{item.title}}</p></div>
+          <span class="time">{{item.time}}</span>
+          <span class="address">{{item.address}}</span>
+        </li>
+      </ul>
     </div>
     <!-- 底部 -->
     <Footer></Footer>
+    <Urgent :title="title" :dialogVisible="dialogVisible" :neirong="neirong" @urgentF="urgentF"></Urgent>
   </div>
 </template>
 
 <script>
 import './china'
-import Footer from './components/footer'
-import BaiDuMap from './components/baiDuMap'
+import Footer from './components/Footer'
+import BaiDuMap from './components/BaiDuMap'
+import Urgent from './components/Urgent'
 // import axios from 'axios'
 export default {
   name: 'mapbox',
   data () {
     return {
+      title: '紧急火警', // 弹窗主题
+      dialogVisible: false, // 弹窗显示
+      neirong: '这是传递给父组件的内容:大浪地区发生火警', // 弹窗显示内容
       chinaMapec: null,
       shouxuan: 'first',
       sidebarShow: true,
       navShow: true,
+      colorShow: [], // 点击时的颜色
       optData: [], // 获取optData
       optData1: [], // 获取optData1
       optData2: [], // 获取optData2
       optData3: [], // 获取optData3
-      optData4: [] // 获取optData4
+      optData4: [], // 获取optData4
+      sjztData: []
     }
   },
   components: {
     Footer, // 底部组件
-    BaiDuMap // 地图组件
+    BaiDuMap, // 地图组件
+    Urgent // 经济弹窗组件
   },
   computed: {
   },
@@ -115,20 +114,23 @@ export default {
       await this.$http('/js/cm-data.json').then(res => {
         this.$store.commit('saveOptData', res.data)
         this.optData = this.$store.state.a.optData
-        console.log(this.optData)
+        // console.log(this.optData)
         if (this.chinaMapec) {
           this.renderMap(this.optData)
         } else {
           this.initChinaMap(this.optData)
         }
       })
+      this.colorShow = [false, false, false, false, false, false]
+      this.colorShow[0] = true
     },
     qkPointData () {
       this.optData = []
-      this.optData1 = [] // optData1并清空
+      this.optData1 = [] // optData1清空
       this.optData2 = [] // optData2清空
       this.optData3 = [] // optData3清空
       this.optData4 = [] // optData4清空
+      this.colorShow = [false, false, false, false, false, false]
     },
     dqaqGetPointData () {
       this.qkPointData()
@@ -138,6 +140,7 @@ export default {
         } else {
         }
       }
+      this.colorShow[1] = true
       this.renderMap(this.optData1)
     },
     rqtcbjGetPointData () {
@@ -148,6 +151,7 @@ export default {
         } else {
         }
       }
+      this.colorShow[2] = true
       this.renderMap(this.optData2)
     },
     hzywbjGetPointData () {
@@ -158,6 +162,7 @@ export default {
         } else {
         }
       }
+      this.colorShow[3] = true
       this.renderMap(this.optData3)
     },
     wlwgGetPointData () {
@@ -168,9 +173,45 @@ export default {
         } else {
         }
       }
+      this.colorShow[4] = true
       this.renderMap(this.optData4)
     },
-    //  --------------------
+    //  ----------------------------------------------------------------------------------------------------
+    // 获取事件状态信息
+    async getsjztData () {
+      await this.$store.dispatch('saveSjztData', this.$store.state.b.sjztData)
+      this.sjztData = this.$store.state.b.sjztData
+      // console.log(this.sjztData)
+    },
+    clickAddsjzt () {
+      let sjztlist = [{ 'title': '添加1',
+        'time': '2019年12月00日 星期零1',
+        'address': '深圳市龙华新区大浪街道办一号' }, { 'title': '添加2',
+        'time': '2019年12月00日 星期零2',
+        'address': '深圳市龙华新区大浪街道办一号' }, { 'title': '添加3',
+        'time': '2019年12月00日 星期零3',
+        'address': '深圳市龙华新区大浪街道办一号' }, { 'title': '添加4',
+        'time': '2019年12月00日 星期零4',
+        'address': '深圳市龙华新区大浪街道办一号' }, { 'title': '添加5',
+        'time': '2019年12月00日 星期零5',
+        'address': '深圳市龙华新区大浪街道办一号' }, { 'title': '添加6',
+        'time': '2019年12月00日 星期零6',
+        'address': '深圳市龙华新区大浪街道办一号' }, { 'title': '添加7',
+        'time': '2019年12月00日 星期零7',
+        'address': '深圳市龙华新区大浪街道办一号' }, { 'title': '添加8',
+        'time': '2019年12月00日 星期零8',
+        'address': '深圳市龙华新区大浪街道办一号' }, { 'title': '添加9',
+        'time': '2019年12月00日 星期零9',
+        'address': '深圳市龙华新区大浪街道办一号' }, { 'title': '添加10',
+        'time': '2019年12月00日 星期零10',
+        'address': '深圳市龙华新区大浪街道办一号' }]
+      for (let i = 0; i < sjztlist.length; i++) {
+        setTimeout(() => {
+          this.sjztData.unshift(sjztlist[i])
+        }, 1000 * (i + 1))
+      }
+    },
+    //  ----------------------------------------------------------------------------------------------------
     handleClick (tab, event) {
       console.log(tab, event)
     },
@@ -179,6 +220,15 @@ export default {
       this.chinaMapec = this.echarts.init(document.querySelector('#china-map'))
       this.renderMap(data)
     },
+    //  ----------------------------------------------------------------------------------------------------
+    Urgentmessage () {
+      this.dialogVisible = true
+      // this.neirong = '中国广东深圳'
+    },
+    urgentF (value) {
+      this.dialogVisible = value
+    },
+    //  ----------------------------------------------------------------------------------------------------
     // 侧边栏的隐藏
     sidebarS () {
       this.sidebarShow = false
@@ -192,12 +242,6 @@ export default {
     },
     navB () {
       this.navShow = true
-    },
-    footerS () {
-      this.footquanShow = false
-    },
-    footerB () {
-      this.footquanShow = true
     },
     renderMap (opt) {
       let option = {
@@ -213,8 +257,6 @@ export default {
               '<p style="font-size:12px;font-weight:bold;">' + '用户电话: ' + params.value[2].phone + ' ' + '</p>' +
               '<p style="font-size:12px;font-weight:bold;">' + '用户地址: ' + params.value[2].address + ' ' + '</p>' +
               '</div>' + '</div>'
-            console.log(params)
-
             return tipHtml
           }
         },
@@ -258,10 +300,6 @@ export default {
           type: 'effectScatter',
           coordinateSystem: 'geo',
           data: opt, // 动态添加数据
-          // {
-          //   'name': '深圳',
-          //   'value': [114.07, 22.62, 199, 13813813813, '深圳大浪']
-          // }
           symbolSize: 10,
           showEffectOn: 'render',
           rippleEffect: {
@@ -302,6 +340,7 @@ export default {
   // 页面打开时初始化 echart
   mounted () {
     this.allGetPointData()
+    this.getsjztData()
     window.addEventListener('resize', () => {
       this.chinaMapec.resize()
     })
@@ -309,6 +348,39 @@ export default {
 }
 </script>
 <style lang="less" scoped >
+@-webkit-keyframes zxdtY {
+  0%{
+    border: 1/96rem dashed #f10;
+    box-shadow: 0px 0px 5/96rem #f10 inset
+    }
+    50% {
+      border: 1/96rem dashed #fff;
+      box-shadow: 0px 0px 5/96rem #fff inset
+    }
+    100%{
+      border: 1/96rem dashed #f10;
+      box-shadow: 0px 0px 5/96rem #f10 inset
+    }
+}
+@-webkit-keyframes zxdtZ {
+  0%{
+    color: #f10;
+    }
+    50% {
+      color: #fff;
+    }
+    100%{
+      color: #f10;
+    }
+}
+@keyframes rightEaseInAnimate{/*定义从右边滑入文字的动画*/
+    0%{transform: translateX(50px);opacity: 0;}
+    100%{transform:translateX(0px);opacity: 1; }
+}
+.Acolor {
+  font-weight: bold !important;
+  color: #0094ff;
+}
 .eq-main {
   div {
     box-sizing: border-box;
@@ -385,6 +457,8 @@ export default {
   }
   .nav {
     position: absolute;
+    animation: rightEaseInAnimate 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
+      animation-fill-mode: forwards;/*定义动画结束的状态*/
     top: 30/96rem;
     right: 0;
     width: 25%;
@@ -416,6 +490,8 @@ export default {
     }
   }
   .sidebar {
+    animation: rightEaseInAnimate 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
+      animation-fill-mode: forwards;/*定义动画结束的状态*/
     background-color: transparent;
     position: absolute;
     top: 35%;
@@ -423,15 +499,24 @@ export default {
     right: 5/96rem;
     width: 150/96rem;
     height: 144/96rem;
+    border: 1px solid rgba(229, 233, 238, 0.7);
+    overflow-y: scroll;
     .sidebar-title {
-      width: 100%;
+      position: fixed; // 有animation效果固定定位失效
+      width: 150/96rem;
       height: 18/96rem;
       font-size: 12/96rem;
       color: #fff;
-      padding-left: 18/96rem;
-      background-color: rgba(212, 63, 180, 0.7);
+      // padding-left: 18/96rem;
+      text-align: center;
+      background-color: rgba(212, 63, 180);
+    }
+    ul {
+      padding-top: 18/96rem;
+
     }
     .notes {
+      box-sizing: border-box;
       width: 100%;
       height: 42/96rem;
       padding-top: 3/96rem;
@@ -453,32 +538,44 @@ export default {
         }
       }
       .time {
-        width: 85/96rem;
+        width: 88/96rem;
         color: #fff;
         // position: absolute;
         float: right;
         margin-top: 3/96rem;
-        margin-right: 5/96rem;
+        margin-right: 3/96rem;
         font-size: 6/96rem;
       }
       .address {
         float: right;
         color: #ccc;
-        width: 85/96rem;
+        width: 82/96rem;
         margin-top: 5/96rem;
         margin-right: 8/96rem;
         line-height: 1.2;
         font-size: 6/96rem;
       }
     }
-    .sidebar-two {
+    li:nth-child(1) {
+      .yuan{
+
+        -webkit-animation: zxdtY 2s infinite linear;
+        p {
+          -webkit-animation: zxdtZ 2s infinite linear;
+        }
+        }
+    }
+    li:nth-child(2) {
       background: rgba(241, 99, 103, 0.5);
     }
-    .sidebar-three {
+    li:nth-child(3) {
       background: rgba(66, 32, 145, 0.3);
-      .mt3 {
-        margin-top: 4/96rem !important;
-      }
+      // .mt3 {
+      //   margin-top: 4/96rem !important;
+      // }
+    }
+    li:nth-child(n+4) {
+      background: rgba(129, 186, 194, 0.5);
     }
   }
   // 显示按钮
