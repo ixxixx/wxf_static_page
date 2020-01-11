@@ -5,7 +5,7 @@
       :center="center"
       :zoom="zoom"
       :scroll-wheel-zoom="true"
-      style="height:650px"
+      style="height:620px"
       @ready="handler"
       @click="getClickInfo"
     >
@@ -76,6 +76,6 @@ export default {
 </script>
 <style lang="less" scoped>
   #mapbox {
-    width: 850px;
+    width: 1250px;
   }
 </style>

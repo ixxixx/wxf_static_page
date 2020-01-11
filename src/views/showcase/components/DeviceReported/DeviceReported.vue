@@ -56,6 +56,7 @@ export default {
           max: function (value) {
             return value.max + 20
           },
+          splitNumber: 3,
           type: 'value',
           // data: ['烟感', '燃气', '电气', '网关', 'NB', 'GBRS'],
           axisLabel: {

@@ -56,7 +56,8 @@ export default {
         },
         yAxis: {
           type: 'value',
-          min: 100,
+          splitNumber: 3,
+          min: 1000,
           axisLabel: {
             textStyle: {
               color: '#fff',

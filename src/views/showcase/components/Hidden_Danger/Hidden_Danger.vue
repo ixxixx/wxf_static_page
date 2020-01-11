@@ -61,10 +61,12 @@ export default {
           }
         },
         yAxis: {
-          max: function (value) {
-            return value.max + 20
-          },
+          min: 0,
+          // max: function (value) {
+          //   return value.max + 50
+          // },
           type: 'value',
+          splitNumber: 3,
           axisLabel: {
             textStyle: {
               color: '#fff',

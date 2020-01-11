@@ -1,5 +1,5 @@
 <template>
-  <div id="mapbox">
+  <div  :class="[$route.name === 'showcase' ? 'mapbox' : 'mapboxS']">
     <baidu-map
       :center="center"
       :zoom="zoom"
@@ -57,7 +57,7 @@ export default {
     return {
       // 地图
       center: { lng: 0, lat: 0 }, // 经纬度
-      zoom: 5, // 地图展示级别
+      zoom: 6, // 地图展示级别
       mapvalue: '',
       markers: [{}],
       // infoMarkers: [1, 23, 3, 5435, 6567, 45, 214],
@@ -221,8 +221,8 @@ export default {
   methods: {
     handler ({ BMap, map }) {
       // console.log(BMap, map)
-      this.center.lng = 70.034564
-      this.center.lat = 48.96456
+      this.center.lng = 100.034564
+      this.center.lat = 33.96456
       this.zoom = this.zoom
     },
     // getClickInfo (e) {
@@ -265,11 +265,17 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#mapbox {
+.mapbox {
   width: 100%;
   height: 100%;
   margin-top: 30/96rem;
+  border: 1px solid #ccc;}
+  .mapboxS {
+    width: 100%;
+  height: 100%;
+  // margin-top: 30/96rem;
   border: 1px solid #ccc;
+  }
   .baidu-m {
     height: 100%;
     //   .BMap_mask {
@@ -278,6 +284,5 @@ export default {
   .el-input__inner {
     background-color: transparent;
     color: #fff;
-  }
 }
 </style>

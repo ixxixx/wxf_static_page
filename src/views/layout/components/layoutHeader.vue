@@ -17,7 +17,9 @@
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item ><router-link :to="{name:'personal'}">个人信息</router-link></el-dropdown-item>
-                        <el-dropdown-item>退出</el-dropdown-item>
+                        <el-dropdown-item @click="SignOut">
+                            <a @click="SignOut"> 退 出</a>
+                            </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </el-col>
@@ -30,6 +32,16 @@ export default {
   data () {
     return {
       userInfo: {}
+    }
+  },
+  methods: {
+    SignOut () {
+      console.log(1)
+      this.$router.push('/login')
+      this.$message({
+        message: '退出成功',
+        type: 'success'
+      })
     }
   },
   created () {
@@ -58,9 +70,14 @@ export default {
         border-radius: 50%;
     }
 }
-
 .el-dropdown-link {
     cursor: pointer;
-    color: #409EFF;
+}
+.el-dropdown-menu__item{
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

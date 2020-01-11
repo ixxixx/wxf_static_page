@@ -17,6 +17,9 @@ import 'lib-flexible'
 // 时间
 import moment from 'moment'// 导入文件
 import BaiduMap from 'vue-baidu-map'
+// 省级联动
+import VDistpicker from 'v-distpicker'
+Vue.component('v-distpicker', VDistpicker)
 Vue.use(BaiduMap, {
   ak: '6EtTxRf8kxcj3x71mhxGkRYtlfVCbX1S'
 })

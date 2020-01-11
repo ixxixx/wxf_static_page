@@ -3,15 +3,16 @@
     <div class="map">
       <el-tabs v-model="shouxuan" type="card" @tab-click="handleClick">
         <el-tab-pane label="矢量 图" name="first">
-          <div id="china-map" style="height:100%"></div>
+          <div id="china-map" style="height:100%" :class="[$route.name === 'showcase' ? 'bgshow' : 'bghide']"></div>
         </el-tab-pane>
         <el-tab-pane label="百度地图" name="second">
           <BaiDuMap></BaiDuMap>
         </el-tab-pane>
-        <el-tab-pane label="消防CRD" disabled> </el-tab-pane>
+        <el-tab-pane  label="消防CRT" disabled> </el-tab-pane>
       </el-tabs>
     </div>
-    <div class="total-title">
+    <Notice v-show="$route.name === 'home'"></Notice>
+    <div class="total-title" v-show="$route.name === 'showcase'">
       <ul>
         <li :class="{ Acolor: this.colorShow[0] }" @click="allGetPointData">全部</li>
         <li :class="{ Acolor: this.colorShow[1] }" @click="dqaqGetPointData">电器安全</li>
@@ -20,8 +21,8 @@
         <li :class="{ Acolor: this.colorShow[4] }" @click="wlwgGetPointData ">物联网关</li>
       </ul>
     </div>
-    <i @click="navB" v-show="!navShow" class="el-icon-circle-plus navjia"></i>
-    <div class="nav" v-show="navShow" @dblclick="navS">
+    <i @click="navB" v-show="!navShow " class="el-icon-circle-plus navjia"></i>
+    <div class="nav" v-show="navShow && $route.name === 'showcase'" @dblclick="navS">
       <ul class="ul-six">
         <li>
           <i></i>
@@ -56,7 +57,7 @@
       v-show="!sidebarShow"
       class="el-icon-circle-plus sidebarjia"
     ></i>
-    <div class="sidebar" v-show="sidebarShow" @dblclick="sidebarS">
+    <div class="sidebar" v-show="sidebarShow && $route.name === 'showcase'" @dblclick="sidebarS">
       <div @click.once="clickAddsjzt" class="sidebar-title">事件状态
       <i @click.stop="sidebarS" class="el-icon-error" v-show="sidebarShow"></i>
 
@@ -70,8 +71,8 @@
       </ul>
     </div>
     <!-- 底部 -->
-    <Footer></Footer>
-    <Urgent :title="title" :dialogVisible="dialogVisible" :neirong="neirong" @urgentF="urgentF"></Urgent>
+    <Footer v-show="$route.name === 'showcase'"></Footer>
+    <Urgent v-show="$route.name === 'showcase'" :title="title" :dialogVisible="dialogVisible" :neirong="neirong" @urgentF="urgentF"></Urgent>
   </div>
 </template>
 
@@ -80,6 +81,7 @@ import './china'
 import Footer from './components/Footer'
 import BaiDuMap from './components/BaiDuMap'
 import Urgent from './components/Urgent'
+import Notice from './components/Notice'
 // import axios from 'axios'
 export default {
   name: 'mapbox',
@@ -104,7 +106,8 @@ export default {
   components: {
     Footer, // 底部组件
     BaiDuMap, // 地图组件
-    Urgent // 经济弹窗组件
+    Urgent, // 经济弹窗组件
+    Notice // 首页信息
   },
   computed: {
   },
@@ -373,6 +376,12 @@ export default {
       color: #f10;
     }
 }
+.bgshow {
+  background:transparent !important;
+}
+    .bghide {
+      background:url('../../../../assets/dome3.jpg') !important;
+    }
 @keyframes rightEaseInAnimate{/*定义从右边滑入文字的动画*/
     0%{transform: translateX(50px);opacity: 0;}
     100%{transform:translateX(0px);opacity: 1; }
@@ -427,6 +436,7 @@ export default {
       width: 100%;
       height: 100%;
     }
+
     #china-map {
       position: absolute;
       width: 100%;
@@ -471,7 +481,7 @@ export default {
       flex-wrap: wrap;
       li {
         width: 33.33%;
-        height: 50%;
+        height: 50/96rem;
         text-align: center;
         color: #fff;
         font-size: 6/96rem;
@@ -519,14 +529,14 @@ export default {
       box-sizing: border-box;
       width: 100%;
       height: 42/96rem;
-      padding-top: 3/96rem;
+      padding-top: 4/96rem;
       background: rgba(209, 161, 106, 0.5);
       .yuan {
         float: left;
         margin-left: 6/96rem;
-        margin-right: 13/96rem;
-        width: 37/96rem;
-        height: 37/96rem;
+        margin-right: 5/96rem;
+        width: 35/96rem;
+        height: 35/96rem;
         border: 1/96rem dashed #fff;
         border-radius: 50%;
         p {
@@ -538,7 +548,7 @@ export default {
         }
       }
       .time {
-        width: 88/96rem;
+        width: 92/96rem;
         color: #fff;
         // position: absolute;
         float: right;
@@ -549,7 +559,7 @@ export default {
       .address {
         float: right;
         color: #ccc;
-        width: 82/96rem;
+        width: 90/96rem;
         margin-top: 5/96rem;
         margin-right: 8/96rem;
         line-height: 1.2;
