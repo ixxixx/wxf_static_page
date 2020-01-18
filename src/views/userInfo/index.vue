@@ -50,8 +50,8 @@
   <!-- 弹窗 -->
   <el-dialog class="tianjia" title="添加人员" :visible.sync="dialogFormVisible">
   <el-form :model="tjform">
-    <el-form-item label="活动名称" :label-width="formLabelWidth">
-      <el-input v-model="tjform.name" auto-complete="off"></el-input>
+    <el-form-item label="人员名称" :label-width="formLabelWidth">
+      <el-input class="inputW" v-model="tjform.name" auto-complete="off"></el-input>
     </el-form-item>
     <el-form-item label="活动区域" :label-width="formLabelWidth">
       <el-select v-model="tjform.region" placeholder="请选择活动区域">
@@ -123,7 +123,7 @@ export default {
       // 分页
       currentPage1: 1,
       dialogFormVisible: false,
-      formLabelWidth: '120px',
+      formLabelWidth: '180px',
       tjform: {
         name: '',
         region: ''
@@ -172,7 +172,10 @@ export default {
   background-color: #f5faf4;
   text-align: center;
   font-weight: bold;
-  font-size: 14/96rem
+  font-size: 14/96rem;
+  /deep/.el-card__body {
+    padding: 10px;
+  }
 }
 .screen {
 .el-form-item {
@@ -185,6 +188,7 @@ export default {
     .el-button {
       margin-left: 30px;
       background-color: #66b1ff;
+      color: #fff;
     }
   }
 }
@@ -216,6 +220,9 @@ text-align: center;
             font-weight: bold;
             color: #66b1ff;
         }
+    }
+    .inputW {
+      width: 70% !important;
     }
 }
 

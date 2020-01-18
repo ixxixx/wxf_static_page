@@ -1,9 +1,9 @@
 <template>
   <div>
+      <div class="topLi"><a href="#">最新消息。。。。。</a></div>
     <ul id="chatContainer">
-      <li><a href="#">最新消息。。。。。</a></li>
       <li>
-        <a href="#">1</a>
+        <a href="#">1-1</a>
       </li>
       <li>
         <a href="#">2</a>
@@ -104,19 +104,25 @@ export default {
 }
 </script>
 <style scoped lang="less">
+.topLi {
+    width: 100%;
+    height: 10%;
+      font-size: 10/96rem;
+      margin-top: 5/96rem;
+      margin-bottom: 5/96rem;
+      a{
+        margin-left: 10/96rem;
+        color: #fff;
+      }
+  }
 #chatContainer {
   width: 100%;
-  height: 100%;
+  height: 80%;
   overflow-y: scroll;
   li {
     margin-left: 10/96rem;
     list-style: none;
     height: 15/96rem;
-    &:nth-child(1) {
-      font-size: 10/96rem;
-      margin-top: 5/96rem;
-      margin-bottom: 5/96rem;
-    }
     a {
       color: #fff;
       text-decoration: none;

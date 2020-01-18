@@ -40,8 +40,8 @@ export default {
     background-color: rgba(233, 233, 233, 0.7);
     width: 250/96rem;
     position: absolute;
-    top: 100/96rem;
-    right: 30/96rem;
+    top: 120/96rem;
+    right: 20/96rem;
     z-index: 2;
   }
 </style>

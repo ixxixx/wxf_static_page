@@ -87,6 +87,9 @@ body {
 .el-form-item__label {
   color: #000;
 }
+.ggmessage {
+  top: 40% !important;
+}
 @media (width: 1200px) {
   font-size: 120px;
 }

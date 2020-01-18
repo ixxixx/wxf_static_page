@@ -40,7 +40,7 @@
       :current-page.sync="currentPage1"
       :page-size="10"
       layout="total, prev, pager, next"
-      :total="100">
+      :total="tableData.length">
     </el-pagination>
   </div>
   </div>
@@ -126,11 +126,13 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$message({
+          customClass: 'ggmessage',
           type: 'success',
           message: '删除成功!'
         })
       }).catch(() => {
         this.$message({
+          customClass: 'ggmessage',
           type: 'info',
           message: '已取消删除'
         })
@@ -159,6 +161,7 @@ export default {
     .el-button {
       margin-left: 30px;
       background-color: #66b1ff;
+      color: #fff;
     }
   }
 }

@@ -18,6 +18,10 @@
         <em class="asiderTitle">首页</em>
         <!-- <span slot="title">首页</span> -->
       </el-menu-item>
+      <el-menu-item index="/showcase">
+        <i class="el-icon-view"></i>
+        <em class="asiderTitle">展示台</em>
+      </el-menu-item>
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-news"></i>
@@ -134,10 +138,7 @@
           <el-menu-item index="/helpCenter">意见反馈</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item index="/showcase">
-        <i class="el-icon-view"></i>
-        <em class="asiderTitle">展示台</em>
-      </el-menu-item>
+
     </el-menu>
   </div>
 </template>
@@ -172,10 +173,6 @@ export default {
     .asiderTitle {
       margin-left: 10px;
     }
-    .el-menu-item-group__title {
-      padding: 0;
-    }
-
     .el-menu-item-group {
       .el-submenu__title {
       background-color: #5e6164 !important;

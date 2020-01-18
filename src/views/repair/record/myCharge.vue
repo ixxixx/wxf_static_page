@@ -216,6 +216,7 @@ export default {
     .el-button {
       margin-left: 30px;
       background-color: #5cb6f7;
+      color: #fff;
     }
   }
 }

@@ -12,7 +12,7 @@
       </el-tabs>
     </div>
     <Notice v-show="$route.name === 'home'"></Notice>
-    <div class="total-title" v-show="$route.name === 'showcase'">
+    <div class="total-title" v-show="$route.name === 'showcase' && this.shouxuan === 'first'">
       <ul>
         <li :class="{ Acolor: this.colorShow[0] }" @click="allGetPointData">全部</li>
         <li :class="{ Acolor: this.colorShow[1] }" @click="dqaqGetPointData">电器安全</li>
@@ -73,6 +73,8 @@
     <!-- 底部 -->
     <Footer v-show="$route.name === 'showcase'"></Footer>
     <Urgent v-show="$route.name === 'showcase'" :title="title" :dialogVisible="dialogVisible" :neirong="neirong" @urgentF="urgentF"></Urgent>
+
+    <router-link :to="{name:'showcase'}"><el-button v-show="$route.name === 'home'" round class="btnOn">进入展示台</el-button></router-link>
   </div>
 </template>
 
@@ -270,6 +272,9 @@ export default {
           roam: true,
           zoom: 1,
           aspectScale: 0.8, // 长宽比
+          scaleLimit: {
+            min: 1
+          },
           itemStyle: {
             normal: {
               areaColor: {
@@ -379,9 +384,9 @@ export default {
 .bgshow {
   background:transparent !important;
 }
-    .bghide {
-      background:url('../../../../assets/dome3.jpg') !important;
-    }
+.bghide {
+  background:url('../../../../assets/dome3.jpg') !important;
+}
 @keyframes rightEaseInAnimate{/*定义从右边滑入文字的动画*/
     0%{transform: translateX(50px);opacity: 0;}
     100%{transform:translateX(0px);opacity: 1; }
@@ -440,7 +445,7 @@ export default {
     #china-map {
       position: absolute;
       width: 100%;
-      height: 200%;
+      height: 100%;
       background-color: transparent;
       // border: 1px solid rgb(44, 106, 177);
       box-shadow: 0px 0px 5/96rem #1176a7 inset;
@@ -552,7 +557,7 @@ export default {
         color: #fff;
         // position: absolute;
         float: right;
-        margin-top: 3/96rem;
+        margin-top: 2/96rem;
         margin-right: 3/96rem;
         font-size: 6/96rem;
       }
@@ -560,7 +565,7 @@ export default {
         float: right;
         color: #ccc;
         width: 90/96rem;
-        margin-top: 5/96rem;
+        margin-top: 3/96rem;
         margin-right: 8/96rem;
         line-height: 1.2;
         font-size: 6/96rem;
@@ -613,5 +618,17 @@ export default {
     top: 2/96rem;
     right: 2/96rem;
   }
+}
+.btnOn {
+  position: absolute;
+  border-radius: 5/96rem;
+  background-color: rgba(61, 168, 230, 0.678);
+  color: #fff;
+  font-weight: bold;
+  width: 60/96rem;
+  height: 20/96rem;
+  bottom: 20/96rem;
+  right: 20/96rem;
+  padding: 0;
 }
 </style>

@@ -38,6 +38,7 @@ export default {
 
 <style lang="less" scoped>
 /deep/.el-dialog{
+  margin-top: 35vh !important;
 .el-dialog__title {
     font-size: 20px;
     color: #f10;

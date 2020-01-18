@@ -5,7 +5,7 @@
         <layoutasider />
       </el-aside>
       <el-container style="width:85%">
-        <el-header style="height:7%">
+        <el-header>
           <layoutheader />
         </el-header>
         <div class="mbxNav">
@@ -42,8 +42,6 @@ export default {
 <style lang="less" scoped>
 .layout {
   height: 100%;
-  // & 去掉选择器后的空格
-  // > 子代码选项器
   & > .el-container {
     height: 100%;
   }
@@ -53,14 +51,15 @@ export default {
   color: #333;
 }
 .el-header {
-  background-color: rgb(128, 170, 221);
+  height: 30/96rem !important;
+  background-color: rgb(208, 235, 232);
   color: #000;
   line-height: 1;
 }
 .mbxNav {
   margin-top: 3/96rem;
   margin-bottom: 3/96rem;
-  background-color: rgb(182, 206, 236);
+  background-color: rgb(236, 245, 244);
   // border: 2px solid #ccc;
   height: 25/96rem;
   .el-breadcrumb {
@@ -70,8 +69,7 @@ export default {
   }
 }
 .el-main {
-  background-color: rgb(84, 114, 150);
-  // background-color: #eee;
+  background-color: #eee;
   color: #333;
 }
 </style>

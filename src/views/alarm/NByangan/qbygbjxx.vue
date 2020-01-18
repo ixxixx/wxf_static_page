@@ -62,7 +62,7 @@
       :current-page.sync="currentPage1"
       :page-size="10"
       layout="total, prev, pager, next"
-      :total="100">
+      :total="tableData.length">
     </el-pagination>
   </div>
   </div>
@@ -184,7 +184,11 @@ export default {
   },
   methods: {
     search () {
-      console.log(1)
+      console.log(this.datetime)
+      console.log(this.screen_project)
+      console.log(this.screen_rchitecture)
+      console.log(this.screen_floor)
+      console.log(this.screen_all)
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -204,7 +208,10 @@ export default {
   background-color: #f5faf4;
   text-align: center;
   font-weight: bold;
-  font-size: 14/96rem
+  font-size: 14/96rem;
+  /deep/.el-card__body {
+    padding: 10px;
+  }
 }
 .screen {
 .el-form-item {
@@ -218,6 +225,7 @@ export default {
     .el-button {
       margin-left: 30px;
       background-color: #5cb6f7;
+      color: #fff;
     }
   }
 }

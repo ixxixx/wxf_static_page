@@ -45,7 +45,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-table :data="tableData" border style="width: 100%;margin-top: 15px" stripe>
+    <el-table v-loading="loading" :data="tableData" border style="width: 100%;margin-top: 15px" stripe>
       <el-table-column prop="id" label="序号" width="50"> </el-table-column>
       <el-table-column prop="time" label="报警时间" width="180"> </el-table-column>
       <el-table-column prop="name" label="所属项目" width="120"> </el-table-column>
@@ -173,6 +173,7 @@ export default {
         handle: '消警'
       }],
       sxform: {},
+      loading: true,
       datetime: '',
       screen_project: '',
       screen_rchitecture: '',
@@ -204,7 +205,10 @@ export default {
   background-color: #f5faf4;
   text-align: center;
   font-weight: bold;
-  font-size: 14/96rem
+  font-size: 14/96rem;
+  /deep/.el-card__body {
+    padding: 10px;
+  }
 }
 .screen {
 .el-form-item {
@@ -218,6 +222,7 @@ export default {
     .el-button {
       margin-left: 30px;
       background-color: #5cb6f7;
+      color: #fff;
     }
   }
 }

@@ -204,7 +204,10 @@ export default {
   background-color: #f5faf4;
   text-align: center;
   font-weight: bold;
-  font-size: 14/96rem
+  font-size: 14/96rem;
+  /deep/.el-card__body {
+    padding: 10px;
+  }
 }
 .screen {
 .el-form-item {
