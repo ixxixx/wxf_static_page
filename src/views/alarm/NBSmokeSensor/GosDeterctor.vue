@@ -1,6 +1,6 @@
 <template>
   <div>
-      <el-card class="title">全部烟感报警信息</el-card>
+      <el-card class="title">用户防区</el-card>
 
     <el-card class="box-card screen">
       <el-form ref="form" :model="sxform" label-width="80px">
@@ -45,7 +45,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-table :data="tableData" border style="width: 100%;margin-top: 15px" stripe>
+    <el-table v-loading="loading" :data="tableData" border style="width: 100%;margin-top: 15px" stripe>
       <el-table-column prop="id" label="序号" width="50"> </el-table-column>
       <el-table-column prop="time" label="报警时间" width="180"> </el-table-column>
       <el-table-column prop="name" label="所属项目" width="120"> </el-table-column>
@@ -62,7 +62,7 @@
       :current-page.sync="currentPage1"
       :page-size="10"
       layout="total, prev, pager, next"
-      :total="tableData.length">
+      :total="100">
     </el-pagination>
   </div>
   </div>
@@ -173,6 +173,7 @@ export default {
         handle: '消警'
       }],
       sxform: {},
+      loading: true,
       datetime: '',
       screen_project: '',
       screen_rchitecture: '',
@@ -184,11 +185,7 @@ export default {
   },
   methods: {
     search () {
-      console.log(this.datetime)
-      console.log(this.screen_project)
-      console.log(this.screen_rchitecture)
-      console.log(this.screen_floor)
-      console.log(this.screen_all)
+      console.log(1)
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -220,7 +217,7 @@ export default {
   /deep/.el-form-item__content {
     margin-left: 10px !important;
     .el-select {
-      width: 135px;
+      width: 150px;
     }
     .el-button {
       margin-left: 30px;

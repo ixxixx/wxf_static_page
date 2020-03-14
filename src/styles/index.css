@@ -84,6 +84,9 @@ body {
   height: 0;
   visibility: hidden;
 }
+body {
+  -ms-overflow-style: none;
+}
 .el-form-item__label {
   color: #000;
 }

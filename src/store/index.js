@@ -1,9 +1,10 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import axios from 'axios'
 import ChinaMap from './modules/ChinaMap'
 import sjzt from './modules/sjzt'
+import Login from './modules/Login'
+// import Socket from './modules/Socket'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -11,6 +12,10 @@ export default new Vuex.Store({
     // 地图数据
     a: ChinaMap,
     // 事件状态
-    b: sjzt
+    sjzt,
+    // 登录
+    c: Login
+    // socket
+    // d: Socket
   }
 })

@@ -52,7 +52,7 @@
             </baidu-map>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="消防CRD" disabled> </el-tab-pane>
+        <el-tab-pane label="消防CRT" disabled> </el-tab-pane>
       </el-tabs>
     </div>
     <div class="total-title">

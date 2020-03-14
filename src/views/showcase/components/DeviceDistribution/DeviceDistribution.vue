@@ -25,27 +25,32 @@
     <div class="nav" v-show="navShow && $route.name === 'showcase'" @dblclick="navS">
       <ul class="ul-six">
         <li>
-          <i></i>
+          <i class="ulBG">
+            <img src="../../../../assets/ul-six.png" alt="">
+            <em class="SixNumber">2000</em>
+            </i>
           <p>电器安全</p>
         </li>
         <li>
-          <i></i>
+        <router-link :to="{name:'SmokeSensorEquip'}">
+          <i class="ulBG"><img src="../../../../assets/ul-six.png" alt=""><em class="SixNumber">2000</em></i>
           <p>烟 感</p>
+          </router-link>
         </li>
         <li>
-          <i></i>
+          <i class="ulBG"><img src="../../../../assets/ul-six.png" alt=""><em class="SixNumber">400</em></i>
           <p>燃 气</p>
         </li>
         <li>
-          <i></i>
+          <i class="ulBG"><img src="../../../../assets/ul-six.png" alt=""><em class="SixNumber">8000</em></i>
           <p>物联网网关</p>
         </li>
         <li>
-          <i></i>
+          <i class="ulBG"><img src="../../../../assets/ul-six.png" alt=""><em class="SixNumber">12000</em></i>
           <p>LoRa</p>
         </li>
         <li>
-          <i></i>
+          <i class="ulBG"><img src="../../../../assets/ul-six.png" alt=""><em class="SixNumber">4000</em></i>
           <p  @click.stop="Urgentmessage">NB</p>
         </li>
       </ul>
@@ -58,7 +63,7 @@
       class="el-icon-circle-plus sidebarjia"
     ></i>
     <div class="sidebar" v-show="sidebarShow && $route.name === 'showcase'" @dblclick="sidebarS">
-      <div @click.once="clickAddsjzt" class="sidebar-title">事件状态
+      <div @click.once="clickAddsjzt" class="sidebar-title">紧急事件通知
       <i @click.stop="sidebarS" class="el-icon-error" v-show="sidebarShow"></i>
 
       </div>
@@ -119,7 +124,7 @@ export default {
       await this.$http('/js/cm-data.json').then(res => {
         this.$store.commit('saveOptData', res.data)
         this.optData = this.$store.state.a.optData
-        // console.log(this.optData)
+        console.log(this.optData)
         if (this.chinaMapec) {
           this.renderMap(this.optData)
         } else {
@@ -184,8 +189,8 @@ export default {
     //  ----------------------------------------------------------------------------------------------------
     // 获取事件状态信息
     async getsjztData () {
-      await this.$store.dispatch('saveSjztData', this.$store.state.b.sjztData)
-      this.sjztData = this.$store.state.b.sjztData
+      await this.$store.dispatch('saveSjztData')
+      this.sjztData = this.$store.state.sjzt.sjztData
       // console.log(this.sjztData)
     },
     clickAddsjzt () {
@@ -344,11 +349,11 @@ export default {
 
   },
   created () {
+    this.getsjztData()
   },
   // 页面打开时初始化 echart
   mounted () {
     this.allGetPointData()
-    this.getsjztData()
     window.addEventListener('resize', () => {
       this.chinaMapec.resize()
     })
@@ -484,6 +489,9 @@ export default {
       display: flex;
       justify-content: space-around;
       flex-wrap: wrap;
+      a {
+        color: #fff;
+      }
       li {
         width: 33.33%;
         height: 50/96rem;
@@ -493,13 +501,26 @@ export default {
         &:hover {
           cursor: pointer;
         }
-        i {
+        .ulBG {
+          position: relative;
           display: block;
           margin: 10% auto 0;
           width: 55%;
           height: 60%;
-          background-color: red;
+          background-color: rgba(8, 31, 241, 0.267);
+          // background: url(../../../../assets/ul-six.png);
           border-radius: 50%;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+          .SixNumber {
+            position: absolute;
+            text-align: center;
+            width: 22/96rem;
+            bottom: 3/96rem;
+            left: 12%;
+          }
         }
       }
     }
@@ -524,7 +545,7 @@ export default {
       color: #fff;
       // padding-left: 18/96rem;
       text-align: center;
-      background-color: rgba(212, 63, 180);
+      background-color: rgb(209, 64, 178);
     }
     ul {
       padding-top: 18/96rem;
@@ -627,7 +648,7 @@ export default {
   font-weight: bold;
   width: 60/96rem;
   height: 20/96rem;
-  bottom: 20/96rem;
+  bottom: 40/96rem;
   right: 20/96rem;
   padding: 0;
 }

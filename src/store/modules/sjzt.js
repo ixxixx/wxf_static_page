@@ -6,9 +6,10 @@ const state = {
 const getters = {}
 
 const actions = {
-  async saveSjztData (context, sjztData) {
+  async saveSjztData (context) {
     await axios.get('/js/sjzt-data.json').then(res => {
-      state.sjztData = res.data
+      context.commit('saveSjztData', res.data)
+      // return sjztData = res.data
     })
   }
 }

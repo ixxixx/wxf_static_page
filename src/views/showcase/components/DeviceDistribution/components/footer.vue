@@ -4,7 +4,8 @@
     <div class="footer" v-show="footquanShow" @dblclick="footerS">
       <div class="footer-quan">
         <div class="fireInfo">
-          <div id="fire-quan"></div>
+           <router-link :to="{name:'SmokeSensorEquip'}"><div id="fire-quan"></div>
+           </router-link>
           <div class="fire-notes">
             <ul>
               <li>这是数据的展示</li>
@@ -34,7 +35,75 @@
           </div>
         </div>
         <!-- 事件柱状图 -->
-        <div id="event-zzt"></div>
+        <!-- <div id="event-zzt"></div> -->
+        <div id="news">
+          <div class="topLi"><a href="#">最新消息。。。。。</a></div>
+          <ul id="chatContainer">
+            <li>
+              <a href="#">1-1</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">1</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">1</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+          </ul>
+        </div>
         <i @click="footerS" class="el-icon-error" v-show="footquanShow"></i>
       </div>
     </div>
@@ -47,7 +116,7 @@ export default {
     return {
       fireec: null,
       faultec: null,
-      eventRatioec: null,
+      // eventRatioec: null,
       footquanShow: true
     }
   },
@@ -107,7 +176,7 @@ export default {
                 formatter: '火警',
                 textStyle: {
                   color: '#fff',
-                  fontSize: 16
+                  fontSize: 14
                 }
               }
             },
@@ -191,7 +260,7 @@ export default {
                 formatter: '故障',
                 textStyle: {
                   color: '#fff',
-                  fontSize: 16
+                  fontSize: 14
                 }
               }
             },
@@ -222,141 +291,141 @@ export default {
       this.faultec.setOption(option)
     },
     // 事件比例
-    initEventEcharts () {
-      this.eventRatioec = this.echarts.init(document.querySelector('#event-zzt'))
-      let colorArray = [
-        {
-          top: '#4826ac', // 红
-          bottom: '#e60aee'
-        }, {
-          top: '#033899', // 橙
-          bottom: '#6f22c8'
-        },
-        {
-          top: '#e4f54d', // 黄
-          bottom: '#02fdf6'
-        }, {
-          top: '#1ff5fc', // 蓝
-          bottom: '#0094ff'
-        }
-      ]
-      let option = {
-        title: {
-          text: '事件比例',
-          x: '38%',
-          y: '12%',
-          itemGap: 20,
-          textStyle: {
-            color: '#fff',
-            fontSize: 20
-          },
-          subtextStyle: {
-            color: '#fff',
-            fontSize: 11
-          }
-        },
-        // backgroundColor: '#0E2A43',
-        tooltip: {
-          show: true,
-          formatter: '{b}:{c}'
-        },
-        grid: {
-          left: '5%',
-          top: '20%',
-          right: '20%',
-          bottom: '1%',
-          containLabel: true
-        },
+    // initEventEcharts () {
+    //   this.eventRatioec = this.echarts.init(document.querySelector('#event-zzt'))
+    //   let colorArray = [
+    //     {
+    //       top: '#4826ac', // 红
+    //       bottom: '#e60aee'
+    //     }, {
+    //       top: '#033899', // 橙
+    //       bottom: '#6f22c8'
+    //     },
+    //     {
+    //       top: '#e4f54d', // 黄
+    //       bottom: '#02fdf6'
+    //     }, {
+    //       top: '#1ff5fc', // 蓝
+    //       bottom: '#0094ff'
+    //     }
+    //   ]
+    //   let option = {
+    //     title: {
+    //       text: '事件比例',
+    //       x: '38%',
+    //       y: '12%',
+    //       itemGap: 20,
+    //       textStyle: {
+    //         color: '#fff',
+    //         fontSize: 20
+    //       },
+    //       subtextStyle: {
+    //         color: '#fff',
+    //         fontSize: 11
+    //       }
+    //     },
+    //     // backgroundColor: '#0E2A43',
+    //     tooltip: {
+    //       show: true,
+    //       formatter: '{b}:{c}'
+    //     },
+    //     grid: {
+    //       left: '5%',
+    //       top: '20%',
+    //       right: '20%',
+    //       bottom: '1%',
+    //       containLabel: true
+    //     },
 
-        xAxis: {
-          type: 'value',
-          show: false,
-          position: 'top',
-          axisTick: {
-            show: false
-          },
-          axisLine: {
-            show: false,
-            lineStyle: {
-              color: '#fff'
-            }
-          },
-          splitLine: {
-            show: false
-          }
-        },
-        yAxis: [{
-          type: 'category',
-          axisTick: {
-            show: false,
-            alignWithLabel: false,
-            length: 5
+    //     xAxis: {
+    //       type: 'value',
+    //       show: false,
+    //       position: 'top',
+    //       axisTick: {
+    //         show: false
+    //       },
+    //       axisLine: {
+    //         show: false,
+    //         lineStyle: {
+    //           color: '#fff'
+    //         }
+    //       },
+    //       splitLine: {
+    //         show: false
+    //       }
+    //     },
+    //     yAxis: [{
+    //       type: 'category',
+    //       axisTick: {
+    //         show: false,
+    //         alignWithLabel: false,
+    //         length: 5
 
-          },
-          'splitLine': { // 网格线
-            'show': false
-          },
-          inverse: 'true', // 排序
-          axisLine: {
-            show: false,
-            lineStyle: {
-              color: '#fff'
-            }
-          },
-          data: ['第一事件', '第二事件', '第三事件', '第四事件']
-        }
+    //       },
+    //       'splitLine': { // 网格线
+    //         'show': false
+    //       },
+    //       inverse: 'true', // 排序
+    //       axisLine: {
+    //         show: false,
+    //         lineStyle: {
+    //           color: '#fff'
+    //         }
+    //       },
+    //       data: ['第一事件', '第二事件', '第三事件', '第四事件']
+    //     }
 
-        ],
-        series: [{
-          type: 'bar',
-          itemStyle: {
-            normal: {
-              show: true,
-              color: function (params) {
-                let num = colorArray.length
-                return {
-                  type: 'linear',
-                  colorStops: [{
-                    offset: 0,
-                    color: colorArray[params.dataIndex % num].bottom
-                  }, {
-                    offset: 1,
-                    color: colorArray[params.dataIndex % num].top
-                  }, {
-                    offset: 0,
-                    color: colorArray[params.dataIndex % num].bottom
-                  }, {
-                    offset: 1,
-                    color: colorArray[params.dataIndex % num].top
-                  }, {
-                    offset: 0,
-                    color: colorArray[params.dataIndex % num].bottom
-                  }, {
-                    offset: 1,
-                    color: colorArray[params.dataIndex % num].top
-                  }, {
-                    offset: 0,
-                    color: colorArray[params.dataIndex % num].bottom
-                  }, {
-                    offset: 1,
-                    color: colorArray[params.dataIndex % num].top
-                  }]
-                  // globalCoord: false
-                }
-              },
-              borderWidth: 0,
-              borderColor: '#333'
-            }
-          },
-          barGap: '0%',
-          barCategoryGap: '65%',
-          data: [9900, 7723, 7900, 9821]
-        }
+    //     ],
+    //     series: [{
+    //       type: 'bar',
+    //       itemStyle: {
+    //         normal: {
+    //           show: true,
+    //           color: function (params) {
+    //             let num = colorArray.length
+    //             return {
+    //               type: 'linear',
+    //               colorStops: [{
+    //                 offset: 0,
+    //                 color: colorArray[params.dataIndex % num].bottom
+    //               }, {
+    //                 offset: 1,
+    //                 color: colorArray[params.dataIndex % num].top
+    //               }, {
+    //                 offset: 0,
+    //                 color: colorArray[params.dataIndex % num].bottom
+    //               }, {
+    //                 offset: 1,
+    //                 color: colorArray[params.dataIndex % num].top
+    //               }, {
+    //                 offset: 0,
+    //                 color: colorArray[params.dataIndex % num].bottom
+    //               }, {
+    //                 offset: 1,
+    //                 color: colorArray[params.dataIndex % num].top
+    //               }, {
+    //                 offset: 0,
+    //                 color: colorArray[params.dataIndex % num].bottom
+    //               }, {
+    //                 offset: 1,
+    //                 color: colorArray[params.dataIndex % num].top
+    //               }]
+    //               // globalCoord: false
+    //             }
+    //           },
+    //           borderWidth: 0,
+    //           borderColor: '#333'
+    //         }
+    //       },
+    //       barGap: '0%',
+    //       barCategoryGap: '65%',
+    //       data: [9900, 7723, 7900, 9821]
+    //     }
 
-        ]
-      }
-      this.eventRatioec.setOption(option)
-    },
+    //     ]
+    //   }
+    //   this.eventRatioec.setOption(option)
+    // },
     // 底部的隐藏
     footerS () {
       this.footquanShow = false
@@ -369,21 +438,28 @@ export default {
   },
   mounted () {
     this.initFireEcharts()
-    this.initEventEcharts()
+    // this.initEventEcharts()
     this.initFaultEcharts()
     window.addEventListener('resize', () => {
       this.fireec.resize()
       this.faultec.resize()
-      this.eventRatioec.resize()
+      // this.eventRatioec.resize()
     })
   }
 }
 </script>
 
 <style lang="less" scoped>
-@keyframes footerdh{/*定义从右边滑入文字的动画*/
-    0%{transform: translatey(50px);opacity: 0;}
-    100%{transform:translateX(0px);opacity: 1; }
+@keyframes footerdh {
+  /*定义从右边滑入文字的动画*/
+  0% {
+    transform: translatey(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
 }
 // 显示按钮
 .el-icon-circle-plus {
@@ -394,8 +470,8 @@ export default {
   top: 75%;
 }
 .footer {
-   animation: footerdh 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
-      animation-fill-mode: forwards;/*定义动画结束的状态*/
+  animation: footerdh 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
+  animation-fill-mode: forwards; /*定义动画结束的状态*/
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -419,6 +495,8 @@ export default {
       height: 100%;
       background-color: rgba(173, 172, 171, 0.2);
       position: absolute;
+    right: 0;
+
       #fire-quan {
         position: absolute;
         top: 5%;
@@ -485,11 +563,35 @@ export default {
         }
       }
     }
-    #event-zzt {
+    .topLi {
+      width: 100%;
+      height: 10%;
+      font-size: 10/96rem;
+      margin-top: 5/96rem;
+      margin-bottom: 5/96rem;
+      a {
+        margin-left: 10/96rem;
+        color: #fff;
+      }
+    }
+    #chatContainer {
+      width: 100%;
+      height: 80%;
+      overflow-y: scroll;
+      li {
+        margin-left: 10/96rem;
+        list-style: none;
+        height: 15/96rem;
+        a {
+          color: #fff;
+          text-decoration: none;
+        }
+      }
+    }
+    #news {
       position: absolute;
       width: 30%;
       height: 100%;
-      right: 0;
       bottom: 0;
       // background-color: transparent;
       background-color: rgba(173, 172, 171, 0.2);

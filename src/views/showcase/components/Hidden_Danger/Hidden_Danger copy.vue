@@ -1,5 +1,5 @@
 <template>
-  <div id="report">
+  <div id="hidden">
     <!-- 这是用来渲染 echars -->
   </div>
 </template>
@@ -8,7 +8,7 @@
 export default {
   data () {
     return {
-      reportec: null,
+      hiddenec: null,
       dhkshow: true,
       name: ''
     }
@@ -16,35 +16,33 @@ export default {
   methods: {
     initEcharts () {
       // 初始化
-      this.reportec = this.echarts.init(document.querySelector('#report'))
+      this.hiddenec = this.echarts.init(document.querySelector('#hidden'))
       let option = {
         title: {
-          text: '设备上报监控信息统计',
-          x: 'center',
-          y: '10px',
+          text: '最近30天隐患数量',
+          subtext: '最近30天隐患数量趋势',
+          sublink: 'www.xiaofangcrt.com',
+          x: '10px',
+          y: '5px',
+          itemGap: 10,
           textStyle: {
             color: '#fff',
-            fontSize: 15
+            fontSize: 16
+          },
+          subtextStyle: {
+            color: '#fff',
+            fontSize: 11
           }
         },
-        legend: {
-          textStyle: {
-            color: '#fff'
-          },
-          data: ['报警', '故障'],
-          itemHeight: 5,
-          top: 30,
-          right: 'right'
-        },
         grid: {
-          top: 60,
-          x: 40,
+          top: 70,
+          x: 55,
           y2: 30
         },
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['烟感', '燃气', '电气', '网关', 'NB', 'GBRS'],
+          data: ['2019-12-6', '2019-12-07', '2019-12-08', '2019-12-09', '2019-12-10', '2019-12-11'],
           axisLine: {
             lineStyle: {
               color: '#289fe3', // 更改坐标轴颜色,
@@ -52,6 +50,7 @@ export default {
             }
           },
           axisLabel: {
+            interval: 1,
             textStyle: {
               color: '#fff',
               fontSize: 10
@@ -62,18 +61,18 @@ export default {
           }
         },
         yAxis: {
+          min: 0,
           // max: function (value) {
-          //   return value.max + 20
+          //   return value.max + 50
           // },
-          splitNumber: 5,
           type: 'value',
-          // data: ['烟感', '燃气', '电气', '网关', 'NB', 'GBRS'],
+          splitNumber: 3,
           axisLabel: {
             textStyle: {
               color: '#fff',
               fontSize: 12
-            }
-            // formatter: '{value}%'
+            },
+            formatter: '{value} %'
           },
           axisLine: {
             lineStyle: {
@@ -90,8 +89,7 @@ export default {
         },
         series: [
           {
-            name: '报警',
-            data: [10, 30, 80, 30, 60, 30],
+            data: [80, 30, 100, 30, 60, 30],
             type: 'line',
             areaStyle: {
               color: {
@@ -117,60 +115,21 @@ export default {
                 global: false // 缺省为 false
               }
             },
-            itemStyle: {
-              normal: {
-                color: '#3c9bd5',
-                borderWidth: 1
-              }
-            }
-          },
-          {
-            name: '故障',
-            data: [20, 60, 70, 40, 40, 10],
-            type: 'line',
-            areaStyle: {
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [
-                  {
-                    offset: 1,
-                    color: '#0e5778' // 0% 处的颜色
-                  },
-                  {
-                    offset: 0.7,
-                    color: '#23709a' // 30% 处的颜色
-                  },
-                  {
-                    offset: 0,
-                    color: '#525df1' // 100% 处的颜色
-                  }
-                ],
-                global: false // 缺省为 false
-              }
+            lineStyle: {
+              color: '#3c9bd5'
             },
-            //
             itemStyle: {
-              normal: {
-                color: '#3945f5',
-                borderWidth: 1
-              }
+              color: '#f8fc0d'
             }
           }
         ],
         tooltip: {
-          trigger: 'axis'
         }
       }
-      this.reportec.setOption(option)
-      this.reportec.on('click', (param) => {
-        // this.dhkshow = true
-        console.log(param)
+      this.hiddenec.setOption(option)
+      this.hiddenec.on('click', (param) => {
         this.name = param.name
-        this.$emit('reportec', this.dhkshow, this.name)
+        this.$emit('hiddenec', this.dhkshow, this.name)
       })
     }
   },
@@ -178,7 +137,7 @@ export default {
   mounted () {
     this.initEcharts()
     window.addEventListener('resize', () => {
-      this.reportec.resize()
+      this.hiddenec.resize()
     })
   }
   // vue 的生命周期的问题；
@@ -188,8 +147,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#report {
+#hidden {
   background-color: transparent;
-  // background: #ff101c;
 }
 </style>

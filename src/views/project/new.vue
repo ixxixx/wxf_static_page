@@ -104,7 +104,7 @@ export default {
   margin-left: 190/96rem;
   width: 360/96rem;
   .el-form-item__label {
-    width: 60/96rem !important;
+    width: 70/96rem !important;
   }
   .el-form-item__content {
     margin-left: 78/96rem !important;

@@ -19,65 +19,58 @@ export default {
       this.hiddenec = this.echarts.init(document.querySelector('#hidden'))
       let option = {
         title: {
-          text: '最近30天隐患数量',
-          subtext: '最近30天隐患数量趋势',
-          sublink: '#',
+          text: '隐患级别统计',
           x: '10px',
-          y: '5px',
+          y: '10px',
           itemGap: 10,
           textStyle: {
             color: '#fff',
-            fontSize: 16
-          },
-          subtextStyle: {
-            color: '#fff',
-            fontSize: 11
+            fontSize: 15
           }
         },
+        tooltip: {
+        },
+        legend: {
+          textStyle: {
+            color: '#fff'
+          },
+          data: ['一级', '二级', '三级'],
+          itemHeight: 5,
+          right: 'right'
+        // bottom: 'bottom'
+        },
         grid: {
-          top: 70,
-          x: 55,
-          y2: 30
+          top: '20%',
+          left: '3%',
+          right: '8%',
+          bottom: '1%',
+          containLabel: true
         },
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['2019-12-6', '2019-12-07', '2019-12-08', '2019-12-09', '2019-12-10', '2019-12-11'],
+          data: ['12-1', '12-02', '12-03', '12-04', '12-5', '12-6', '12-7'],
           axisLine: {
             lineStyle: {
-              color: '#289fe3', // 更改坐标轴颜色,
+              color: '#999',
               width: 2
+
             }
           },
           axisLabel: {
-            interval: 1,
-            textStyle: {
-              color: '#fff',
-              fontSize: 10
-            }
+            color: '#fff',
+            interval: 2
           },
           axisTick: {
             show: false
           }
         },
         yAxis: {
-          min: 0,
-          // max: function (value) {
-          //   return value.max + 50
-          // },
           type: 'value',
-          splitNumber: 3,
           axisLabel: {
             textStyle: {
               color: '#fff',
-              fontSize: 12
-            },
-            formatter: '{value} %'
-          },
-          axisLine: {
-            lineStyle: {
-              color: '#289fe3', // 更改坐标轴颜色,
-              width: 2
+              fontSize: 10
             }
           },
           splitLine: {
@@ -85,46 +78,74 @@ export default {
           },
           axisTick: {
             show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#999',
+              width: 2
+            }
+          },
+          nameTextStyle: {
+            color: '#999'
+          },
+          splitArea: {
+            show: false
           }
         },
-        series: [
-          {
-            data: [80, 30, 100, 30, 60, 30],
-            type: 'line',
-            areaStyle: {
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [
-                  {
-                    offset: 1,
-                    color: '#0e5778' // 0% 处的颜色
-                  },
-                  {
-                    offset: 0.7,
-                    color: '#23709d' // 30% 处的颜色
-                  },
-                  {
-                    offset: 0,
-                    color: '#3c9bd5' // 100% 处的颜色
-                  }
-                ],
-                global: false // 缺省为 false
-              }
-            },
-            lineStyle: {
-              color: '#3c9bd5'
-            },
-            itemStyle: {
-              color: '#f8fc0d'
+        series: [{
+          name: '一级',
+          type: 'line',
+          symbolSize: 3,
+          data: [800, 900, 220, 130, 660, 289, 300],
+          lineStyle: {
+            normal: {
+              width: 2
             }
-          }
-        ],
-        tooltip: {
+          },
+          itemStyle: {
+            normal: {
+              color: '#ff101c'
+            }
+          },
+          smooth: true
+        },
+        {
+          name: '二级',
+          type: 'line',
+          symbolSize: 3,
+          data: [243, 468, 111, 222, 123, 96, 200],
+          lineStyle: {
+            normal: {
+              width: 2
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: '#fdaf48',
+              borderWidth: 1
+            }
+          },
+          smooth: true
+        },
+        {
+          name: '三级',
+          type: 'line',
+          symbolSize: 3,
+          data: [125, 568, 25, 36, 784, 56, 400],
+          lineStyle: {
+            normal: {
+              width: 2
+            }
+          },
+          itemStyle: {
+            normal: {
+              color: '#ecfc5d',
+              borderWidth: 1
+            }
+          },
+          smooth: true
         }
+        ]
       }
       this.hiddenec.setOption(option)
       this.hiddenec.on('click', (param) => {

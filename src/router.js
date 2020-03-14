@@ -49,44 +49,64 @@ let router = new Router({
         //   children: [
         {
           // 全部烟感报警信息
-          path: '/alarm/qbygbjxx',
-          name: 'qbygbjxx',
-          component: () => import('@/views/alarm/NByangan/qbygbjxx.vue'),
+          path: '/alarm/SmokeSensorEquipAlert',
+          name: 'SmokeSensorEquipAlert',
+          component: () => import('@/views/alarm/NBSmokeSensor/SmokeSensorEquipAlert.vue'),
           meta: ['报警信息', '全部烟感报警信息']
         },
         {
+          // 统计
+          path: '/alarm/SmokeSensorEquipStatistics',
+          name: 'SmokeSensorEquipStatistics',
+          component: () => import('@/views/alarm/NBSmokeSensor/SmokeSensorEquipStatistics.vue'),
+          meta: ['报警信息', '烟感设备统计']
+        },
+        {
+          path: '/alarm/SmokeSensorEquip',
+          name: 'SmokeSensorEquip',
+          component: () => import('@/views/alarm/NBSmokeSensor/SmokeSensorEquip.vue'),
+          meta: ['报警信息', '全部烟感设备']
+        },
+        {
           // 燃气探测器
-          path: '/alarm/rqtcq',
-          name: 'rqtcq',
-          component: () => import('@/views/alarm/NByangan/rqtcq.vue'),
+          path: '/alarm/GosDeterctor',
+          name: 'GosDeterctor',
+          component: () => import('@/views/alarm/NBSmokeSensor/GosDeterctor.vue'),
           meta: ['报警信息', '燃气探测器']
         },
         {
           // 可燃气体探测器主机
-          path: '/alarm/krqttcqzj',
-          name: 'krqttcqzj',
-          component: () => import('@/views/alarm/NByangan/krqttcqzj.vue'),
+          path: '/alarm/GosDetectorHost',
+          name: 'GosDetectorHost',
+          component: () => import('@/views/alarm/NBSmokeSensor/GosDetectorHost.vue'),
           meta: ['报警信息', '可燃气体探测器主机']
         },
         {
           // 火灾报警控制器报警信息
-          path: '/alarm/hzbjkzqbjxx',
-          name: 'hzbjkzqbjxx',
-          component: () => import('@/views/alarm/xfbjxt/hzbjkzqbjxx.vue'),
+          path: '/alarm/FireAlarmController',
+          name: 'FireAlarmController',
+          component: () => import('@/views/alarm/XFAlarmSys/FireAlarmController.vue'),
           meta: ['报警信息', '火灾报警控制器报警信息']
         },
         {
           // LORA868
           path: '/alarm/LORA868',
           name: 'LORA868',
-          component: () => import('@/views/alarm/xfbjxt/LORA868.vue'),
+          component: () => import('@/views/alarm/XFAlarmSys/LORA868.vue'),
           meta: ['报警信息', 'LORA868']
         },
         {
           // GSM报警系统报警信息
-          path: '/alarm/GSMbjxtbjxx',
-          name: 'GSMbjxtbjxx',
-          component: () => import('@/views/alarm/xfbjxt/GSMbjxtbjxx.vue'),
+          path: '/alarm/GSMAlarmSys',
+          name: 'GSMAlarmSys',
+          component: () => import('@/views/alarm/XFAlarmSys/GSMAlarmSys.vue'),
+          meta: ['报警信息', 'GSM报警系统报警信息']
+        },
+        {
+          // 压力液位主机
+          path: '/alarm/PressureHost',
+          name: 'PressureHost',
+          component: () => import('@/views/alarm/XFAlarmSys/PressureHost.vue'),
           meta: ['报警信息', 'GSM报警系统报警信息']
         },
         {

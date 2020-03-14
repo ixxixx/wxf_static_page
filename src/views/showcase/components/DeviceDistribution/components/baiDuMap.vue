@@ -13,7 +13,7 @@
         :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']"
         anchor="BMAP_ANCHOR_TOP_LEFT"
       ></bm-map-type>
-      <!-- 标记 -->、
+      <!-- 标记 -->
       <bm-marker v-for="(item, index) in this.infoMarkerData" :key="index"
         :position="{ lng: item.value[0], lat: item.value[1]}"
         :dragging="false"

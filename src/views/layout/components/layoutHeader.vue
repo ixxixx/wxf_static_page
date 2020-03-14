@@ -3,16 +3,17 @@
         <!-- 一行 -->
         <el-row>
             <!-- 列 -->
-            <el-col :span="16" >
-                <span class="GSname">深 圳 市 派 安 科 技 有 限 公 司</span>
+            <el-col :span="15" >
+                <span class="GSname">智慧消防报警平台</span>
             </el-col>
-            <el-col :offset="5" :span="3">
+            <el-col :offset="5" :span="4">
                 <el-dropdown trigger="click">
                     <span class="el-dropdown-link userinfo">
                         <!-- <img class="icon" :src="userInfo.photo" alt="">
                         <span class="name">{{ userInfo.name }}</span> -->
-                         <img class="icon" src="http://b-ssl.duitang.com/uploads/item/201511/13/20151113110434_kyReJ.jpeg" alt="">
-                        <span class="name">某某某</span>
+                         <!-- <img class="icon" src="http://b-ssl.duitang.com/uploads/item/201511/13/20151113110434_kyReJ.jpeg" alt=""> -->
+                        <span class="name">派安科技</span>
+                        <span class="role">一级管理员</span>
                         <i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
@@ -56,18 +57,22 @@ export default {
 <style lang="less" scoped>
 .GSname{
   font-size: 16/96rem;
+  letter-spacing: 16/96rem;
   line-height: 30/96rem;
-  padding-left: 250/96rem;
+  padding-left: 230/96rem;
   font-weight: bold;
 }
 .userinfo {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    .icon {
-        width: 30/96rem;
-        height: 30/96rem;
-        border-radius: 50%;
+    // align-items: center;
+    // justify-content: flex-end;
+    line-height: 30/96rem;
+    .role {
+      margin-left: 5/96rem;
+      color: rgb(32, 23, 23);
+    }
+    i {
+      line-height: 30/96rem;
     }
 }
 .el-dropdown-link {

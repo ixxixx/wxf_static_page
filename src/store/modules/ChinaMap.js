@@ -5,9 +5,9 @@ const state = {
 const getters = {}
 
 const actions = {
-  saveOptData (context, optData) {
-    context.commit('saveOptData', optData)
-  }
+  // saveOptData (context, optData) {
+  // context.commit('saveOptData', optData)
+  // }
 }
 
 const mutations = {

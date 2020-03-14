@@ -24,12 +24,11 @@
                 </el-form>
 
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
                 <el-upload class="avatar-uploader" action="www.baidu.com" :show-file-list="false">
                     <img :src="user.photo" class="avatar">
-                    <!-- <i class="el-icon-plus avatar-uploader-icon"></i> -->
                 </el-upload>
-            </el-col>
+            </el-col> -->
         </el-row>
     </el-card>
 </template>

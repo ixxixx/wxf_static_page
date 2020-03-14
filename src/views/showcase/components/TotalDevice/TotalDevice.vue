@@ -7,7 +7,7 @@
 export default {
   data () {
     return {
-      totalec: null,
+      // totalec: null,
       dhkshow: true,
       name: ''
     }
@@ -20,7 +20,7 @@ export default {
       // this.totalec.showLoading()
       let option = {
         title: {
-          text: '设备总数排行',
+          text: '设备总数',
           x: 'center',
           y: '10px',
           textStyle: {
@@ -37,7 +37,7 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['2019', '', '', '', '', '', '', '', '', ''],
+          data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
           axisLine: {
             lineStyle: {
               color: '#fff91e', // 更改坐标轴颜色,
@@ -45,6 +45,7 @@ export default {
             }
           },
           axisLabel: {
+            interval: 2,
             textStyle: {
               color: '#fff',
               fontSize: 14
@@ -57,7 +58,7 @@ export default {
         yAxis: {
           type: 'value',
           splitNumber: 3,
-          min: 1000,
+          // min: 1000,
           axisLabel: {
             textStyle: {
               color: '#fff',
@@ -79,7 +80,7 @@ export default {
         },
         series: [
           {
-            data: [4000, 3500, 3800, 3200, 3600, 3000, 2200, 2000, 2200, 2000],
+            data: [140, 150, 180, 200, 236, 300, 310, 340, 380, 420],
             type: 'line',
             areaStyle: {
               color: {

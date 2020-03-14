@@ -109,6 +109,8 @@ export default {
       this.loginloading = true
       this.$refs['form'].validate(valid => {
         if (this.form.accounts === '13753217896' && this.form.password === '123456') {
+          // this.$store.dispatch('setToken', this.form.accounts)
+          // window.localStorage.setItem('userInfo', JSON.stringify(userInfo))
           this.$router.push('/home')
           this.$message({
             message: '登录成功',
@@ -161,8 +163,9 @@ export default {
     }
     /deep/.el-form-item__error {
       color: #f10;
-      font-size: 9/96rem;
-      left: 28/96rem;
+      font-size: 8/96rem;
+      padding-top: 0px;
+      left: 32/96rem;
     }
     .is-required {
       margin-left: 25/96rem;

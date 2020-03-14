@@ -1,8 +1,11 @@
 <template>
   <div>
-      <el-card class="title">燃气探测器</el-card>
-
+      <!-- <el-card class="title">全部烟感报警信息</el-card> -->
+      <router-link :to="{name:'SmokeSensorEquip'}"><el-card class="title " >全部烟感设备</el-card></router-link>
+<router-link :to="{name:'SmokeSensorEquipAlert'}"><el-card class="title on">烟感报警信息</el-card></router-link>
+      <router-link :to="{name:'SmokeSensorEquipStatistics'}"><el-card class="title " >烟感设备统计</el-card></router-link>
     <el-card class="box-card screen">
+      <!-- 筛选信息 -->
       <el-form ref="form" :model="sxform" label-width="80px">
          <el-form-item>
           <el-date-picker
@@ -45,7 +48,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-table v-loading="loading" :data="tableData" border style="width: 100%;margin-top: 15px" stripe>
+    <el-table :data="tableData" border style="width: 100%;margin-top: 15px" stripe>
       <el-table-column prop="id" label="序号" width="50"> </el-table-column>
       <el-table-column prop="time" label="报警时间" width="180"> </el-table-column>
       <el-table-column prop="name" label="所属项目" width="120"> </el-table-column>
@@ -53,7 +56,12 @@
       <el-table-column prop="address" label="设备位置"> </el-table-column>
       <el-table-column prop="code" label="设备号编码"> </el-table-column>
       <el-table-column prop="remarks" label="备注"> </el-table-column>
-      <el-table-column prop="handle" label="处理" width="80"> </el-table-column>
+      <el-table-column prop="handle" label="处理" width="80">
+        <template slot-scope="scope">
+        <el-tag
+          :type="scope.row.handle === '未处理' ? 'warning' : 'success'"
+          close-transition>{{scope.row.handle}}</el-tag>
+      </template></el-table-column>
     </el-table>
     <div class="block pagination">
     <el-pagination
@@ -62,7 +70,7 @@
       :current-page.sync="currentPage1"
       :page-size="10"
       layout="total, prev, pager, next"
-      :total="100">
+      :total="tableData.length">
     </el-pagination>
   </div>
   </div>
@@ -89,7 +97,7 @@ export default {
         type: '设备报警',
         code: '123456789',
         remarks: '无',
-        handle: '消警'
+        handle: '未处理'
       }, {
         id: '3',
         time: '2016-05-01',
@@ -98,7 +106,7 @@ export default {
         type: '设备报警',
         code: '123456789',
         remarks: '无',
-        handle: '消警'
+        handle: '误报'
       }, {
         id: '4',
         time: '2016-05-03',
@@ -173,7 +181,6 @@ export default {
         handle: '消警'
       }],
       sxform: {},
-      loading: true,
       datetime: '',
       screen_project: '',
       screen_rchitecture: '',
@@ -185,7 +192,11 @@ export default {
   },
   methods: {
     search () {
-      console.log(1)
+      console.log(this.datetime)
+      console.log(this.screen_project)
+      console.log(this.screen_rchitecture)
+      console.log(this.screen_floor)
+      console.log(this.screen_all)
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -199,10 +210,11 @@ export default {
 
 <style lang="less" scoped>
 .title {
+  float: left;
   width: 200/96rem;
-  margin-left: 300/96rem;
+  margin-left: 50/96rem;
   margin-bottom: 10/96rem;
-  background-color: #f5faf4;
+  // background-color: #f5faf4;
   text-align: center;
   font-weight: bold;
   font-size: 14/96rem;
@@ -210,14 +222,18 @@ export default {
     padding: 10px;
   }
 }
+.on {
+  background-color: #f5faf4;
+}
 .screen {
+  width: 100%;
 .el-form-item {
   float: left;
   // display: inline;
   /deep/.el-form-item__content {
     margin-left: 10px !important;
     .el-select {
-      width: 150px;
+      width: 135px;
     }
     .el-button {
       margin-left: 30px;
@@ -227,15 +243,23 @@ export default {
   }
 }
 }
-/deep/.el-table td {
-text-align: center;
-}
-/deep/.el-table th,
-.el-table tr {
-  // height: 50px !important;
-  padding: 7px 0;
-  text-align: center;
-  background-color: rgb(218, 214, 214) !important;
+/deep/.el-table {
+  td {
+    text-align: center;
+  }
+  th {
+    padding: 7px 0;
+    text-align: center;
+    background-color: rgb(218, 214, 214) !important;
+  }
+  tr {
+    // height: 50px !important;
+    padding: 7px 0;
+    text-align: center;
+  }
+  .cell {
+    font-size: 6/96rem;
+  }
 }
 /deep/.pagination {
   margin-top: 20px;

@@ -1,7 +1,7 @@
 <template>
   <div class="asider">
     <div class="logoDiv">
-      <i class="logo"></i>
+      <i class="logo"><img src="../../../assets/demo1.jpg" alt=""></i>
     </div>
     <el-menu
       :router="true"
@@ -25,19 +25,53 @@
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-news"></i>
-          <em class="asiderTitle">实时状况</em>
-          <!-- <span>实时状况</span> -->
+          <em class="asiderTitle">实时状态</em>
         </template>
         <el-menu-item-group>
-          <el-submenu index="1-4" :collapse="true">
-          <template slot="title">二级菜单</template>
-          <el-menu-item index="/alarm/qbygbjxx">三级子菜单</el-menu-item>
+          <el-submenu index="1-4">
+          <template slot="title">NB烟感/燃气</template>
+          <el-menu-item index="/alarm/SmokeSensorEquip">全部烟感设备</el-menu-item>
+          <el-menu-item index="/alarm/GosDeterctor">燃气探测器</el-menu-item>
+          <el-menu-item index="/alarm/GosDetectorHost">可燃气体探测主机</el-menu-item>
         </el-submenu>
-          <el-menu-item index="/personal">个人信息</el-menu-item>
-          <el-menu-item index="/userInfo">用户列表</el-menu-item>
+        <el-submenu index="1-5">
+          <template slot="title">消防报警系统</template>
+          <el-menu-item index="/alarm/FireAlarmController">火灾报警控制器</el-menu-item>
+          <el-menu-item index="/alarm/LORA868">LORA868</el-menu-item>
+          <el-menu-item index="/alarm/GSMAlarmSys">GSM报警系统</el-menu-item>
+          <el-menu-item index="/alarm/qbygbjxx">压力液位主机</el-menu-item>
+        </el-submenu>
+        <el-submenu index="1-6">
+          <template slot="title">压力/液位/温湿度</template>
+          <el-menu-item index="/alarm/qbygbjxx">压力表</el-menu-item>
+          <el-menu-item index="/alarm/qbygbjxx">液位计</el-menu-item>
+          <el-menu-item index="/alarm/qbygbjxx">温度计</el-menu-item>
+          <el-menu-item index="/alarm/qbygbjxx">温湿度计</el-menu-item>
+        </el-submenu>
+        <el-submenu index="1-7">
+          <template slot="title">智慧用电系统</template>
+          <el-menu-item index="/alarm/qbygbjxx">智慧用电</el-menu-item>
+          <el-menu-item index="/alarm/qbygbjxx">TD7011智慧用电</el-menu-item>
+        </el-submenu>
+        <el-submenu index="1-8">
+          <template slot="title">安全报警系统</template>
+          <el-menu-item index="/alarm/qbygbjxx">一键报警</el-menu-item>
+          <el-menu-item index="/alarm/qbygbjxx">SOS报警按钮</el-menu-item>
+          <el-menu-item index="/alarm/qbygbjxx">摄像头设备</el-menu-item>
+        </el-submenu>
+        <el-submenu index="1-9">
+          <template slot="title">联动系统</template>
+          <el-menu-item index="/alarm/qbygbjxx">控制模块</el-menu-item>
+        </el-submenu>
+        <el-submenu index="1-10">
+          <template slot="title">智慧城市</template>
+          <el-menu-item index="/alarm/qbygbjxx">室外消防</el-menu-item>
+        </el-submenu>
+          <!-- <el-menu-item index="/personal">个人信息</el-menu-item>
+          <el-menu-item index="/userInfo">用户列表</el-menu-item> -->
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="2">
+      <el-submenu index="/2">
         <template slot="title">
           <i class="el-icon-info"></i>
           <em class="asiderTitle">报警信息</em>
@@ -46,8 +80,8 @@
         <el-menu-item-group>
           <el-submenu index="alarm-1" >
           <template slot="title">NB烟感/燃气</template>
-          <el-menu-item index="/alarm/qbygbjxx">全部烟感报警信息</el-menu-item>
-          <el-menu-item index="/alarm/rqtcq">燃气探测器</el-menu-item>
+          <el-menu-item index="/alarm/SmokeSensorEquipAlert">全部烟感报警信息</el-menu-item>
+          <el-menu-item index="/alarm/rqtcq">用户防区</el-menu-item>
           <el-menu-item index="/alarm/krqttcqzj">可燃气体探测器主机</el-menu-item>
           </el-submenu>
           <el-submenu index="alarm-2" >
@@ -125,7 +159,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/systemSetup">公司信息</el-menu-item>
-          <el-menu-item index="/systemSetup">人员设置</el-menu-item>
+          <el-menu-item index="/userInfo">人员设置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="8">
@@ -154,16 +188,20 @@ export default {
   .logoDiv {
     width: 100%;
     height: 50/96rem;
-    background: rgb(106, 193, 243);
-    padding-top: 5/96rem;
-    padding-left: 6/96rem;
+    // background: rgb(106, 193, 243);
+    // padding-top: 5/96rem;
+    // padding-left: 6/96rem;
     .logo {
       display: block;
       width: 100%;
       height: 50/96rem;
-      background: url("../../../assets/minuoLogo.png");
-      background-repeat: no-repeat;
-      background-size: 90% 80%;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      // background: url("../../../assets/minuoLogo.png");
+      // background-repeat: no-repeat;
+      // background-size: 90% 80%;
     }
   }
 

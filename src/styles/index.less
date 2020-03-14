@@ -94,11 +94,16 @@ body {
     display: none;
     visibility: hidden;
 }
-::-webkit-scrollbar {
+// 谷歌
+::-webkit-scrollbar{
     width: 0;
     height: 0;
     visibility: hidden;
   }
+// ie
+  body {
+    -ms-overflow-style: none;
+}
   .el-form-item__label {
       color: #000;
   }

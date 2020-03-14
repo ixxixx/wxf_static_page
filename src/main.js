@@ -15,10 +15,15 @@ import echarts from 'echarts'
 // 在 src\main.js 中引入 lib-flexible
 import 'lib-flexible'
 // 时间
-import moment from 'moment'// 导入文件
+import moment from 'moment' // 导入文件
 import BaiduMap from 'vue-baidu-map'
 // 省级联动
 import VDistpicker from 'v-distpicker'
+// import VueSocketIO from 'vue-socket.io'
+// Vue.use(new VueSocketIO({
+//   debug: true,
+//   connection: ''
+// }))
 Vue.component('v-distpicker', VDistpicker)
 Vue.use(BaiduMap, {
   ak: '6EtTxRf8kxcj3x71mhxGkRYtlfVCbX1S'
@@ -26,7 +31,7 @@ Vue.use(BaiduMap, {
 Vue.prototype.$http = axios
 Vue.prototype.echarts = echarts
 Vue.prototype.$moment = moment
-moment.locale('zh-cn')// 需要汉化
+moment.locale('zh-cn') // 需要汉化
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 new Vue({

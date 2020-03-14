@@ -4,7 +4,7 @@
       <div class="box">
         <TotalDevice v-show="sixShow" class="fix-ge" @totalec="tcShow"></TotalDevice>
         <DeviceReported v-show="sixShow" class="fix-ge" @reportec="tcShow"></DeviceReported>
-        <News v-show="sixShow" class="fix-ge"></News>
+        <EventRatio v-show="sixShow" class="fix-ge"></EventRatio>
       </div>
     </el-col>
     <el-col :span="16">
@@ -36,7 +36,7 @@ import TotalDevice from './components/TotalDevice/TotalDevice'
 import DeviceReported from './components/DeviceReported/DeviceReported'
 import HiddenDanger from './components/Hidden_Danger/Hidden_Danger'
 import HiddenDangerLevel from './components/HiddenDangerLevel/HiddenDangerLevel'
-import News from './components/News/News'
+import EventRatio from './components/EventRatio/EventRatio'
 import Patrol from './components/Patrol/Patrol'
 import DeviceDistribution from './components/DeviceDistribution/DeviceDistribution'
 export default {
@@ -52,7 +52,7 @@ export default {
     DeviceReported, // 设备报告
     HiddenDanger, // 隐患
     HiddenDangerLevel, // 隐患级别
-    News, // 事件
+    EventRatio, // 事件
     Patrol, // 异常
     DeviceDistribution // 设备分布
   },
