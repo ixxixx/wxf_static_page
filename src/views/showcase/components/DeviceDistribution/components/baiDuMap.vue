@@ -56,8 +56,8 @@ export default {
   data () {
     return {
       // 地图
-      center: { lng: 0, lat: 0 }, // 经纬度
-      zoom: 6, // 地图展示级别
+      center: { lng: 100, lat: 20 }, // 经纬度
+      zoom: 5, // 地图展示级别
       mapvalue: '',
       markers: [{}],
       // infoMarkers: [1, 23, 3, 5435, 6567, 45, 214],
@@ -221,8 +221,13 @@ export default {
   methods: {
     handler ({ BMap, map }) {
       // console.log(BMap, map)
-      this.center.lng = 100.034564
-      this.center.lat = 33.96456
+      if (this.$route.name === '/showcase/baiduMap') {
+        this.center.lng = 100.034564
+        this.center.lat = 35.96456
+      } else {
+        this.center.lng = 66.034564
+        this.center.lat = 50.96456
+      }
       this.zoom = this.zoom
     },
     // getClickInfo (e) {
@@ -272,14 +277,11 @@ export default {
   border: 1px solid #ccc;}
   .mapboxS {
     width: 100%;
-  height: 100%;
-  // margin-top: 30/96rem;
-  border: 1px solid #ccc;
+   height: 100%;
+    border: 1px solid #ccc;
   }
   .baidu-m {
     height: 100%;
-    //   .BMap_mask {
-    //   }
   }
   .el-input__inner {
     background-color: transparent;

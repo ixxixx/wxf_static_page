@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from '@/router/router.js'
 import store from './store'
 // 导入 axios
 import axios from 'axios'
@@ -28,6 +28,7 @@ Vue.component('v-distpicker', VDistpicker)
 Vue.use(BaiduMap, {
   ak: '6EtTxRf8kxcj3x71mhxGkRYtlfVCbX1S'
 })
+
 Vue.prototype.$http = axios
 Vue.prototype.echarts = echarts
 Vue.prototype.$moment = moment

@@ -79,7 +79,8 @@ export default {
     top: -11/96rem;
     width: 170/96rem;
     height: 23/96rem;
-    background-color: #eee;
+    background-color: #103154;
+    color: #fff;
     text-align: center;
     line-height: 23/96rem;
     font-size: 14/96rem;
@@ -90,7 +91,8 @@ export default {
   margin-left: 190/96rem;
   width: 360/96rem;
   .el-form-item__label {
-    width: 60/96rem !important;
+    color: #fff;
+    width: 70/96rem !important;
   }
   .el-form-item__content {
     margin-left: 78/96rem !important;

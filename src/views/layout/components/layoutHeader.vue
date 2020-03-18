@@ -57,19 +57,21 @@ export default {
 <style lang="less" scoped>
 .GSname{
   font-size: 16/96rem;
-  letter-spacing: 16/96rem;
+  letter-spacing: 10/96rem;
   line-height: 30/96rem;
   padding-left: 230/96rem;
   font-weight: bold;
+  color: #d9faff;
 }
 .userinfo {
     display: flex;
-    // align-items: center;
-    // justify-content: flex-end;
     line-height: 30/96rem;
+    .name {
+      color: #f00;
+    }
     .role {
       margin-left: 5/96rem;
-      color: rgb(32, 23, 23);
+      color: #fff;
     }
     i {
       line-height: 30/96rem;

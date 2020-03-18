@@ -41,8 +41,8 @@ export default {
         mobile: '13753217896',
         name: '某某某',
         accounts: '13753217896',
-        password: '123456',
-        photo: 'http://b-ssl.duitang.com/uploads/item/201511/13/20151113110434_kyReJ.jpeg'
+        password: '123456'
+        // photo: 'http://b-ssl.duitang.com/uploads/item/201511/13/20151113110434_kyReJ.jpeg'
       }
     }
   },

@@ -1,0 +1,111 @@
+.Main {
+  .title {
+  float: left;
+  width: 200/96rem;
+  margin-left: 50/96rem;
+  margin-bottom: 10/96rem;
+  // background-color: #f5faf4;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14/96rem;
+  background-color: #0c2e51;
+  box-shadow:  0px 0px 4/96rem #27a9eb;
+  /deep/.el-card__body {
+    padding: 10px;
+    color: #d9faff;
+  }
+}
+/deep/.el-card {
+    border: 2px solid #3799ae;
+
+}
+.on {
+  background-color: #07b4e1 !important;
+}
+.screen {
+  background-color: #0c2e51;
+  width: 100%;
+  border: 2px solid #3799ae;
+  .el-form-item {
+    float: left;
+    /deep/.el-form-item__content {
+      margin-left: 10px !important;
+      .el-input__inner,
+      .el-range-input {
+          background: #123b50;
+        }
+      .el-select {
+        width: 135px;
+
+      }
+      .el-button {
+        margin-left: 30px;
+        background-color: #ec6565;
+        color: #fff;
+      }
+    }
+  }
+}
+/deep/.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background-color: #113356;
+}
+/deep/.el-table--enable-row-hover .el-table__body tr:hover>td {
+  background-color: #4a9ae8;
+}
+  /deep/.el-table td,
+  /deep/.el-table th.is-leaf {
+    border-bottom: 1px solid #636363;
+  }
+/deep/.el-table--border td,
+/deep/.el-table--border th{
+  border-right: 1px solid #636363;
+}
+/deep/.el-table--border {
+    border: 1px solid #636363;
+  }
+/deep/.el-table::before,
+/deep/.el-table--border::after {
+    background-color: transparent;
+  }
+  /deep/.el-table {
+  .cell {
+    font-size: 7/96rem;
+    color: #d9faff;
+  }
+  td {
+    text-align: center;
+    color: #4187a8;
+    background-color: #113356;
+  }
+  th {
+    padding: 7px 0;
+    text-align: center;
+    background-color: #025179 !important;
+    &>.cell {
+      color: #fff;
+    }
+  }
+  tr {
+    // height: 50px !important;
+    padding: 7px 0;
+    text-align: center;
+  }
+
+}
+/deep/.pagination {
+  margin-top: 20px;
+  margin-left: 400px;
+  .el-pagination,
+  .el-pagination__total {
+    color: #fff;
+  }
+  .el-pager li {
+    background: transparent;
+  }
+  .btn-prev,
+  .btn-next {
+    background: transparent;
+    color: #fff;
+  }
+}
+}

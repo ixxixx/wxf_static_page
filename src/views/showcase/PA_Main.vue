@@ -34,7 +34,7 @@
 <script>
 import TotalDevice from './components/TotalDevice/TotalDevice'
 import DeviceReported from './components/DeviceReported/DeviceReported'
-import HiddenDanger from './components/Hidden_Danger/Hidden_Danger'
+import HiddenDanger from './components/HiddenDanger/HiddenDanger'
 import HiddenDangerLevel from './components/HiddenDangerLevel/HiddenDangerLevel'
 import EventRatio from './components/EventRatio/EventRatio'
 import Patrol from './components/Patrol/Patrol'

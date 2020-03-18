@@ -1,7 +1,7 @@
 <template>
   <div class="asider">
     <div class="logoDiv">
-      <i class="logo"><img src="../../../assets/demo1.jpg" alt=""></i>
+      <i class="logo"><img src="@/assets/background.jpg" alt=""></i>
     </div>
     <el-menu
       :router="true"
@@ -188,9 +188,6 @@ export default {
   .logoDiv {
     width: 100%;
     height: 50/96rem;
-    // background: rgb(106, 193, 243);
-    // padding-top: 5/96rem;
-    // padding-left: 6/96rem;
     .logo {
       display: block;
       width: 100%;
@@ -199,9 +196,6 @@ export default {
         width: 100%;
         height: 100%;
       }
-      // background: url("../../../assets/minuoLogo.png");
-      // background-repeat: no-repeat;
-      // background-size: 90% 80%;
     }
   }
 

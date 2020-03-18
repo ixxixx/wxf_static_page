@@ -135,7 +135,7 @@ export default {
 .login {
   width: 100%;
   height: 100%;
-  background: url("../../assets/dome3.jpg") no-repeat;
+  background: url("../../assets/background.jpg") no-repeat;
   background-size: 100% 100%;
   display: flex; // 主轴居中：默认 水平
   justify-content: center; // 侧轴居中：默认 垂直

@@ -4,7 +4,7 @@
       <el-aside style="width:15%">
         <layoutasider />
       </el-aside>
-      <el-container style="width:85%">
+      <el-container style="width:85%" class="conta">
         <el-header>
           <layoutheader />
         </el-header>
@@ -45,23 +45,33 @@ export default {
   & > .el-container {
     height: 100%;
   }
+  .conta {
+    background-color: #0b2349;
+  }
 }
+
 .el-aside {
   background-color: #304156;
   color: #333;
 }
 .el-header {
   height: 30/96rem !important;
-  background-color: rgb(208, 235, 232);
+  background-color: #082449;
   color: #000;
   line-height: 1;
+  border: 1px solid #1176a7;
+  box-shadow: 0px 0px 1/96rem #1176a7 inset, 0px 0px 2/96rem #27a9eb;
 }
-.mbxNav {
+/deep/.mbxNav {
   margin-top: 3/96rem;
   margin-bottom: 3/96rem;
-  background-color: rgb(236, 245, 244);
-  // border: 2px solid #ccc;
+  background-color: #113356;
+  border: 1px solid #1176a7;
+  box-shadow: 0px 0px 1/96rem #1176a7 inset, 0px 0px 2/96rem #27a9eb;
   height: 25/96rem;
+  .el-breadcrumb__inner.is-link, .el-breadcrumb__inner {
+    color: #fff;
+  }
   .el-breadcrumb {
   font-size: 9/96rem;
     line-height: 25/96rem;
@@ -69,7 +79,8 @@ export default {
   }
 }
 .el-main {
-  background-color: #eee;
+  background-color: #103154;
   color: #333;
+
 }
 </style>

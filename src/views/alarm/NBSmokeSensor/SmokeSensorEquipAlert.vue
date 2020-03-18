@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="Main">
       <!-- <el-card class="title">全部烟感报警信息</el-card> -->
       <router-link :to="{name:'SmokeSensorEquip'}"><el-card class="title " >全部烟感设备</el-card></router-link>
 <router-link :to="{name:'SmokeSensorEquipAlert'}"><el-card class="title on">烟感报警信息</el-card></router-link>
@@ -209,66 +209,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.title {
-  float: left;
-  width: 200/96rem;
-  margin-left: 50/96rem;
-  margin-bottom: 10/96rem;
-  // background-color: #f5faf4;
-  text-align: center;
-  font-weight: bold;
-  font-size: 14/96rem;
-  /deep/.el-card__body {
-    padding: 10px;
-  }
-}
-.on {
-  background-color: #f5faf4;
-}
-.screen {
-  width: 100%;
-.el-form-item {
-  float: left;
-  // display: inline;
-  /deep/.el-form-item__content {
-    margin-left: 10px !important;
-    .el-select {
-      width: 135px;
-    }
-    .el-button {
-      margin-left: 30px;
-      background-color: #5cb6f7;
-      color: #fff;
-    }
-  }
-}
-}
-/deep/.el-table {
-  td {
-    text-align: center;
-  }
-  th {
-    padding: 7px 0;
-    text-align: center;
-    background-color: rgb(218, 214, 214) !important;
-  }
-  tr {
-    // height: 50px !important;
-    padding: 7px 0;
-    text-align: center;
-  }
-  .cell {
-    font-size: 6/96rem;
-  }
-}
-/deep/.pagination {
-  margin-top: 20px;
-  margin-left: 400px;
-  .el-pager li {
-    background: transparent;
-  }
-  .btn-prev, .btn-next {
-  background: transparent;
-}
-}
+@import '../../../styles/main.less';
 </style>

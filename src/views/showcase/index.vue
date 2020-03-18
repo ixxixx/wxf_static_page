@@ -219,6 +219,7 @@ export default {
     }
   },
   mounted () {
+    console.log(4570 / 260)
     // 定时器实时更新时间数据
     setInterval(() => {
       this.nowTime = new Date()
@@ -231,7 +232,8 @@ export default {
     padding: 0 !important;
   }
 #app {
-  background: url("../../assets/dome3.jpg");
+  background: url("../../assets/background.jpg");
+  // background: -webkit-gradient(linear, 0 0, 0 100%, from(#0a2971), to(#45a1ea));
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;

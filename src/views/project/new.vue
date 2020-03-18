@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="newBuild">
     <div class="projectTit">
       <p class="title">项目基本信息设置</p>
     </div>
@@ -80,56 +80,61 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.projectTit {
-  position: relative;
-  margin-top: 30/96rem;
-  margin-bottom: 30/96rem;
-  margin-left: 160/96rem;
-  width: 420/96rem;
-  border-bottom: 3px solid #cccccc;
-  .title {
-    position: absolute;
-    left: 133/96rem;
-    top: -11/96rem;
-    width: 170/96rem;
-    height: 23/96rem;
-    background-color: #eee;
-    text-align: center;
-    line-height: 23/96rem;
-    font-size: 14/96rem;
-    font-weight: bold;
+.newBuild {
+  .projectTit {
+    position: relative;
+    margin-top: 30/96rem;
+    margin-bottom: 30/96rem;
+    margin-left: 160/96rem;
+    width: 420/96rem;
+    border-bottom: 3px solid #ccc;
+    .title {
+      position: absolute;
+      left: 133/96rem;
+      top: -11/96rem;
+      width: 170/96rem;
+      height: 23/96rem;
+      background-color: #103154;
+      color: #fff;
+      text-align: center;
+      line-height: 23/96rem;
+      font-size: 14/96rem;
+      font-weight: bold;
+    }
   }
+  /deep/.el-form {
+    margin-left: 190/96rem;
+    width: 360/96rem;
+    .el-form-item__label {
+      width: 70/96rem !important;
+      color: #fff;
+    }
+    .el-form-item__content {
+      margin-left: 78/96rem !important;
+    }
+    .el-select {
+      width: 100%;
+    }
+    .el-button {
+      margin-top: 17/96rem;
+      margin-left: 90/96rem;
+    }
+    .address {
+      float: left;
+      width: 96/96rem;
+    }
+  }
+  /deep/.distpicker-address-wrapper {
+      float: left;
+    select {
+      width: 60/96rem;
+      padding: 0 ;
+      font-size:8/96rem;
+      border-radius:2px;
+      border: 1px solid #dcdfe6;
+      border-radius: 4px;
+    }
+    }
 }
-/deep/.el-form {
-  margin-left: 190/96rem;
-  width: 360/96rem;
-  .el-form-item__label {
-    width: 70/96rem !important;
-  }
-  .el-form-item__content {
-    margin-left: 78/96rem !important;
-  }
-  .el-select {
-    width: 100%;
-  }
-  .el-button {
-    margin-top: 17/96rem;
-    margin-left: 90/96rem;
-  }
-  .address {
-    float: left;
-    width: 96/96rem;
-  }
-}
-/deep/.distpicker-address-wrapper {
-    float: left;
-  select {
-    width: 60/96rem;
-    padding: 0 ;
-    font-size:8/96rem;
-    border-radius:2px;
-    border: 1px solid #dcdfe6;
-    border-radius: 4px;
-  }
-  }
+
 </style>

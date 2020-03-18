@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="Main">
   <div>
    <router-link :to="{name:'SmokeSensorEquip'}"><el-card class="title " >全部烟感设备</el-card></router-link>
 <router-link :to="{name:'SmokeSensorEquipAlert'}"><el-card class="title ">烟感报警信息</el-card></router-link>
@@ -50,7 +50,10 @@ export default {
           bottom: 'bottom',
           itemWidth: 12,
           itemHeight: 10,
-          itemGap: 12
+          itemGap: 12,
+          textStyle: {
+            color: '#0094ff'
+          }
         },
         tooltip: {
           show: true,
@@ -151,7 +154,7 @@ export default {
           x: 'center',
           y: '10px',
           textStyle: {
-            color: '#999',
+            color: '#eee',
             fontSize: 15
           }
         },
@@ -169,6 +172,7 @@ export default {
           itemHeight: 10,
           data: ['其他1', '其他2', '其他3', '其他4', '其他5', '其他6'],
           textStyle: {
+            color: '#0094ff',
             fontSize: 12
           }
         },
@@ -225,6 +229,7 @@ export default {
           x: 'center',
           y: 'center',
           textStyle: {
+            color: '#eee',
             fontWeight: 'normal',
             fontSize: 16
           }
@@ -237,7 +242,10 @@ export default {
         legend: {
           orient: 'horizontal',
           bottom: '0%',
-          data: ['10-50', '50-100', '100-500', '>500']
+          data: ['10-50', '50-100', '100-500', '>500'],
+          textStyle: {
+            color: '#0094ff'
+          }
         },
         series: [{
           type: 'pie',
@@ -288,7 +296,7 @@ export default {
           x: 'center',
           y: '30px',
           textStyle: {
-            color: '#000',
+            color: '#fff',
             fontSize: 20
           }
         },
@@ -300,7 +308,7 @@ export default {
           left: 'right',
           top: 10,
           textStyle: {
-            color: '#666',
+            color: '#fff',
             fontSize: 12
           }
         },
@@ -317,7 +325,7 @@ export default {
             interval: 0,
             show: true,
             textStyle: {
-              // color: '#666'
+              color: '#9cdcfe'
             }
           },
           axisTick: { // 刻度值线
@@ -329,8 +337,8 @@ export default {
           axisLine: {
             show: true,
             lineStyle: {
-            //   color: '#4488BB',
-              width: 3 // 粗细
+              color: '#d9faff',
+              width: 2 // 粗细
             }
           }
         },
@@ -338,19 +346,22 @@ export default {
           type: 'value',
           name: '(总数)',
           axisLabel: {
-            color: '#666'
+            color: '#9cdcfe'
           },
           axisTick: { // 刻度值线
             show: false
           },
           splitLine: { // 网格线
-            show: true
+            show: true,
+            lineStyle: {
+              color: '#d9faff'
+            }
           },
           axisLine: {
             show: true,
             lineStyle: {
-            //   color: '#4488BB',
-              width: 3 // 粗细
+              color: '#d9faff',
+              width: 2 // 粗细
             }
           },
           splitArea: {
@@ -366,17 +377,17 @@ export default {
             smooth: true, // 平滑
             symbol: 'none',
             type: 'line',
-            data: [100, 33, 1, 1, 32, 1, 1, 3, 1, 1, 3, 1]
+            data: [100, 33, 1, 1, 32, 31, 21, 33, 31, 21, 13, 11]
           },
           {
             name: 2018,
             smooth: true,
             symbol: 'none',
             type: 'line',
-            data: [2, 42, 1, 1, 32, 1, 2, 4, 1, 111, 3, 1]
+            data: [2, 42, 1, 1, 32, 1, 6, 4, 5, 100, 30, 41]
           }
         ],
-        color: ['#9F9FA0', '#FE0404']
+        color: ['#fbd437', '#FE0404']
       }
       this.zs4ec.setOption(option)
     }
@@ -397,21 +408,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.title {
-  float: left;
-  width: 200/96rem;
-  margin-left: 50/96rem;
-  margin-bottom: 10/96rem;
-  text-align: center;
-  font-weight: bold;
-  font-size: 14/96rem;
-  /deep/.el-card__body {
-    padding: 10px;
-  }
-}
-.on {
-  background-color: #f5faf4;
-}
+@import '../../../styles/main.less';
+
 .content{
     width: 100%;
     .box-card {
@@ -419,12 +417,14 @@ export default {
     width: 30%;
     height: 160/96rem;
     margin-right: 5%;
+    background-color: #113356;
   }
     .card-zxt {
         float: left;
         width: 100%;
         height: 230/96rem;
         margin-top: 15/96rem;
+        background-color: #113356;
     }
   .last {
       margin-right: 0;

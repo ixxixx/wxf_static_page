@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="Main">
     <!-- <el-card class="title">全部烟感报警信息</el-card> -->
     <router-link :to="{ name: 'SmokeSensorEquip' }"
       ><el-card class="title on ">全部烟感设备</el-card></router-link
@@ -51,6 +51,7 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="search">筛选</el-button>
+          <el-button @click="exportExcel">导出表格</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -59,6 +60,7 @@
       border
       style="width: 100%;margin-top: 15px"
       stripe
+      id="out-table"
     >
       <el-table-column prop="id" label="序号" width="50"> </el-table-column>
       <el-table-column prop="time" label="绑定时间" width="180">
@@ -83,7 +85,7 @@
         ><i class="el-icon-edit-outline" @click="Date"></i>
       </el-table-column>
       <el-table-column prop="remarks" label="删除" width="80"
-        ><i class="el-icon-delete"></i>
+        ><i class="el-icon-delete" @click="deleteP"></i>
       </el-table-column>
     </el-table>
     <div class="block pagination">
@@ -99,8 +101,10 @@
     </div>
   </div>
 </template>
-
 <script>
+// import '../../../styles/main.less'
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
 export default {
   data () {
     return {
@@ -211,7 +215,7 @@ export default {
       screen_floor: '',
       screen_all: '',
       // 分页
-      currentPage1: 5
+      currentPage1: 1
     }
   },
   methods: {
@@ -221,6 +225,31 @@ export default {
       console.log(this.screen_rchitecture)
       console.log(this.screen_floor)
       console.log(this.screen_all)
+    },
+    // 定义导出Excel表格事件
+    exportExcel () {
+      /* 从表生成工作簿对象 */
+      var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+      /* 获取二进制字符串作为输出 */
+      var wbout = XLSX.write(wb, {
+        bookType: 'xlsx',
+        bookSST: true,
+        type: 'array'
+      })
+      try {
+        FileSaver.saveAs(
+          // Blob 对象表示一个不可变、原始数据的类文件对象。
+          // Blob 表示的不一定是JavaScript原生格式的数据。
+          // File 接口基于Blob，继承了 blob 的功能并将其扩展使其支持用户系统上的文件。
+          // 返回一个新创建的 Blob 对象，其内容由参数中给定的数组串联组成。
+          new Blob([wbout], { type: 'application/octet-stream' }),
+          // 设置导出文件名称
+          'sheetjs.xlsx'
+        )
+      } catch (e) {
+        if (typeof console !== 'undefined') console.log(e, wbout)
+      }
+      return wbout
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -248,69 +277,7 @@ export default {
   }
 }
 </script>
-
 <style lang="less" scoped>
-.title {
-  float: left;
-  width: 200/96rem;
-  margin-left: 50/96rem;
-  margin-bottom: 10/96rem;
-  // background-color: #f5faf4;
-  text-align: center;
-  font-weight: bold;
-  font-size: 14/96rem;
-  /deep/.el-card__body {
-    padding: 10px;
-  }
-}
-.on {
-  background-color: #f5faf4;
-}
-.screen {
-  width: 100%;
-  .el-form-item {
-    float: left;
-    // display: inline;
-    /deep/.el-form-item__content {
-      margin-left: 10px !important;
-      .el-select {
-        width: 135px;
-      }
-      .el-button {
-        margin-left: 30px;
-        background-color: #5cb6f7;
-        color: #fff;
-      }
-    }
-  }
-}
-/deep/.el-table {
-  td {
-    text-align: center;
-  }
-  th {
-    padding: 7px 0;
-    text-align: center;
-    background-color: rgb(218, 214, 214) !important;
-  }
-  tr {
-    // height: 50px !important;
-    padding: 7px 0;
-    text-align: center;
-  }
-  .cell {
-    font-size: 6/96rem;
-  }
-}
-/deep/.pagination {
-  margin-top: 20px;
-  margin-left: 400px;
-  .el-pager li {
-    background: transparent;
-  }
-  .btn-prev,
-  .btn-next {
-    background: transparent;
-  }
-}
+@import '../../../styles/main.less';
+
 </style>

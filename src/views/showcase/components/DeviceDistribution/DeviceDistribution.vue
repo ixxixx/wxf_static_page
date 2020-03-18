@@ -26,31 +26,31 @@
       <ul class="ul-six">
         <li>
           <i class="ulBG">
-            <img src="../../../../assets/ul-six.png" alt="">
+            <img src="@/assets/ul-six.png" alt="">
             <em class="SixNumber">2000</em>
             </i>
           <p>电器安全</p>
         </li>
         <li>
         <router-link :to="{name:'SmokeSensorEquip'}">
-          <i class="ulBG"><img src="../../../../assets/ul-six.png" alt=""><em class="SixNumber">2000</em></i>
+          <i class="ulBG"><img src="@/assets/ul-six.png" alt=""><em class="SixNumber">2000</em></i>
           <p>烟 感</p>
           </router-link>
         </li>
         <li>
-          <i class="ulBG"><img src="../../../../assets/ul-six.png" alt=""><em class="SixNumber">400</em></i>
+          <i class="ulBG"><img src="@/assets/ul-six.png" alt=""><em class="SixNumber">400</em></i>
           <p>燃 气</p>
         </li>
         <li>
-          <i class="ulBG"><img src="../../../../assets/ul-six.png" alt=""><em class="SixNumber">8000</em></i>
+          <i class="ulBG"><img src="@/assets/ul-six.png" alt=""><em class="SixNumber">8000</em></i>
           <p>物联网网关</p>
         </li>
         <li>
-          <i class="ulBG"><img src="../../../../assets/ul-six.png" alt=""><em class="SixNumber">12000</em></i>
+          <i class="ulBG"><img src="@/assets/ul-six.png" alt=""><em class="SixNumber">12000</em></i>
           <p>LoRa</p>
         </li>
         <li>
-          <i class="ulBG"><img src="../../../../assets/ul-six.png" alt=""><em class="SixNumber">4000</em></i>
+          <i class="ulBG"><img src="@/assets/ul-six.png" alt=""><em class="SixNumber">4000</em></i>
           <p  @click.stop="Urgentmessage">NB</p>
         </li>
       </ul>
@@ -322,15 +322,6 @@ export default {
             scale: 3
           },
           hoverAnimation: true,
-          // label: {
-          //   normal: {
-          //     formatter: '{b}',
-          //     position: 'bottom',
-          //     padding: [0, 0, 0, 8],
-          //     show: true,
-          //     fontSize: 14
-          //   }
-          // },
           itemStyle: {
             normal: {
               color: 'red',
@@ -390,7 +381,7 @@ export default {
   background:transparent !important;
 }
 .bghide {
-  background:url('../../../../assets/dome3.jpg') !important;
+  background:url('../../../../assets/background.jpg') !important;
 }
 @keyframes rightEaseInAnimate{/*定义从右边滑入文字的动画*/
     0%{transform: translateX(50px);opacity: 0;}
@@ -478,7 +469,7 @@ export default {
   .nav {
     position: absolute;
     animation: rightEaseInAnimate 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
-      animation-fill-mode: forwards;/*定义动画结束的状态*/
+    animation-fill-mode: forwards;/*定义动画结束的状态*/
     top: 30/96rem;
     right: 0;
     width: 25%;
@@ -527,7 +518,7 @@ export default {
   }
   .sidebar {
     animation: rightEaseInAnimate 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
-      animation-fill-mode: forwards;/*定义动画结束的状态*/
+    animation-fill-mode: forwards;/*定义动画结束的状态*/
     background-color: transparent;
     position: absolute;
     top: 35%;
@@ -556,7 +547,7 @@ export default {
       width: 100%;
       height: 42/96rem;
       padding-top: 4/96rem;
-      background: rgba(209, 161, 106, 0.5);
+      background: rgba(233, 118, 89, 0.5);
       .yuan {
         float: left;
         margin-left: 6/96rem;
@@ -576,11 +567,10 @@ export default {
       .time {
         width: 92/96rem;
         color: #fff;
-        // position: absolute;
         float: right;
         margin-top: 2/96rem;
         margin-right: 3/96rem;
-        font-size: 6/96rem;
+        font-size: 7/96rem;
       }
       .address {
         float: right;
@@ -589,12 +579,11 @@ export default {
         margin-top: 3/96rem;
         margin-right: 8/96rem;
         line-height: 1.2;
-        font-size: 6/96rem;
+        font-size: 7/96rem;
       }
     }
     li:nth-child(1) {
       .yuan{
-
         -webkit-animation: zxdtY 2s infinite linear;
         p {
           -webkit-animation: zxdtZ 2s infinite linear;
@@ -639,8 +628,7 @@ export default {
     top: 2/96rem;
     right: 2/96rem;
   }
-}
-.btnOn {
+  .btnOn {
   position: absolute;
   border-radius: 5/96rem;
   background-color: rgba(61, 168, 230, 0.678);
@@ -652,4 +640,6 @@ export default {
   right: 20/96rem;
   padding: 0;
 }
+}
+
 </style>
