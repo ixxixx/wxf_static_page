@@ -3,10 +3,10 @@
     <i @click="footerB" v-show="!footquanShow" class="el-icon-circle-plus"></i>
     <div class="footer" v-show="footquanShow" @dblclick="footerS">
       <div class="footer-quan">
-        <div class="fireInfo">
+        <div class="fireInfo Info">
            <router-link :to="{name:'SmokeSensorEquip'}"><div id="fire-quan"></div>
            </router-link>
-          <div class="fire-notes">
+          <div class="fire-notes noteList">
             <ul>
               <li>这是数据的展示</li>
               <li>这是数据的展示</li>
@@ -19,9 +19,9 @@
             </ul>
           </div>
         </div>
-        <div class="faultInfo">
+        <div class="faultInfo Info">
           <div id="fault-quan"></div>
-          <div class="fault-notes">
+          <div class="fault-notes noteList">
             <ul>
               <li>这是数据的展示</li>
               <li>这是数据的展示</li>
@@ -325,11 +325,11 @@ export default {
 }
 // 显示按钮
 .el-icon-circle-plus {
-  font-size: 10/96rem;
-  color: #ccc;
-  position: absolute;
-  right: 2/96rem;
   top: 75%;
+  font-size: 20px;
+    color: #ccc;
+    position: absolute;
+    right: 5px;
 }
 .footer {
   animation: footerdh 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
@@ -340,11 +340,11 @@ export default {
   height: 25%;
   // 隐藏点
   .el-icon-error {
-    font-size: 10/96rem;
+    font-size: 20px;
     color: #fff;
     position: absolute;
-    top: 2/96rem;
-    right: 2/96rem;
+    top: 4px;
+    right: 4px;
   }
 
   .footer-quan {
@@ -352,14 +352,14 @@ export default {
     bottom: 0;
     width: 100%;
     height: 100%;
-    .fireInfo {
+    .Info {
       width: 30%;
       height: 100%;
       background-color: rgba(173, 172, 171, 0.2);
       position: absolute;
     right: 0;
 
-      #fire-quan {
+      #fire-quan,  #fault-quan {
         position: absolute;
         top: 5%;
         left: 40%;
@@ -367,7 +367,7 @@ export default {
         height: 40%;
         background-color: transparent;
       }
-      .fire-notes {
+      .noteList {
         position: absolute;
         bottom: 3%;
         width: 100%;
@@ -379,60 +379,28 @@ export default {
           height: 100%;
           overflow-y: scroll;
           li {
-            padding-left: 10/96rem;
-            padding-right: 5/96rem;
-            font-size: 7/96rem;
+            padding-left: 15px;
+            padding-right: 8px;
+            font-size: 12px;
             color: #fff;
             line-height: 1.7;
             text-indent: 1em;
           }
         }
       }
+
     }
     .faultInfo {
-      width: 30%;
-      height: 100%;
-      background-color: rgba(173, 172, 171, 0.2);
-      position: absolute;
       left: 35%;
-      #fault-quan {
-        position: absolute;
-        top: 5%;
-        left: 40%;
-        width: 25%;
-        height: 40%;
-        background-color: transparent;
-      }
-      .fault-notes {
-        position: absolute;
-        bottom: 3%;
-        width: 100%;
-        height: 53%;
-        overflow: hidden;
-        background-color: transparent;
-        ul {
-          width: 100%;
-          height: 100%;
-          overflow-y: scroll;
-          li {
-            padding-left: 10/96rem;
-            padding-right: 5/96rem;
-            font-size: 7/96rem;
-            color: #fff;
-            line-height: 1.7;
-            text-indent: 1em;
-          }
-        }
-      }
     }
     .topLi {
       width: 100%;
-      height: 10%;
-      font-size: 10/96rem;
-      margin-top: 5/96rem;
-      margin-bottom: 5/96rem;
+      height: 25px;
+      font-size: 14px;
+      margin-top: 10px;
+      margin-bottom: 5px;
       a {
-        margin-left: 10/96rem;
+        margin-left: 15px;
         color: #fff;
       }
     }
@@ -441,9 +409,9 @@ export default {
       height: 80%;
       overflow-y: scroll;
       li {
-        margin-left: 10/96rem;
+        margin-left: 15px;
         list-style: none;
-        height: 15/96rem;
+        height: 20px;
         a {
           color: #fff;
           text-decoration: none;
@@ -457,6 +425,7 @@ export default {
       bottom: 0;
       // background-color: transparent;
       background-color: rgba(173, 172, 171, 0.2);
+      overflow: hidden;
     }
   }
 }

@@ -55,27 +55,27 @@ export default {
   color: #333;
 }
 .el-header {
-  height: 30/96rem !important;
+  height: 70px !important;
   background-color: #082449;
   color: #000;
-  line-height: 1;
   border: 1px solid #1176a7;
-  box-shadow: 0px 0px 1/96rem #1176a7 inset, 0px 0px 2/96rem #27a9eb;
+  box-shadow: 0px 0px 5px #1176a7 inset, 0px 0px 5px #27a9eb;
 }
 /deep/.mbxNav {
-  margin-top: 3/96rem;
-  margin-bottom: 3/96rem;
+  margin-top: 13px;
+  margin-bottom: 13px;
   background-color: #113356;
   border: 1px solid #1176a7;
-  box-shadow: 0px 0px 1/96rem #1176a7 inset, 0px 0px 2/96rem #27a9eb;
-  height: 25/96rem;
+  box-shadow: 0px 0px 5px #1176a7 inset, 0px 0px 5px #27a9eb;
+  height: 55px;
   .el-breadcrumb__inner.is-link, .el-breadcrumb__inner {
     color: #fff;
   }
   .el-breadcrumb {
-  font-size: 9/96rem;
-    line-height: 25/96rem;
-    margin-left: 15/96rem;font-weight: bold;
+  font-size: 16px;
+    line-height: 55px;
+    margin-left: 15px;
+    font-weight: bold;
   }
 }
 .el-main {

@@ -83,53 +83,54 @@ export default {
 .newBuild {
   .projectTit {
     position: relative;
-    margin-top: 30/96rem;
-    margin-bottom: 30/96rem;
-    margin-left: 160/96rem;
-    width: 420/96rem;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: 330px;
+    width: 620px;
     border-bottom: 3px solid #ccc;
     .title {
       position: absolute;
-      left: 133/96rem;
-      top: -11/96rem;
-      width: 170/96rem;
-      height: 23/96rem;
+      left: 205px;
+      top: -20px;
+      width: 200px;
+      height: 40px;
       background-color: #103154;
       color: #fff;
       text-align: center;
-      line-height: 23/96rem;
-      font-size: 14/96rem;
+      line-height: 40px;
+      font-size: 20px;
       font-weight: bold;
     }
   }
   /deep/.el-form {
-    margin-left: 190/96rem;
-    width: 360/96rem;
+    margin-left: 400px;
+    width: 450px;
     .el-form-item__label {
-      width: 70/96rem !important;
+      width: 100px !important;
       color: #fff;
     }
     .el-form-item__content {
-      margin-left: 78/96rem !important;
+      margin-left: 100px !important;
     }
     .el-select {
       width: 100%;
     }
     .el-button {
-      margin-top: 17/96rem;
-      margin-left: 90/96rem;
+      margin-top: 25px;
+      margin-left: 110px;
     }
     .address {
       float: left;
-      width: 96/96rem;
+      margin-top: 20px;
+      width: 345px;
     }
   }
   /deep/.distpicker-address-wrapper {
       float: left;
     select {
-      width: 60/96rem;
+      width: 113px;
       padding: 0 ;
-      font-size:8/96rem;
+      font-size: 14px;
       border-radius:2px;
       border: 1px solid #dcdfe6;
       border-radius: 4px;

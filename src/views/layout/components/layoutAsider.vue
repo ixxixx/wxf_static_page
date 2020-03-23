@@ -187,11 +187,11 @@ export default {
 .asider {
   .logoDiv {
     width: 100%;
-    height: 50/96rem;
+    height: 120px;
     .logo {
       display: block;
       width: 100%;
-      height: 50/96rem;
+      height: 100%;
       img {
         width: 100%;
         height: 100%;
@@ -212,7 +212,7 @@ export default {
       li {
         box-sizing: border-box;
         background: #858c90 !important;
-        border-bottom: 0.1/96rem solid rgb(117, 115, 115);
+        // border-bottom: 111px solid rgb(117, 115, 115);
         &:hover {
           font-size: 16px;
           font-weight: bold;

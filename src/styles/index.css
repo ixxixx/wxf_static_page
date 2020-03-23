@@ -93,6 +93,3 @@ body {
 .ggmessage {
   top: 40% !important;
 }
-@media (width: 1200px) {
-  font-size: 120px;
-}

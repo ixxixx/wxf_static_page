@@ -141,46 +141,46 @@ export default {
   justify-content: center; // 侧轴居中：默认 垂直
   align-items: center;
   .login-warp {
-    width: 280/96rem;
-    height: 210/96rem;
-    border-radius: 10/96rem;
-    padding: 15/96rem;
+    width: 550px;
+    height: 410px;
+    border-radius: 10px;
+    padding: 35px;
     background-color: rgba(206, 209, 216, 0.6);
     .logo {
       img {
         margin-left: 25%;
         width: 50%;
-        height: 45/96rem;
-        margin-bottom: 12/96rem;
+        height: 75px;
+        margin-bottom: 22px;
       }
     }
     .el-form-item {
-      margin-bottom: 10/96rem;
+      margin-bottom: 20px;
     }
     .el-input {
       width: 70%;
-      height: 25/96rem;
+      height: 25px;
     }
     /deep/.el-form-item__error {
       color: #f10;
-      font-size: 8/96rem;
-      padding-top: 0px;
-      left: 32/96rem;
+      font-size: 12px;
+      padding-top: 2px;
+      left: 52px;
     }
     .is-required {
-      margin-left: 25/96rem;
+      margin-left: 55px;
     }
     .el-button--primary {
-      margin-left: 60/96rem;
-      margin-top: 10/96rem;
-      border-radius: 6/96rem;
-      width: 140/96rem;
-      height: 25/96rem;
-      line-height: 6/96rem;
+      margin-left: 120px;
+      margin-top: 30px;
+      border-radius: 6px;
+      width: 240px;
+      height: 45px;
+      line-height: 100%;
     }
     .register {
-      margin-left: 85/96rem;
-      margin-right: 30/96rem;
+      margin-left: 165px;
+      margin-right: 30px;
       cursor: pointer;
     }
     .forget {

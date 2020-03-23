@@ -3,55 +3,96 @@
     <div class="map">
       <el-tabs v-model="shouxuan" type="card" @tab-click="handleClick">
         <el-tab-pane label="矢量 图" name="first">
-          <div id="china-map" style="height:100%" :class="[$route.name === 'showcase' ? 'bgshow' : 'bghide']"></div>
+          <div
+            id="china-map"
+            style="height:100%"
+            :class="[$route.name === 'showcase' ? 'bgshow' : 'bghide']"
+          ></div>
         </el-tab-pane>
         <el-tab-pane label="百度地图" name="second">
           <BaiDuMap></BaiDuMap>
         </el-tab-pane>
-        <el-tab-pane  label="消防CRT" disabled> </el-tab-pane>
+        <el-tab-pane label="消防CRT" disabled> </el-tab-pane>
       </el-tabs>
     </div>
     <Notice v-show="$route.name === 'home'"></Notice>
-    <div class="total-title" v-show="$route.name === 'showcase' && this.shouxuan === 'first'">
+    <div
+      class="total-title"
+      v-show="$route.name === 'showcase' && this.shouxuan === 'first'"
+    >
       <ul>
-        <li :class="{ Acolor: this.colorShow[0] }" @click="allGetPointData">全部</li>
-        <li :class="{ Acolor: this.colorShow[1] }" @click="dqaqGetPointData">电器安全</li>
-        <li :class="{ Acolor: this.colorShow[2] }" @click="rqtcbjGetPointData ">燃气探测警报</li>
-        <li :class="{ Acolor: this.colorShow[3] }" @click="hzywbjGetPointData ">火灾烟雾警报</li>
-        <li :class="{ Acolor: this.colorShow[4] }" @click="wlwgGetPointData ">物联网关</li>
+        <li :class="{ Acolor: this.colorShow[0] }" @click="allGetPointData">
+          全部
+        </li>
+        <li :class="{ Acolor: this.colorShow[1] }" @click="dqaqGetPointData">
+          电器安全
+        </li>
+        <li :class="{ Acolor: this.colorShow[2] }" @click="rqtcbjGetPointData">
+          燃气探测警报
+        </li>
+        <li :class="{ Acolor: this.colorShow[3] }" @click="hzywbjGetPointData">
+          火灾烟雾警报
+        </li>
+        <li :class="{ Acolor: this.colorShow[4] }" @click="wlwgGetPointData">
+          物联网关
+        </li>
       </ul>
     </div>
-    <i @click="navB" v-show="!navShow " class="el-icon-circle-plus navjia"></i>
-    <div class="nav" v-show="navShow && $route.name === 'showcase'" @dblclick="navS">
+    <i @click="navB" v-show="!navShow" class="el-icon-circle-plus navjia"></i>
+    <div
+      class="nav"
+      v-show="navShow && $route.name === 'showcase'"
+      @dblclick="navS"
+    >
       <ul class="ul-six">
         <li>
           <i class="ulBG">
-            <img src="@/assets/ul-six.png" alt="">
+            <img src="@/assets/ul-six.png" alt="" />
             <em class="SixNumber">2000</em>
-            </i>
+          </i>
           <p>电器安全</p>
         </li>
         <li>
-        <router-link :to="{name:'SmokeSensorEquip'}">
-          <i class="ulBG"><img src="@/assets/ul-six.png" alt=""><em class="SixNumber">2000</em></i>
-          <p>烟 感</p>
+          <router-link :to="{ name: 'SmokeSensorEquip' }">
+            <i class="ulBG"
+              ><img src="@/assets/ul-six.png" alt="" /><em class="SixNumber"
+                >2000</em
+              ></i
+            >
+            <p>烟 感</p>
           </router-link>
         </li>
         <li>
-          <i class="ulBG"><img src="@/assets/ul-six.png" alt=""><em class="SixNumber">400</em></i>
+          <i class="ulBG"
+            ><img src="@/assets/ul-six.png" alt="" /><em class="SixNumber"
+              >400</em
+            ></i
+          >
           <p>燃 气</p>
         </li>
         <li>
-          <i class="ulBG"><img src="@/assets/ul-six.png" alt=""><em class="SixNumber">8000</em></i>
+          <i class="ulBG"
+            ><img src="@/assets/ul-six.png" alt="" /><em class="SixNumber"
+              >8000</em
+            ></i
+          >
           <p>物联网网关</p>
         </li>
         <li>
-          <i class="ulBG"><img src="@/assets/ul-six.png" alt=""><em class="SixNumber">12000</em></i>
+          <i class="ulBG"
+            ><img src="@/assets/ul-six.png" alt="" /><em class="SixNumber"
+              >12000</em
+            ></i
+          >
           <p>LoRa</p>
         </li>
         <li>
-          <i class="ulBG"><img src="@/assets/ul-six.png" alt=""><em class="SixNumber">4000</em></i>
-          <p  @click.stop="Urgentmessage">NB</p>
+          <i class="ulBG"
+            ><img src="@/assets/ul-six.png" alt="" /><em class="SixNumber"
+              >4000</em
+            ></i
+          >
+          <p @click.stop="Urgentmessage">NB</p>
         </li>
       </ul>
       <i @click="navS" class="el-icon-error" v-show="navShow"></i>
@@ -62,24 +103,48 @@
       v-show="!sidebarShow"
       class="el-icon-circle-plus sidebarjia"
     ></i>
-    <div class="sidebar" v-show="sidebarShow && $route.name === 'showcase'" @dblclick="sidebarS">
-      <div @click.once="clickAddsjzt" class="sidebar-title">紧急事件通知
-      <i @click.stop="sidebarS" class="el-icon-error" v-show="sidebarShow"></i>
-
+    <div
+      class="sidebar"
+      v-show="sidebarShow && $route.name === 'showcase'"
+      @dblclick="sidebarS"
+    >
+      <div @click.once="clickAddsjzt" class="sidebar-title">
+        紧急事件通知
+        <i
+          @click.stop="sidebarS"
+          class="el-icon-error"
+          v-show="sidebarShow"
+        ></i>
       </div>
       <ul>
-        <li v-for="(item, index) in this.sjztData" :key="index" class="sidebar-one notes">
-          <div class="yuan"><p>{{item.title}}</p></div>
-          <span class="time">{{item.time}}</span>
-          <span class="address">{{item.address}}</span>
+        <li
+          v-for="(item, index) in this.sjztData"
+          :key="index"
+          class="sidebar-one notes"
+        >
+          <div class="yuan">
+            <p>{{ item.title }}</p>
+          </div>
+          <span class="time">{{ item.time }}</span>
+          <span class="address">{{ item.address }}</span>
         </li>
       </ul>
     </div>
     <!-- 底部 -->
     <Footer v-show="$route.name === 'showcase'"></Footer>
-    <Urgent v-show="$route.name === 'showcase'" :title="title" :dialogVisible="dialogVisible" :neirong="neirong" @urgentF="urgentF"></Urgent>
+    <Urgent
+      v-show="$route.name === 'showcase'"
+      :title="title"
+      :dialogVisible="dialogVisible"
+      :neirong="neirong"
+      @urgentF="urgentF"
+    ></Urgent>
 
-    <router-link :to="{name:'showcase'}"><el-button v-show="$route.name === 'home'" round class="btnOn">进入展示台</el-button></router-link>
+    <router-link :to="{ name: 'showcase' }"
+      ><el-button v-show="$route.name === 'home'" round class="btnOn"
+        >进入展示台</el-button
+      ></router-link
+    >
   </div>
 </template>
 
@@ -301,6 +366,7 @@ export default {
             normal: {
               show: true,
               textStyle: {
+                fontSize: 14,
                 color: '#fff'
               }
             }
@@ -353,39 +419,46 @@ export default {
 </script>
 <style lang="less" scoped >
 @-webkit-keyframes zxdtY {
-  0%{
-    border: 1/96rem dashed #f10;
-    box-shadow: 0px 0px 5/96rem #f10 inset
-    }
-    50% {
-      border: 1/96rem dashed #fff;
-      box-shadow: 0px 0px 5/96rem #fff inset
-    }
-    100%{
-      border: 1/96rem dashed #f10;
-      box-shadow: 0px 0px 5/96rem #f10 inset
-    }
+  0% {
+    border: 2px dashed #f10;
+    box-shadow: 0px 0px 10px #f10 inset;
+  }
+  50% {
+    border: 2px dashed #fff;
+    box-shadow: 0px 0px 10px #fff inset;
+  }
+  100% {
+    border: 2px dashed #f10;
+    box-shadow: 0px 0px 10px #f10 inset;
+  }
 }
 @-webkit-keyframes zxdtZ {
-  0%{
+  0% {
     color: #f10;
-    }
-    50% {
-      color: #fff;
-    }
-    100%{
-      color: #f10;
-    }
+  }
+  50% {
+    color: #fff;
+  }
+  100% {
+    color: #f10;
+  }
 }
 .bgshow {
-  background:transparent !important;
+  background: transparent !important;
 }
 .bghide {
-  background:url('../../../../assets/background.jpg') !important;
+  background: url("../../../../assets/background.jpg") !important;
 }
-@keyframes rightEaseInAnimate{/*定义从右边滑入文字的动画*/
-    0%{transform: translateX(50px);opacity: 0;}
-    100%{transform:translateX(0px);opacity: 1; }
+@keyframes rightEaseInAnimate {
+  /*定义从右边滑入文字的动画*/
+  0% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
 }
 .Acolor {
   font-weight: bold !important;
@@ -405,7 +478,7 @@ export default {
     .el-tabs {
       position: absolute;
       .el-tabs__header {
-        margin-top: 9/96rem;
+        margin-top: 15px;
         z-index: 10;
         right: 5%;
         background-color: #08304b;
@@ -413,8 +486,8 @@ export default {
         color: #fff;
         .el-tabs__item {
           color: #fff;
-          height: 20/96rem;
-          line-height: 20/96rem;
+          height: 32px;
+          line-height: 32px;
           &.is-active {
             color: #0094ff;
           }
@@ -424,7 +497,7 @@ export default {
     .el-tab-pane {
       width: 100%;
       height: 100%;
-      padding-bottom: 30/96rem;
+      padding-bottom: 50px;
     }
     .el-tabs__header {
       position: absolute;
@@ -444,22 +517,22 @@ export default {
       height: 100%;
       background-color: transparent;
       // border: 1px solid rgb(44, 106, 177);
-      box-shadow: 0px 0px 5/96rem #1176a7 inset;
+      box-shadow: 0px 0px 8px #1176a7 inset;
     }
   }
   .total-title {
     position: absolute;
     top: 0;
-    left: 10/96rem;
+    left: 15px;
     color: #fff;
     li {
       float: left;
-      margin-top: 10/96rem;
-      margin-right: 14/96rem;
-      font-size: 8/96rem;
-      line-height: 12/96rem;
+      margin-top: 18px;
+      margin-right: 20px;
+      font-size: 16px;
+      line-height: 18px;
       &:nth-child(1) {
-        font-size: 12/96rem;
+        font-size: 18px;
       }
       &:hover {
         cursor: pointer;
@@ -469,11 +542,12 @@ export default {
   .nav {
     position: absolute;
     animation: rightEaseInAnimate 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
-    animation-fill-mode: forwards;/*定义动画结束的状态*/
-    top: 30/96rem;
+    animation-fill-mode: forwards; /*定义动画结束的状态*/
+    top: 30px;
     right: 0;
     width: 25%;
-    height: 20%;
+    height: 22%;
+      margin-top: 30px;
     .ul-six {
       width: 100%;
       height: 100%;
@@ -485,18 +559,20 @@ export default {
       }
       li {
         width: 33.33%;
-        height: 50/96rem;
+        height: 50%;
         text-align: center;
         color: #fff;
-        font-size: 6/96rem;
+        font-size: 12px;
+        margin: 0  auto;
+
         &:hover {
           cursor: pointer;
         }
         .ulBG {
           position: relative;
           display: block;
-          margin: 10% auto 0;
-          width: 55%;
+          margin: 5px auto;
+          width: 50%;
           height: 60%;
           background-color: rgba(8, 31, 241, 0.267);
           // background: url(../../../../assets/ul-six.png);
@@ -508,9 +584,9 @@ export default {
           .SixNumber {
             position: absolute;
             text-align: center;
-            width: 22/96rem;
-            bottom: 3/96rem;
-            left: 12%;
+            width: 100%;
+            bottom: 5px;
+            left: 0;
           }
         }
       }
@@ -518,77 +594,74 @@ export default {
   }
   .sidebar {
     animation: rightEaseInAnimate 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
-    animation-fill-mode: forwards;/*定义动画结束的状态*/
+    animation-fill-mode: forwards; /*定义动画结束的状态*/
     background-color: transparent;
     position: absolute;
     top: 35%;
-    // bottom: 30%;
-    right: 5/96rem;
-    width: 150/96rem;
-    height: 144/96rem;
+    right: 8px;
+    width: 280px;
+    height: 243px;
     border: 1px solid rgba(229, 233, 238, 0.7);
     overflow-y: scroll;
     .sidebar-title {
       position: fixed; // 有animation效果固定定位失效
-      width: 150/96rem;
-      height: 18/96rem;
-      font-size: 12/96rem;
+      width: 100%;
+      height: 30px;
+      font-size: 20px;
       color: #fff;
       // padding-left: 18/96rem;
       text-align: center;
       background-color: rgb(209, 64, 178);
     }
     ul {
-      padding-top: 18/96rem;
-
+      padding-top: 30px;
     }
     .notes {
       box-sizing: border-box;
       width: 100%;
-      height: 42/96rem;
-      padding-top: 4/96rem;
-      background: rgba(233, 118, 89, 0.5);
+      height: 71px;
+      background: rgba(228, 56, 13, 0.5);
       .yuan {
         float: left;
-        margin-left: 6/96rem;
-        margin-right: 5/96rem;
-        width: 35/96rem;
-        height: 35/96rem;
-        border: 1/96rem dashed #fff;
+        margin-left: 15px;
+        margin-top: 8px;
+        width: 55px;
+        height: 55px;
+        border: 2px dashed #fff;
         border-radius: 50%;
+        line-height: 55px;
         p {
           margin: 0 auto;
           color: #fff;
-          font-size: 10/96rem;
+          font-size: 17px;
           text-align: center;
-          margin-top: 10/96rem;
         }
       }
       .time {
-        width: 92/96rem;
+        width: 170px;
         color: #fff;
         float: right;
-        margin-top: 2/96rem;
-        margin-right: 3/96rem;
-        font-size: 7/96rem;
+        margin-top: 15px;
+        margin-right: 10px;
+        font-size: 12px;
       }
       .address {
         float: right;
         color: #ccc;
-        width: 90/96rem;
-        margin-top: 3/96rem;
-        margin-right: 8/96rem;
-        line-height: 1.2;
-        font-size: 7/96rem;
+        width: 170px;
+        margin-top: 12px;
+        margin-right: 10px;
+        line-height: 1;
+        font-size: 12px;
       }
     }
     li:nth-child(1) {
-      .yuan{
+      .yuan {
         -webkit-animation: zxdtY 2s infinite linear;
         p {
           -webkit-animation: zxdtZ 2s infinite linear;
         }
-        }
+      }
     }
     li:nth-child(2) {
       background: rgba(241, 99, 103, 0.5);
@@ -599,47 +672,46 @@ export default {
       //   margin-top: 4/96rem !important;
       // }
     }
-    li:nth-child(n+4) {
+    li:nth-child(n + 4) {
       background: rgba(129, 186, 194, 0.5);
     }
   }
   // 显示按钮
   .el-icon-circle-plus {
-    font-size: 10/96rem;
+    font-size: 20px;
     color: #ccc;
     position: absolute;
-    right: 2/96rem;
+    right: 5px;
   }
   .sidebarjia {
     top: 35%;
-    right: 8/96rem;
+    right: 12px;
   }
   .footerjia {
     top: 75%;
   }
   .navjia {
-    top: 32/96rem;
+    top: 60px;
   }
   // 隐藏点
   .el-icon-error {
-    font-size: 10/96rem;
+    font-size: 20px;
     color: #fff;
     position: absolute;
-    top: 2/96rem;
-    right: 2/96rem;
+    top: 4px;
+    right: 4px;
   }
   .btnOn {
-  position: absolute;
-  border-radius: 5/96rem;
-  background-color: rgba(61, 168, 230, 0.678);
-  color: #fff;
-  font-weight: bold;
-  width: 60/96rem;
-  height: 20/96rem;
-  bottom: 40/96rem;
-  right: 20/96rem;
-  padding: 0;
+    position: absolute;
+    border-radius: 5px;
+    background-color: rgba(61, 168, 230, 0.678);
+    color: #fff;
+    font-weight: bold;
+    width: 100px;
+    height: 40px;
+    bottom: 50px;
+    right: 40px;
+    padding: 0;
+  }
 }
-}
-
 </style>

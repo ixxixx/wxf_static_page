@@ -56,25 +56,28 @@ export default {
 
 <style lang="less" scoped>
 .GSname{
-  font-size: 16/96rem;
-  letter-spacing: 10/96rem;
-  line-height: 30/96rem;
-  padding-left: 230/96rem;
+  font-size: 33px;
+  letter-spacing: 10px;
+  line-height: 60px;
+  // padding-left: 400px;
+  display: inline-block;
+  width: 1250px;
+  text-align: center;
   font-weight: bold;
   color: #d9faff;
 }
 .userinfo {
     display: flex;
-    line-height: 30/96rem;
+    line-height: 60px;
     .name {
       color: #f00;
     }
     .role {
-      margin-left: 5/96rem;
+      margin-left: 20px;
       color: #fff;
     }
     i {
-      line-height: 30/96rem;
+      line-height: 60px;
     }
 }
 .el-dropdown-link {

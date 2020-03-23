@@ -255,8 +255,7 @@ export default {
           z-index: 5;
           /deep/
           ul {
-            margin-top: 20/96rem;
-            // margin-left: 10/96rem;
+            margin-top: 30px;
           }
           .el-submenu {
             // background-color: #148bce;
@@ -283,7 +282,8 @@ export default {
           .tabDiv {
             background-color: transparent;
             width: 100%;
-            margin-top: 10/96rem;
+            margin-top: 30px;
+            background-color: #fff;
             .el-submenu__title {
               color: #fff;
               width: 100%;
@@ -296,21 +296,22 @@ export default {
       }
       .menuNav {
         position: relative;
-        top: 15/96rem;
-        left: 20/96rem;
+        top: 20px;
+        left: 25px;
         .el-icon-menu {
-          width: 29/96rem;
-          height: 23/96rem;
+          width:60px;
+          height: 60px;
           background: rgba(105, 102, 99, 0.5);
-          border-radius: 30/96rem;
+          border-radius: 50%;
           color: #fff;
-          font-size: 18/96rem;
+          font-size: 40px;
           text-align: center;
-          padding-top: 6/96rem;
+          line-height: 60px;
         }
       }
       .title {
-        font-size: 25/96rem;
+        font-size: 36px;
+        height: 100%;
         text-align: center;
         line-height: 1.8;
       }
@@ -319,9 +320,9 @@ export default {
         width: 100%;
         height: 100%;
         .time {
-          margin-top: 20/96rem;
+          margin-top: 32px;
           text-align: center;
-          font-size: 12/96rem;
+          font-size: 20px;
         }
       }
     }

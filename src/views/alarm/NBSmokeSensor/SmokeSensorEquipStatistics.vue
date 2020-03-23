@@ -415,15 +415,15 @@ export default {
     .box-card {
     float: left;
     width: 30%;
-    height: 160/96rem;
+    height: 240px;
     margin-right: 5%;
     background-color: #113356;
   }
     .card-zxt {
         float: left;
         width: 100%;
-        height: 230/96rem;
-        margin-top: 15/96rem;
+        height: 300px;
+        margin-top: 30px;
         background-color: #113356;
     }
   .last {

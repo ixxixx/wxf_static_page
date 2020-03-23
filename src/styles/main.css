@@ -1,13 +1,13 @@
 .Main .title {
   float: left;
-  width: 2.08333333rem;
-  margin-left: 0.52083333rem;
-  margin-bottom: 0.10416667rem;
+  width: 350px;
+  margin-left: 70px;
+  margin-bottom: 20px;
   text-align: center;
   font-weight: bold;
-  font-size: 0.14583333rem;
+  font-size: 22px;
   background-color: #0c2e51;
-  box-shadow: 0px 0px 0.04166667rem #27a9eb;
+  box-shadow: 0px 0px 10px #27a9eb;
 }
 .Main .title /deep/ .el-card__body {
   padding: 10px;
@@ -64,7 +64,7 @@
   background-color: transparent;
 }
 .Main /deep/ .el-table .cell {
-  font-size: 0.07291667rem;
+  font-size: 14px;
   color: #d9faff;
 }
 .Main /deep/ .el-table td {

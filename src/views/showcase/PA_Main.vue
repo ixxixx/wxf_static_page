@@ -76,7 +76,7 @@ export default {
   /deep/.el-switch {
     position: absolute;
     // top: -30/96rem;
-    right: 5/96rem;
+    right: 15px;
   }
   .el-col {
     height: 100%;
@@ -87,8 +87,8 @@ export default {
         height: 30.33%;
         margin: 9% auto 0;
         box-sizing: border-box;
-        border: 1.5/96rem solid #289fe3;
-        box-shadow: 0px 0px 5/96rem #1176a7 inset, 0px 0px 5/96rem #27a9eb;
+        border: 3px solid #289fe3;
+        box-shadow: 0px 0px 10px #1176a7 inset, 0px 0px 10px #27a9eb;
       }
     }
   }

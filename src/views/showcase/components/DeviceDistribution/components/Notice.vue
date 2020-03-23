@@ -33,15 +33,15 @@ export default {
     clear: both
   }
   .noticeTit {
-    font-size: 16/96rem;
+    font-size: 28px;
     font-weight: bold;
   }
   .notice {
     background-color: rgba(233, 233, 233, 0.7);
-    width: 250/96rem;
+    width: 380px;
     position: absolute;
-    top: 120/96rem;
-    right: 20/96rem;
+    top: 140px;
+    right: 36px;
     z-index: 2;
   }
 </style>

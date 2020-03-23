@@ -273,8 +273,9 @@ export default {
 .mapbox {
   width: 100%;
   height: 100%;
-  margin-top: 30/96rem;
-  border: 1px solid #ccc;}
+  margin-top: 50px;
+  border: 1px solid #ccc;
+  }
   .mapboxS {
     width: 100%;
    height: 100%;
@@ -282,6 +283,7 @@ export default {
   }
   .baidu-m {
     height: 100%;
+    // border: 1px solid #ccc;
   }
   .el-input__inner {
     background-color: transparent;
