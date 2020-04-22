@@ -1,5 +1,5 @@
 <template>
-  <div  :class="[$route.name === 'showcase' ? 'mapbox' : 'mapboxS']">
+  <div :class="[$route.name === 'showcase' ? 'mapbox' : 'mapboxS']">
     <baidu-map
       :center="center"
       :zoom="zoom"
@@ -14,18 +14,20 @@
         anchor="BMAP_ANCHOR_TOP_LEFT"
       ></bm-map-type>
       <!-- 标记 -->
-      <bm-marker v-for="(item, index) in this.infoMarkerData" :key="index"
-        :position="{ lng: item.value[0], lat: item.value[1]}"
+      <bm-marker
+        v-for="(item, index) in this.infoMarkerData"
+        :key="index"
+        :position="{ lng: item.lng, lat: item.lat }"
         :dragging="false"
         @click="infoWindowOpen(index)"
       >
         <bm-info-window
-          :show='item.show'
+          :show="item.show"
           @close="infoWindowClose(index)"
           @open="infoWindowOpen(index)"
-          ><p>项目名称: {{item.name}}</p>
-          <p>设备数量: {{item.deviceF}}</p>
-          <p>子设备数量: {{item.deviceS}}</p>
+          ><p>项目名称: {{ item.proName }}</p>
+          <p>安装点: {{ item.dpName }}</p>
+          <p>地址: {{ item.detailAddress }}</p>
         </bm-info-window>
       </bm-marker>
       <bm-local-search
@@ -48,6 +50,7 @@
         </bm-auto-complete>
       </bm-control>
     </baidu-map>
+    <div id="mapsearch"></div>
   </div>
 </template>
 
@@ -56,6 +59,7 @@ export default {
   data () {
     return {
       // 地图
+      userInfo: {},
       center: { lng: 100, lat: 20 }, // 经纬度
       zoom: 5, // 地图展示级别
       mapvalue: '',
@@ -68,7 +72,7 @@ export default {
       selectFirstResult: true,
       location: '深圳',
       autoViewport: true,
-      show: true,
+      show: false,
       infoMarkerData: [],
       // 地图颜色
       mapStyle: {
@@ -219,8 +223,8 @@ export default {
     }
   },
   methods: {
+
     handler ({ BMap, map }) {
-      // console.log(BMap, map)
       if (this.$route.name === '/showcase/baiduMap') {
         this.center.lng = 100.034564
         this.center.lat = 35.96456
@@ -230,13 +234,6 @@ export default {
       }
       this.zoom = this.zoom
     },
-    // getClickInfo (e) {
-    //   console.log(e)
-    //   this.markers.push({ local: { lng: e.point.lng, lat: e.point.lat }, show: false })
-    // },
-    /* rmInfo () {
-    this.markers.splice(this.markers[this.markers.length - 1], 1)
-  }, */
     locationSuccess (e) { // 百度地图定位完成后
       // console.log(e)
       this.search.lng = e.point.lng
@@ -256,12 +253,22 @@ export default {
       this.infoMarkerData[index].show = true
     },
     infoMarker () {
-      this.$http('/js/bdm-data.json').then(res => {
-        this.infoMarkerData = res.data
-        console.log(this.infoMarkerData)
-      }
-      )
+      // this.$http('/js/bdm-data.json').then(res => {
+      //   // this.infoMarkerData = res.data
+      //   console.log(res, '==============')
+      // }
+      // )
+      let userId = this.userInfo.userId
+      this.$http.get(`/pf/show/dpiontMarkInfo/${userId}`).then((res) => {
+        for (let index = 0; index < res.data.data.length; index++) {
+          res.data.data[index].show = false
+        }
+        this.infoMarkerData = res.data.data
+      })
     }
+  },
+  created () {
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
   },
   mounted () {
     this.infoMarker()
@@ -275,18 +282,18 @@ export default {
   height: 100%;
   margin-top: 50px;
   border: 1px solid #ccc;
-  }
-  .mapboxS {
-    width: 100%;
-   height: 100%;
-    border: 1px solid #ccc;
-  }
-  .baidu-m {
-    height: 100%;
-    // border: 1px solid #ccc;
-  }
-  .el-input__inner {
-    background-color: transparent;
-    color: #fff;
+}
+.mapboxS {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc;
+}
+.baidu-m {
+  height: 100%;
+  // border: 1px solid #ccc;
+}
+.el-input__inner {
+  background-color: transparent;
+  color: #fff;
 }
 </style>

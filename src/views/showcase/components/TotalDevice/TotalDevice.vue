@@ -4,18 +4,33 @@
   </div>
 </template>
 <script>
+import dayjs from 'dayjs'
 export default {
   data () {
     return {
-      // totalec: null,
+      userInfo: {},
       dhkshow: true,
-      name: ''
+      name: '',
+      chartOneDataList: {}
     }
   },
   methods: {
     // 折线图
-    initEcharts () {
+    async initEcharts () {
       // 初始化
+      let userId = this.userInfo.userId
+      await this.$http.get(`/pf/show/deviceDailyTotal/${userId}`).then((res) => {
+        this.chartOneDataList = res.data.data
+        let date = []
+        let total = []
+        for (var i in this.chartOneDataList) {
+          this.chartOneDataList[i].date = (dayjs(this.chartOneDataList[i].date).format('MM-DD'))
+          date.push(this.chartOneDataList[i].date)
+          total.push(this.chartOneDataList[i].total)
+        }
+        this.chartOneDataList.date = date
+        this.chartOneDataList.total = total
+      })
       this.totalec = this.echarts.init(document.querySelector('#totalD'))
       // this.totalec.showLoading()
       let option = {
@@ -29,15 +44,16 @@ export default {
           }
         },
         grid: {
-          top: 50,
+          top: 60,
           x: 45,
-          x2: 20,
+          x2: 40,
           y2: 40
         },
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+          // data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+          data: this.chartOneDataList.date,
           axisLine: {
             lineStyle: {
               color: '#fff91e', // 更改坐标轴颜色,
@@ -57,7 +73,8 @@ export default {
         },
         yAxis: {
           type: 'value',
-          splitNumber: 3,
+          // splitNumber: 3,
+          minInterval: 1,
           // min: 1000,
           axisLabel: {
             textStyle: {
@@ -80,7 +97,8 @@ export default {
         },
         series: [
           {
-            data: [140, 150, 180, 200, 236, 300, 310, 340, 380, 420],
+            // data: [140, 150, 180, 200, 236, 300, 310, 340, 380, 420],
+            data: this.chartOneDataList.total,
             type: 'line',
             areaStyle: {
               color: {
@@ -111,6 +129,7 @@ export default {
           }
         ],
         tooltip: {
+          trigger: 'axis'
         }
       }
       this.totalec.setOption(option)
@@ -119,9 +138,16 @@ export default {
         this.name = param.name
         this.$emit('totalec', this.dhkshow, this.name)
       })
+    },
+    // 日增累积总量
+    getDeviceDailyTotal () {
     }
   },
   // 页面打开时初始化 echart
+  created () {
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    this.getDeviceDailyTotal()
+  },
   mounted () {
     this.initEcharts()
     window.addEventListener('resize', () => {

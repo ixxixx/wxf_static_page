@@ -1,6 +1,6 @@
 <template>
   <div class="Main">
-  <div>
+  <div class="head">
    <router-link :to="{name:'SmokeSensorEquip'}"><el-card class="title " >全部烟感设备</el-card></router-link>
 <router-link :to="{name:'SmokeSensorEquipAlert'}"><el-card class="title ">烟感报警信息</el-card></router-link>
       <router-link :to="{name:'SmokeSensorEquipStatistics'}"><el-card class="title on" >烟感设备统计</el-card></router-link>
@@ -301,7 +301,11 @@ export default {
           }
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+
         },
         legend: {
           data: ['2017', '2018'],
@@ -409,13 +413,16 @@ export default {
 
 <style lang="less" scoped>
 @import '../../../styles/main.less';
-
+.head {
+  height: 100px;
+}
 .content{
+  float: left;
     width: 100%;
     .box-card {
     float: left;
     width: 30%;
-    height: 240px;
+    height: 300px;
     margin-right: 5%;
     background-color: #113356;
   }

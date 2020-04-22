@@ -59,6 +59,7 @@ export default {
   background-color: #082449;
   color: #000;
   border: 1px solid #1176a7;
+  margin-top: 5px;
   box-shadow: 0px 0px 5px #1176a7 inset, 0px 0px 5px #27a9eb;
 }
 /deep/.mbxNav {

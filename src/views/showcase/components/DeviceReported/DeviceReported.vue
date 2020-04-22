@@ -5,17 +5,36 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
 export default {
   data () {
     return {
+      userInfo: {},
       reportec: null,
       dhkshow: true,
-      name: ''
+      name: '',
+      chartTwoDataList: {}
     }
   },
   methods: {
-    initEcharts () {
+    async initEcharts () {
       // 初始化
+      let userId = this.userInfo.userId
+      await this.$http.get(`/pf/show/warnMsgTotal/${userId}`).then((res) => {
+        this.chartTwoDataList = res.data.data
+        let intraday = []
+        let faultTotal = []
+        let warnTotal = []
+        for (var i in this.chartTwoDataList) {
+          this.chartTwoDataList[i].intraday = (dayjs(this.chartTwoDataList[i].intraday).format('MM-DD'))
+          intraday.push(this.chartTwoDataList[i].intraday)
+          faultTotal.push(this.chartTwoDataList[i].faultTotal)
+          warnTotal.push(this.chartTwoDataList[i].warnTotal)
+        }
+        this.chartTwoDataList.intraday = intraday
+        this.chartTwoDataList.faultTotal = faultTotal
+        this.chartTwoDataList.warnTotal = warnTotal
+      })
       this.reportec = this.echarts.init(document.querySelector('#report'))
       let option = {
         title: {
@@ -44,7 +63,8 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['烟感', '燃气', '电气', '网关', 'NB', 'GBRS'],
+          // data: ['烟感', '燃气', '电气', '网关', 'NB', 'GBRS'],
+          data: this.chartTwoDataList.intraday,
           axisLine: {
             lineStyle: {
               color: '#289fe3', // 更改坐标轴颜色,
@@ -65,7 +85,7 @@ export default {
           // max: function (value) {
           //   return value.max + 20
           // },
-          splitNumber: 5,
+          minInterval: 1,
           type: 'value',
           // data: ['烟感', '燃气', '电气', '网关', 'NB', 'GBRS'],
           axisLabel: {
@@ -91,7 +111,8 @@ export default {
         series: [
           {
             name: '报警',
-            data: [10, 30, 80, 30, 60, 30],
+            // data: [10, 30, 80, 30, 60, 30],
+            data: this.chartTwoDataList.warnTotal,
             type: 'line',
             areaStyle: {
               color: {
@@ -126,7 +147,8 @@ export default {
           },
           {
             name: '故障',
-            data: [20, 60, 70, 40, 40, 10],
+            // data: [20, 60, 70, 40, 40, 10],
+            data: this.chartTwoDataList.faultTotal,
             type: 'line',
             areaStyle: {
               color: {
@@ -168,13 +190,15 @@ export default {
       this.reportec.setOption(option)
       this.reportec.on('click', (param) => {
         // this.dhkshow = true
-        console.log(param)
         this.name = param.name
         this.$emit('reportec', this.dhkshow, this.name)
       })
     }
   },
   // 页面打开时初始化 echart
+  created () {
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+  },
   mounted () {
     this.initEcharts()
     window.addEventListener('resize', () => {

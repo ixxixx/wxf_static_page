@@ -4,7 +4,6 @@
       <p class="title">派发维修单</p>
     </div>
       <el-form :label-position="labelPosition" ref="form" :model="NewRepairOrderform" label-width="80px">
-
       <el-form-item label="项目名称">
         <el-select v-model="NewRepairOrderform.name" placeholder="请选择您要下单的项目">
           <el-option label="项目一" value="shanghai"></el-option>

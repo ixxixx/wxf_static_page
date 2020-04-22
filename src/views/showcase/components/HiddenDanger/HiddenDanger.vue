@@ -5,18 +5,41 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
 export default {
   data () {
     return {
+      userInfo: {},
       hiddenec: null,
       dhkshow: true,
-      name: ''
+      name: '',
+      chartFourDataList: {}
     }
   },
   methods: {
-    initEcharts () {
+    async initEcharts () {
       // 初始化
+      let userId = this.userInfo.userId
+      await this.$http.get(`/pf/show/dangerLevelAlarmTotal/${userId}`).then((res) => {
+        this.chartFourDataList = res.data.data
+        let intraday = []
+        let level1 = []
+        let level2 = []
+        let level3 = []
+        for (var i in this.chartFourDataList) {
+          this.chartFourDataList[i].intraday = (dayjs(this.chartFourDataList[i].intraday).format('MM-DD'))
+          intraday.push(this.chartFourDataList[i].intraday)
+          level1.push(this.chartFourDataList[i].level1)
+          level2.push(this.chartFourDataList[i].level2)
+          level3.push(this.chartFourDataList[i].level3)
+        }
+        this.chartFourDataList.intraday = intraday
+        this.chartFourDataList.level1 = level1
+        this.chartFourDataList.level2 = level2
+        this.chartFourDataList.level3 = level3
+      })
       this.hiddenec = this.echarts.init(document.querySelector('#hidden'))
+
       let option = {
         title: {
           text: '隐患级别统计',
@@ -29,6 +52,7 @@ export default {
           }
         },
         tooltip: {
+          trigger: 'axis'
         },
         legend: {
           textStyle: {
@@ -49,7 +73,8 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['12-1', '12-02', '12-03', '12-04', '12-5', '12-6', '12-7'],
+          // data: ['12-1', '12-02', '12-03', '12-04', '12-5', '12-6', '12-7'],
+          data: this.chartFourDataList.intraday,
           axisLine: {
             lineStyle: {
               color: '#999',
@@ -59,7 +84,7 @@ export default {
           },
           axisLabel: {
             color: '#fff',
-            interval: 2
+            interval: 1
           },
           axisTick: {
             show: false
@@ -96,7 +121,8 @@ export default {
           name: '一级',
           type: 'line',
           symbolSize: 3,
-          data: [800, 900, 220, 130, 660, 289, 300],
+          // data: [800, 900, 220, 130, 660, 289, 300],
+          data: this.chartFourDataList.level1,
           lineStyle: {
             normal: {
               width: 2
@@ -113,7 +139,8 @@ export default {
           name: '二级',
           type: 'line',
           symbolSize: 3,
-          data: [243, 468, 111, 222, 123, 96, 200],
+          // data: [243, 468, 111, 222, 123, 96, 200],
+          data: this.chartFourDataList.level2,
           lineStyle: {
             normal: {
               width: 2
@@ -131,7 +158,8 @@ export default {
           name: '三级',
           type: 'line',
           symbolSize: 3,
-          data: [125, 568, 25, 36, 784, 56, 400],
+          // data: [125, 568, 25, 36, 784, 56, 400],
+          data: this.chartFourDataList.level3,
           lineStyle: {
             normal: {
               width: 2
@@ -155,6 +183,9 @@ export default {
     }
   },
   // 页面打开时初始化 echart
+  created () {
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+  },
   mounted () {
     this.initEcharts()
     window.addEventListener('resize', () => {

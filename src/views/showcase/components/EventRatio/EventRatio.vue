@@ -7,27 +7,49 @@
 export default {
   data () {
     return {
-      eventRatioec: null
+      userInfo: {},
+      eventRatioec: null,
+      chartChereDataList: {}
     }
   },
   methods: {
     // 事件比例
-    initEventEcharts () {
+    async initEventEcharts () {
+      let userId = this.userInfo.userId
+      await this.$http.get(`/pf/show/eventRateTotal/${userId}`).then((res) => {
+        this.chartThereDataList = res.data.data
+        let eventName = []
+        let total = []
+        for (var i in this.chartThereDataList) {
+          eventName.push(this.chartThereDataList[i].eventName)
+          total.push(this.chartThereDataList[i].total)
+        }
+        this.chartThereDataList.eventName = eventName
+        this.chartThereDataList.total = total
+      })
       this.eventRatioec = this.echarts.init(document.querySelector('#event-zzt'))
       let colorArray = [
         {
-          top: '#4826ac', // 红
-          bottom: '#e60aee'
+          top: '#33116b', // 红
+          bottom: '#316799'
         }, {
-          top: '#033899', // 橙
-          bottom: '#6f22c8'
+          top: '#ee3b49', // 橙
+          bottom: '#ff877b'
         },
         {
-          top: '#e4f54d', // 黄
-          bottom: '#02fdf6'
+          top: '#fda04f', // 黄
+          bottom: '#fcaa7f'
         }, {
           top: '#1ff5fc', // 蓝
           bottom: '#0094ff'
+        },
+        {
+          top: '#43ea7e', // 绿
+          bottom: '#38f8d4'
+        },
+        {
+          top: '#e8edf4', // 灰
+          bottom: '#d1dae9'
         }
       ]
       let option = {
@@ -47,7 +69,7 @@ export default {
         // backgroundColor: '#0E2A43',
         tooltip: {
           show: true,
-          formatter: '{b}:{c}'
+          formatter: '{b}:{c}个'
         },
         grid: {
           left: '5%',
@@ -92,7 +114,8 @@ export default {
               color: '#fff'
             }
           },
-          data: ['第一事件', '第二事件', '第三事件', '第四事件']
+          // data: ['第一事件', '第二事件', '第三事件', '第四事件']
+          data: this.chartThereDataList.eventName
         }
 
         ],
@@ -149,13 +172,17 @@ export default {
           },
           barGap: '0%',
           barCategoryGap: '70%',
-          data: [9900, 7723, 7900, 9821]
+          // data: [9900, 7723, 7900, 9821, 7500, 9688]
+          data: this.chartThereDataList.total
         }
 
         ]
       }
       this.eventRatioec.setOption(option)
     }
+  },
+  created () {
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
   },
   mounted () {
     this.initEventEcharts()

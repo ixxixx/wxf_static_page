@@ -34,6 +34,7 @@ const mutations = {
     // 将数据同步到 localstorage 中
     window.localStorage.setItem('userInfo', JSON.stringify(state.userInfo))
   }
+
 }
 
 export default {

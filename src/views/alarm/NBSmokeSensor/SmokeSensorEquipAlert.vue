@@ -1,47 +1,15 @@
 <template>
   <div class="Main">
       <!-- <el-card class="title">全部烟感报警信息</el-card> -->
-      <router-link :to="{name:'SmokeSensorEquip'}"><el-card class="title " >全部烟感设备</el-card></router-link>
-<router-link :to="{name:'SmokeSensorEquipAlert'}"><el-card class="title on">烟感报警信息</el-card></router-link>
-      <router-link :to="{name:'SmokeSensorEquipStatistics'}"><el-card class="title " >烟感设备统计</el-card></router-link>
+      <router-link :to="{name:'SmokeSensorEquip'}"><el-card class="title " >设备信息</el-card></router-link>
+<router-link :to="{name:'SmokeSensorEquipAlert'}"><el-card class="title on">报警信息</el-card></router-link>
+      <router-link :to="{name:'SmokeSensorEquipStatistics'}"><el-card class="title " >设备统计</el-card></router-link>
     <el-card class="box-card screen">
       <!-- 筛选信息 -->
       <el-form ref="form" :model="sxform" label-width="80px">
-         <el-form-item>
-          <el-date-picker
-            value-format="yyyy-MM-dd"
-            v-model="datetime"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="screen_project" placeholder="项目筛选">
-            <el-option label="项目一" value="xm1"></el-option>
-            <el-option label="项目二" value="xm2"></el-option>
-          </el-select>
-        </el-form-item>
-<el-form-item>
-          <el-select v-model="screen_rchitecture" placeholder="建筑筛选">
-            <el-option label="建筑一" value="shanghai"></el-option>
-            <el-option label="建筑二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="screen_floor" placeholder="楼层筛选">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-select v-model="screen_all" placeholder="全部">
-            <el-option label="未处理" value="wcl"></el-option>
-            <el-option label="消警" value="xj"></el-option>
-            <el-option label="误报" value="wb"></el-option>
-          </el-select>
+        <el-form-item class="sx">
+          <el-input style="width:200px" clearable v-model="search_input" auto-complete="off" placeholder="请输入精确的设备ID"
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button @click="search">筛选</el-button>
@@ -49,160 +17,88 @@
       </el-form>
     </el-card>
     <el-table :data="tableData" border style="width: 100%;margin-top: 15px" stripe>
-      <el-table-column prop="id" label="序号" width="50"> </el-table-column>
-      <el-table-column prop="time" label="报警时间" width="180"> </el-table-column>
-      <el-table-column prop="name" label="所属项目" width="120"> </el-table-column>
-      <el-table-column prop="type" label="报警类型" width="100"> </el-table-column>
-      <el-table-column prop="address" label="设备位置"> </el-table-column>
-      <el-table-column prop="code" label="设备号编码"> </el-table-column>
-      <el-table-column prop="remarks" label="备注"> </el-table-column>
-      <el-table-column prop="handle" label="处理" width="80">
+       <el-table-column prop="devId" label="设备Id" width="150"> </el-table-column>
+      <el-table-column prop="happenTime" label="发生时间" width="280" :formatter="formatter"> </el-table-column>
+      <el-table-column prop="msgState" label="处理方式" width="240" :formatter="formatterState"> </el-table-column>
+      <el-table-column prop="msgType" label="报警类型" width="240">
         <template slot-scope="scope">
         <el-tag
-          :type="scope.row.handle === '未处理' ? 'warning' : 'success'"
-          close-transition>{{scope.row.handle}}</el-tag>
-      </template></el-table-column>
+          :type="scope.row.msgType === '2' ? 'danger' : 'warning'"
+          close-transition>{{scope.row.msgType === '2' ? '报警': '故障'}}</el-tag>
+      </template>
+      </el-table-column>
+      <el-table-column prop="remark" label="备注"> </el-table-column>
     </el-table>
     <div class="block pagination">
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage1"
-      :page-size="10"
+      :page-size="pageRow"
       layout="total, prev, pager, next"
-      :total="tableData.length">
+      :total="totalCount">
     </el-pagination>
   </div>
   </div>
 </template>
 
 <script>
+import dayjs from 'dayjs'
 export default {
   data () {
     return {
-      tableData: [{
-        id: '1',
-        time: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        type: '设备报警',
-        code: '123456789',
-        remarks: '无',
-        handle: '消警'
-      }, {
-        id: '2',
-        time: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄',
-        type: '设备报警',
-        code: '123456789',
-        remarks: '无',
-        handle: '未处理'
-      }, {
-        id: '3',
-        time: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄',
-        type: '设备报警',
-        code: '123456789',
-        remarks: '无',
-        handle: '误报'
-      }, {
-        id: '4',
-        time: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄',
-        type: '设备报警',
-        code: '123456789',
-        remarks: '无',
-        handle: '消警'
-      }, {
-        id: '5',
-        time: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄',
-        type: '设备报警',
-        code: '123456789',
-        remarks: '无',
-        handle: '消警'
-      }, {
-        id: '6',
-        time: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄',
-        type: '设备报警',
-        code: '123456789',
-        remarks: '无',
-        handle: '消警'
-      }, {
-        id: '7',
-        time: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄',
-        type: '设备报警',
-        code: '123456789',
-        remarks: '无',
-        handle: '消警'
-      }, {
-        id: '8',
-        time: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄',
-        type: '设备报警',
-        code: '123456789',
-        remarks: '无',
-        handle: '消警'
-      }, {
-        id: '9',
-        time: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄',
-        type: '设备报警',
-        code: '123456789',
-        remarks: '无',
-        handle: '消警'
-      }, {
-        id: '10',
-        time: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄',
-        type: '设备报警',
-        code: '123456789',
-        remarks: '无',
-        handle: '消警'
-      }, {
-        id: '11',
-        time: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄',
-        type: '设备报警',
-        code: '123456789',
-        remarks: '无',
-        handle: '消警'
-      }],
+      userInfo: {},
+      tableData: [],
+      pageIndex: 1,
+      pageRow: 10,
+      totalCount: 0,
       sxform: {},
-      datetime: '',
-      screen_project: '',
-      screen_rchitecture: '',
-      screen_floor: '',
-      screen_all: '',
-      // 分页
-      currentPage1: 5
+      search_input: '',
+      currentPage1: 1
     }
   },
+  created () {
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    this.getQueryWarnMsgList()
+  },
   methods: {
+    getQueryWarnMsgList () {
+      let dto = {
+        'userId': this.userInfo.userId,
+        'devId': this.search_input,
+        'pageIndex': this.pageIndex,
+        'pageRow': this.pageRow
+      }
+      this.$http.post('/pf/warn/query', dto).then((res) => {
+        this.tableData = res.data.data.data
+        this.totalCount = res.data.data.totalCount
+        console.log(res.data.data.data)
+      })
+      console.log(this.tableData)
+    },
     search () {
-      console.log(this.datetime)
-      console.log(this.screen_project)
-      console.log(this.screen_rchitecture)
-      console.log(this.screen_floor)
-      console.log(this.screen_all)
+      this.getQueryWarnMsgList()
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
+      this.pageIndex = val
+      this.getQueryWarnMsgList()
+    },
+    // 格式化表格内容
+    formatter (row) {
+      return dayjs(row.bindTime).format('YYYY-MM-DD HH:mm:ss')
+    },
+    formatterState (row) {
+      if (row.msgState === -1) {
+        return '无需处理'
+      } else if (row.msgState === 0) {
+        return '未处理'
+      } else {
+        return '已处理'
+      }
     }
   }
 }
@@ -210,4 +106,9 @@ export default {
 
 <style lang="less" scoped>
 @import '../../../styles/main.less';
+.sx {
+  /deep/.el-input__inner {
+    color: #fff;
+  }
+}
 </style>

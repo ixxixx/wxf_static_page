@@ -90,7 +90,7 @@
 }
 .Main /deep/ .pagination .el-pagination,
 .Main /deep/ .pagination .el-pagination__total {
-  color: #fff;
+  color: #eee;
 }
 .Main /deep/ .pagination .el-pager li {
   background: transparent;
@@ -98,5 +98,5 @@
 .Main /deep/ .pagination .btn-prev,
 .Main /deep/ .pagination .btn-next {
   background: transparent;
-  color: #fff;
+  color: #eee;
 }

@@ -2,13 +2,13 @@
   <div class="Main">
     <!-- <el-card class="title">全部烟感报警信息</el-card> -->
     <router-link :to="{ name: 'SmokeSensorEquip' }"
-      ><el-card class="title on ">全部烟感设备</el-card></router-link
+      ><el-card class="title on ">{{devType}}设备</el-card></router-link
     >
     <router-link :to="{ name: 'SmokeSensorEquipAlert' }"
-      ><el-card class="title">烟感报警信息</el-card></router-link
+      ><el-card class="title">报警信息</el-card></router-link
     >
     <router-link :to="{ name: 'SmokeSensorEquipStatistics' }"
-      ><el-card class="title ">烟感设备统计</el-card></router-link
+      ><el-card class="title ">设备统计</el-card></router-link
     >
     <el-card class="box-card screen">
       <!-- 筛选信息 -->
@@ -431,6 +431,7 @@ import dayjs from 'dayjs'
 export default {
   data () {
     return {
+      userInfo: {},
       tableData: [],
       AllFloor: [],
       datetime: [],
@@ -487,6 +488,20 @@ export default {
     // BaiDuMap // 地图组件
   },
   created () {
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    if (this.$route.name === 'SmokeSensorEquip') {
+      this.devType = '烟感'
+      this.getDataList()
+    } else if (this.$route.name === 'GasDeterctor') {
+      this.devType = '燃气'
+      this.getDataList()
+    } else if (this.$route.name === 'ElectricalFireEquipment') {
+      this.devType = '电器火灾'
+      this.getDataList()
+    } else if (this.$route.name === 'IOTGateway') {
+      this.devType = '物联网关'
+      this.getDataList()
+    }
   },
   mounted () {
     this.getDataList()
@@ -495,15 +510,19 @@ export default {
     '$route': function () {
       if (this.$route.name === 'SmokeSensorEquip') {
         this.devType = '烟感'
+        this.pageIndex = 1
         this.getDataList()
       } else if (this.$route.name === 'GasDeterctor') {
         this.devType = '燃气'
+        this.pageIndex = 1
         this.getDataList()
       } else if (this.$route.name === 'ElectricalFireEquipment') {
         this.devType = '电器火灾'
+        this.pageIndex = 1
         this.getDataList()
       } else if (this.$route.name === 'IOTGateway') {
         this.devType = '物联网关'
+        this.pageIndex = 1
         this.getDataList()
       }
     }
@@ -512,9 +531,8 @@ export default {
     // 获取列表数据
     getDataList () {
       const dto = {
-        'userId': 10047,
+        'userId': this.userInfo.userId,
         'devId': this.search_input,
-        // 'devType': '烟感',
         'devType': this.devType,
         'proId': this.screen_project,
         'pbId': this.screen_building,
@@ -524,6 +542,7 @@ export default {
         'pageRow': this.pageRow
       }
       this.$http.post('/pf/dpoint/queryList', dto).then((res) => {
+        console.log(res)
         this.tableData = res.data.data.data
         this.totalCount = res.data.data.totalCount
       })
@@ -537,6 +556,7 @@ export default {
         this.dialogfrom.bindTime = dayjs(res.data.data.bindTime).format('YYYY-MM-DD')
         this.dialogfrom.loginTime = dayjs(res.data.data.bindTime).format('YYYY-MM-DD')
         this.dialogfrom.network = res.data.data.network === 1 ? '在线' : '离线'
+        console.log(this.dialogfrom)
         if (this.dialogfrom.state === 1) {
           return this.$set(this.dialogfrom, 'state', '报警')
         } else if (this.dialogfrom.state === 2) {
@@ -603,6 +623,7 @@ export default {
         'pdfName': this.dialogfromB.pdfName
       }
       this.$http.post('/pf/dpoint', dto).then((res) => {
+        console.log(res)
         if (res.data.code === 0) {
           this.$message({
             message: '添加成功',
@@ -626,7 +647,7 @@ export default {
     // 添加设备取到项目
     getProInfo (value) {
       this.tkProId = ''
-      let userId = 10047
+      let userId = this.userInfo.userId
       let proType = this.dialogfromB.proType
       this.$http.get(`/pf/project/query/${userId}/${proType}`).then((res) => {
         this.proType = res.data.data
@@ -636,7 +657,7 @@ export default {
     getproName () {
       this.screen_project = ''
       this.screen_building = ''
-      let userId = 10047
+      let userId = this.userInfo.userId
       let proType = this.screen_projectType
       this.$http.get(`/pf/project/query/${userId}/${proType}`).then((res) => {
         this.Sproject = res.data.data
@@ -715,6 +736,7 @@ export default {
     // },
     // 删除
     deleteDp (row) {
+      console.log(row)
       this.$confirm('此操作将永久删除该设备, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -738,6 +760,7 @@ export default {
       })
     },
     emptyPb () {
+      console.log(111)
       if (this.dialogfromB.personal === true) {
         this.dialogfromB.pbName = ''
         this.dialogfromB.pbfName = ''
@@ -747,13 +770,13 @@ export default {
     tkMap (row) {
       // this.zoom = 4
       this.dialogMap = true
-      // this.markers.lng = ''
-      // this.markers.lat = ''
-      // this.center.lng = 116.416648
-      // this.center.lat = 39.904375
+      this.markers.lng = ''
+      this.markers.lat = ''
+      this.center.lng = 116.416648
+      this.center.lat = 39.904375
       if (this.dialogfromB.lng !== undefined) {
-        // this.center.lng = this.dialogfromB.lng
-        // this.center.lat = this.dialogfromB.lat
+        this.center.lng = this.dialogfromB.lng
+        this.center.lat = this.dialogfromB.lat
         this.markers.lng = this.dialogfromB.lng
         this.markers.lat = this.dialogfromB.lat
       }
@@ -824,7 +847,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import "../../../styles/main.less";
+@import "../../styles/main.less";
 /deep/.distpicker-address-wrapper {
   float: left;
   margin-bottom: 10px;

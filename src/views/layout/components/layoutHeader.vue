@@ -3,21 +3,21 @@
         <!-- 一行 -->
         <el-row>
             <!-- 列 -->
-            <el-col :span="15" >
+            <el-col :span="20" >
                 <span class="GSname">智慧消防报警平台</span>
             </el-col>
-            <el-col :offset="5" :span="4">
+            <el-col :offset="5" :span="4" class="youName">
                 <el-dropdown trigger="click">
                     <span class="el-dropdown-link userinfo">
                         <!-- <img class="icon" :src="userInfo.photo" alt="">
                         <span class="name">{{ userInfo.name }}</span> -->
                          <!-- <img class="icon" src="http://b-ssl.duitang.com/uploads/item/201511/13/20151113110434_kyReJ.jpeg" alt=""> -->
-                        <span class="name">派安科技</span>
-                        <span class="role">一级管理员</span>
+                        <span class="name">{{this.userInfo.userName}}</span>
+                        <span class="role">{{this.userInfo.grade}}级管理员</span>
                         <i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item ><router-link :to="{name:'personal'}">个人信息</router-link></el-dropdown-item>
+                        <el-dropdown-item ><router-link :to="{name:'Personal'}">个人信息</router-link></el-dropdown-item>
                         <el-dropdown-item @click="SignOut">
                             <a @click="SignOut"> 退 出</a>
                             </el-dropdown-item>
@@ -32,7 +32,7 @@
 export default {
   data () {
     return {
-      userInfo: {}
+      userInfo: []
     }
   },
   methods: {
@@ -49,7 +49,7 @@ export default {
     // 从 localstorage 中取出 userInfo
     // this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
     // 从 vuex 中取出 userInfo
-    this.userInfo = this.$store.state.userInfo
+    this.userInfo = this.$store.state.userInfo.userInfo
   }
 }
 </script>
@@ -61,15 +61,21 @@ export default {
   line-height: 60px;
   // padding-left: 400px;
   display: inline-block;
-  width: 1250px;
+  width: 100%;
   text-align: center;
+
   font-weight: bold;
   color: #d9faff;
 }
+.youName {
+  margin-left: 0;
+}
 .userinfo {
+  margin-top: 25px;
     display: flex;
-    line-height: 60px;
+    line-height: 100%;
     .name {
+      font-weight: 700;
       color: #f00;
     }
     .role {
@@ -77,7 +83,7 @@ export default {
       color: #fff;
     }
     i {
-      line-height: 60px;
+      // line-height: 60px;
     }
 }
 .el-dropdown-link {

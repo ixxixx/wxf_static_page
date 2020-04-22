@@ -5,9 +5,12 @@
         <el-col :span="6">
           <div class="left-top">
             <div class="menuNav">
-              <i class="el-icon-menu" @click="getMenuS"></i>
+              <el-tooltip placement="top">
+                <div slot="content">返回后台首页</div>
+                <i class="el-icon-menu" @click="getMenuS"></i>
+              </el-tooltip>
             </div>
-            <el-menu
+            <!-- <el-menu
               :router="true"
               default-active="2"
               class="el-menu-vertical-demo"
@@ -20,7 +23,6 @@
               <el-menu-item index="/home">
                 <i class="el-icon-menu"></i>
                 <em class="asiderTitle">首页</em>
-                <!-- <span slot="title">首页</span> -->
               </el-menu-item>
               <el-menu-item index="/showcase">
                 <i class="el-icon-view"></i>
@@ -30,7 +32,6 @@
                 <template slot="title">
                   <i class="el-icon-news"></i>
                   <em class="asiderTitle">实时状况</em>
-                  <!-- <span>实时状况</span> -->
                 </template>
                 <el-menu-item-group>
                   <el-submenu index="1-4" :collapse="true">
@@ -45,7 +46,6 @@
                 <template slot="title">
                   <i class="el-icon-info"></i>
                   <em class="asiderTitle">报警信息</em>
-                  <!-- <span>报警信息</span> -->
                 </template>
                 <el-menu-item-group>
                   <el-submenu index="alarm-1">
@@ -60,8 +60,6 @@
                     <el-menu-item index="/alarm/LORA868">LORA868</el-menu-item>
                     <el-menu-item index="/alarm/GSMbjxtbjxx">GSM报警系统报警信息</el-menu-item>
                   </el-submenu>
-                  <!-- <el-menu-item index="/alarm">NB烟感/燃气</el-menu-item>
-          <el-menu-item index="/alarm">消防报警系统</el-menu-item>-->
                   <el-menu-item index="/alarm">压力/液位/温湿度</el-menu-item>
                   <el-menu-item index="/alarm">智慧用电系统</el-menu-item>
                   <el-menu-item index="/alarm">安全报警系统</el-menu-item>
@@ -142,34 +140,6 @@
                   <el-menu-item index="/helpCenter">意见反馈</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
-            </el-menu>
-            <!-- <el-menu
-            :router="true"
-      default-active="2"
-      class="el-menu-vertical-demo"
-      background-color="#304156"
-      text-color="#fff"
-      active-text-color="#ffd04b"
-      :unique-opened="true"
-       :collapse="true"
-             >
-              <el-submenu index="1">
-                <template slot="title">
-                  <i class="el-icon-menu"></i>
-                </template>
-                <el-menu-item-group>
-                  <el-menu-item index="/home">首页</el-menu-item>
-                  <el-menu-item index="/personal">个人信息</el-menu-item>
-                </el-menu-item-group>
-                <el-menu-item-group title="分组2">
-                  <el-menu-item index="1-3">选项3</el-menu-item>
-                </el-menu-item-group>
-                <el-submenu index="1-4">
-                  <template slot="title"
-                    >选项4</template>
-                  <el-menu-item index="1-4-1">选项1</el-menu-item>
-                </el-submenu>
-              </el-submenu>
             </el-menu> -->
           </div>
         </el-col>
@@ -211,15 +181,10 @@ export default {
   },
   methods: {
     getMenuS () {
-      if (this.menuS === true) {
-        this.menuS = false
-      } else {
-        this.menuS = true
-      }
+      this.$router.push({ name: 'home' })
     }
   },
   mounted () {
-    console.log(4570 / 260)
     // 定时器实时更新时间数据
     setInterval(() => {
       this.nowTime = new Date()
@@ -310,10 +275,10 @@ export default {
         }
       }
       .title {
-        font-size: 36px;
+        font-size: 44px;
         height: 100%;
         text-align: center;
-        line-height: 1.8;
+        line-height: 2;
       }
       .box {
         position: relative;

@@ -8,14 +8,28 @@
 export default {
   data () {
     return {
+      userInfo: {},
       levelec: null,
       dhkshow: true,
-      name: ''
+      name: '',
+      chartFiveDataList: {}
     }
   },
   methods: {
-    initEcharts () {
+    async initEcharts () {
       // 初始化
+      let userId = this.userInfo.userId
+      await this.$http.get(`/pf/show/deviceLevelTotal/${userId}`).then((res) => {
+        this.chartFiveDataList = res.data.data
+        let dangerLevel = []
+        let total = []
+        for (var i in this.chartFiveDataList) {
+          dangerLevel.push(this.chartFiveDataList[i].dangerLevel)
+          total.push(this.chartFiveDataList[i].total)
+        }
+        this.chartFiveDataList.dangerLevel = dangerLevel
+        this.chartFiveDataList.total = total
+      })
       this.levelec = this.echarts.init(document.querySelector('#level'))
       let colorArray = [
         {
@@ -34,7 +48,7 @@ export default {
         title: {
           text: '隐患级别统计',
           subtext: '最近30天内巡查异常数量排行',
-          sublink: 'http://www.baidu.com', // 副标题超链接
+          sublink: '', // 副标题超链接
           x: '10px',
           y: '10px',
           itemGap: 10,
@@ -131,7 +145,8 @@ export default {
             }
           },
           barCategoryGap: '25%',
-          data: [100, 80, 60]
+          // data: [100, 80, 60]
+          data: this.chartFiveDataList.total
         }
 
         ]
@@ -144,6 +159,9 @@ export default {
     }
   },
   // 页面打开时初始化 echart
+  created () {
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+  },
   mounted () {
     this.initEcharts()
     window.addEventListener('resize', () => {
