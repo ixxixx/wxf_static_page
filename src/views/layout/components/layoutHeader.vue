@@ -39,6 +39,7 @@ export default {
     SignOut () {
       console.log(1)
       this.$router.push('/login')
+      localStorage.removeItem('userInfo')
       this.$message({
         message: '退出成功',
         type: 'success'

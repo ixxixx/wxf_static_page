@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div>
+      <!-- <div>
         <router-link :to="{name:'repair/recordFree'}"><el-card class="title ">维修记录(免费)</el-card></router-link>
       <router-link :to="{name:'repair/recordCharge'}"><el-card class="title on" >维修记录(收费)</el-card></router-link>
       <router-link :to="{name:'repair/recordMyCharge'}"><el-card class="title">维修记录(我方维修)</el-card></router-link>
@@ -57,7 +57,7 @@
       layout="total, prev, pager, next"
       :total="100">
     </el-pagination>
-  </div>
+  </div> -->
   </div>
 </template>
 

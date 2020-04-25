@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app"  v-loading="loading2" element-loading-text="加载中" element-loading-background="rgba(0, 0, 0, 0.8)">
     <header>
       <el-row>
         <el-col :span="6">
@@ -168,6 +168,7 @@ export default {
     return {
       nowTime: new Date(), // 初始化时间
       Allture: true,
+      loading2: true,
       menuS: false
     }
   },
@@ -183,6 +184,11 @@ export default {
     getMenuS () {
       this.$router.push({ name: 'home' })
     }
+  },
+  created () {
+    setTimeout(() => {
+      this.loading2 = false
+    }, 1000)
   },
   mounted () {
     // 定时器实时更新时间数据

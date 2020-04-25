@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  props: ['refreshInfo'],
   data () {
     return {
       userInfo: {},
@@ -13,6 +14,15 @@ export default {
       dhkshow: true,
       name: '',
       chartFiveDataList: {}
+    }
+  },
+  watch: {
+    refreshInfo (val, old) {
+      console.log(val)
+      if (val) {
+        this.initEcharts()
+        console.log('更新成功level')
+      }
     }
   },
   methods: {
@@ -167,6 +177,10 @@ export default {
     window.addEventListener('resize', () => {
       this.levelec.resize()
     })
+    setInterval(() => {
+      this.initEcharts()
+      // 30分钟刷新一次
+    }, 1800000)
   }
   // vue 的生命周期的问题；
   //  created: 没有生成 dom 初始化了 data & method

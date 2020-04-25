@@ -6,12 +6,20 @@
 <script>
 import dayjs from 'dayjs'
 export default {
+  props: ['refreshInfo'],
   data () {
     return {
       userInfo: {},
-      dhkshow: true,
-      name: '',
       chartOneDataList: {}
+    }
+  },
+  watch: {
+    refreshInfo (val, old) {
+      console.log(val)
+      if (val) {
+        this.initEcharts()
+        console.log('更新成功 totaldevice')
+      }
     }
   },
   methods: {
@@ -133,11 +141,11 @@ export default {
         }
       }
       this.totalec.setOption(option)
-      this.totalec.on('click', (param) => {
-        // this.dhkshow = true
-        this.name = param.name
-        this.$emit('totalec', this.dhkshow, this.name)
-      })
+      // this.totalec.on('click', (param) => {
+      // this.dhkshow = true
+      // this.name = param.name
+      // this.$emit('totalec', this.dhkshow, this.name)
+      // })
     },
     // 日增累积总量
     getDeviceDailyTotal () {

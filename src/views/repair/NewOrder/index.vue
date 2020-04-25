@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="projectTit">
+    <!-- <div class="projectTit">
       <p class="title">派发维修单</p>
     </div>
       <el-form :label-position="labelPosition" ref="form" :model="NewRepairOrderform" label-width="80px">
@@ -30,7 +30,7 @@
       <el-form-item>
         <el-button type="primary" @click="onSubmit">保存</el-button>
       </el-form-item>
-    </el-form>
+    </el-form> -->
   </div>
 </template>
 

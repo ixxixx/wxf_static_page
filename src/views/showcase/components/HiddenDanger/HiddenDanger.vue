@@ -7,13 +7,21 @@
 <script>
 import dayjs from 'dayjs'
 export default {
+  props: ['refreshInfo'],
   data () {
     return {
       userInfo: {},
       hiddenec: null,
-      dhkshow: true,
-      name: '',
       chartFourDataList: {}
+    }
+  },
+  watch: {
+    refreshInfo (val, old) {
+      console.log(val)
+      if (val) {
+        this.initEcharts()
+        console.log('更新成功hiddendanger')
+      }
     }
   },
   methods: {
@@ -176,10 +184,6 @@ export default {
         ]
       }
       this.hiddenec.setOption(option)
-      this.hiddenec.on('click', (param) => {
-        this.name = param.name
-        this.$emit('hiddenec', this.dhkshow, this.name)
-      })
     }
   },
   // 页面打开时初始化 echart
@@ -191,6 +195,10 @@ export default {
     window.addEventListener('resize', () => {
       this.hiddenec.resize()
     })
+    setInterval(() => {
+      this.initEcharts()
+      // 30分钟刷新一次
+    }, 1800000)
   }
   // vue 的生命周期的问题；
   //  created: 没有生成 dom 初始化了 data & method

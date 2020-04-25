@@ -12,7 +12,7 @@
         <el-tab-pane label="百度地图" name="second">
           <BaiDuMap></BaiDuMap>
         </el-tab-pane>
-        <el-tab-pane label="消防CRT" disabled> </el-tab-pane>
+          <el-tab-pane label="消防CRT" disabled> </el-tab-pane>
       </el-tabs>
     </div>
     <Notice v-show="$route.name === 'home'"></Notice>
@@ -42,18 +42,19 @@
     <div
       class="nav"
       v-show="navShow && $route.name === 'showcase'"
-      @dblclick="navS"
     >
       <ul class="ul-six">
         <li>
+           <router-link :to="{ name: 'SmokeSensorEquip' }">
           <i class="ulBG">
             <img src="@/assets/ul-six.png" alt="" />
             <em class="SixNumber">{{ this.circleNavData.total[0] }}</em>
           </i>
           <p>{{ this.circleNavData.devType[0] }}</p>
+           </router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'SmokeSensorEquip' }">
+          <router-link :to="{ name: 'IOTGateway' }">
             <i class="ulBG"
               ><img src="@/assets/ul-six.png" alt="" /><em class="SixNumber">{{
                 this.circleNavData.total[1]
@@ -63,20 +64,24 @@
           </router-link>
         </li>
         <li>
+          <router-link :to="{ name: 'GasDeterctor' }">
           <i class="ulBG"
             ><img src="@/assets/ul-six.png" alt="" /><em class="SixNumber">{{
               this.circleNavData.total[2]
             }}</em></i
           >
           <p>{{ this.circleNavData.devType[2] }}</p>
+          </router-link>
         </li>
         <li>
+          <router-link :to="{ name: 'ElectricalFireEquipment' }">
           <i class="ulBG"
             ><img src="@/assets/ul-six.png" alt="" /><em class="SixNumber">{{
               this.circleNavData.total[3]
             }}</em></i
           >
           <p>{{ this.circleNavData.devType[3] }}</p>
+          </router-link>
         </li>
         <li v-show="this.circleNavData.devType[4] === ''">
           <i class="ulBG"
@@ -92,7 +97,7 @@
               this.circleNavData.total[5]
             }}</em></i
           >
-          <p @click.stop="Urgentmessage">{{ this.circleNavData.devType[5] }}</p>
+          <p>{{ this.circleNavData.devType[5] }}</p>
         </li>
       </ul>
       <i @click="navS" class="el-icon-error" v-show="navShow"></i>
@@ -113,12 +118,23 @@
         ></i>
       </div>
       <ul>
-        <li
-          @click="sidebarDialog(item)"
-          v-for="(item, index) in this.sjztData"
+        <!-- <li @click="sidebarDialog(item)"
+          v-for="(item, index) in this.allSidebar.slice(0 , 9)"
           :key="index"
-          class="sidebar-one notes"
-        >
+          class="sidebar-one notes">
+          <div class="yuan">
+            <p>{{item.msgType === 2 ? '报警' : '故障' }}</p>
+          </div>
+          <span class="time">{{ item.happenTime | dateFilter }}</span>
+          <span class="devId">{{ item.devType }}</span>
+          <span class="address">{{
+            item.province + item.city + item.county + item.detailAddress
+          }}</span>
+        </li> -->
+        <li @click="sidebarDialog(item)"
+          v-for="(item, index) in this.sjztData.slice(0 , 10)"
+          :key="index"
+          class="sidebar-one notes">
           <div class="yuan">
             <p>{{item.msgType === 2 ? '报警' : '故障' }}</p>
           </div>
@@ -156,9 +172,6 @@
             <el-radio :label=true>是</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="设备类型 :" label-width="150px">
-          <P>{{ this.singleSidebarInfo.devType }}</P>
-        </el-form-item>
         <el-form-item label="安装位置 :" label-width="150px">
           <P>{{ this.singleSidebarInfo.point }}</P>
         </el-form-item>
@@ -170,7 +183,6 @@
         </el-form-item>
         <el-form-item label="处理情况 :" label-width="150px">
           <el-radio-group :disabled="this.singleSidebarInfo.msgState!== 0" v-model="singleSidebarInfo.msgState" @change="changeStateValue">
-
             <el-radio :label=-1>无需处理</el-radio>
             <el-radio :label=0>未处理</el-radio>
             <el-radio :label=1>已处理</el-radio>
@@ -183,13 +195,13 @@
     </el-dialog>
     <!-- 底部 -->
     <Footer v-show="$route.name === 'showcase'"></Footer>
-    <Urgent
+    <!-- <Urgent
       v-show="$route.name === 'showcase'"
       :title="title"
       :dialogVisible="dialogVisible"
       :neirong="neirong"
       @urgentF="urgentF"
-    ></Urgent>
+    ></Urgent> -->
 
     <router-link :to="{ name: 'showcase' }"
       ><el-button v-show="$route.name === 'home'" round class="btnOn"
@@ -203,7 +215,7 @@
 import './china'
 import Footer from './components/Footer'
 import BaiDuMap from './components/BaiDuMap'
-import Urgent from './components/Urgent'
+// import Urgent from './components/Urgent'
 import Notice from './components/Notice'
 import dayjs from 'dayjs'
 // import axios from 'axios'
@@ -212,9 +224,9 @@ export default {
   data () {
     return {
       userInfo: {},
-      title: '紧急火警', // 弹窗主题
-      dialogVisible: false, // 弹窗显示
-      neirong: '这是传递给父组件的内容:大浪地区发生火警', // 弹窗显示内容
+      // title: '紧急火警', // 弹窗主题
+      // dialogVisible: false, // 弹窗显示
+      // neirong: '这是传递给父组件的内容:大浪地区发生火警', // 弹窗显示内容
       chinaMapec: null,
       shouxuan: 'first',
       sidebarShow: true,
@@ -225,7 +237,7 @@ export default {
       },
       allCity: [],
       dialogSidebar: false,
-
+      allSidebar: [],
       singleSidebarInfo: {},
       // colorShow: [], // 点击时的颜色
       // optData: [], // 获取optData
@@ -239,7 +251,7 @@ export default {
   components: {
     Footer, // 底部组件
     BaiDuMap, // 地图组件
-    Urgent, // 经济弹窗组件
+    // Urgent, // 经济弹窗组件
     Notice // 首页信息
   },
   computed: {
@@ -261,14 +273,12 @@ export default {
     },
     // 获取事件状态信息
     getsjztData () {
-      // await this.$store.dispatch('saveSjztData')
-      // this.sjztData = this.$store.state.sjzt.sjztData
-      // console.log(this.sjztData)
       let userId = this.userInfo.userId
       this.$http.get(`/pf/show/currentWarnMsg/${userId}`).then((res) => {
-        this.sjztData = res.data.data
+        const arr = this.allSidebar
+        this.sjztData = arr.concat(res.data.data)
         this.sjztData.happenTime = dayjs(this.sjztData.happenTime).format('YYYY-MM-DD HH:mm:ss')
-        // console.log(this.sjztData, '获取事件状态信息')
+        // console.log(this.sjztData)
       })
     },
     sidebarDialog (item) {
@@ -294,12 +304,12 @@ export default {
       this.renderMap(data)
     },
     //  ----------------------------------------------------------------------------------------------------
-    Urgentmessage () {
-      this.dialogVisible = true
-    },
-    urgentF (value) {
-      this.dialogVisible = value
-    },
+    // Urgentmessage () {
+    //   this.dialogVisible = true
+    // },
+    // urgentF (value) {
+    //   this.dialogVisible = value
+    // },
     //  ----------------------------------------------------------------------------------------------------
     // 侧边栏的隐藏
     sidebarS () {
@@ -636,8 +646,17 @@ export default {
   },
   created () {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    this.allSidebar = this.$store.state.Socket.sidebarInfo
     this.getsjztData()
     this.getCircleNav()
+  },
+  watch: {
+    allSidebar (val, old) {
+      if (val) {
+        this.getsjztData()
+        // console.log('成功更新')
+      }
+    }
   },
   // 页面打开时初始化 echart
   mounted () {
@@ -912,6 +931,7 @@ export default {
       // }
     }
     li:nth-child(n + 4) {
+      border-bottom: 1px solid #fff;
       background: rgba(129, 186, 194, 0.5);
     }
   }

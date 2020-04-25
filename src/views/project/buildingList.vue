@@ -13,7 +13,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-table :data="tableData" border style="width: 100% ;margin-top: 15px">
+    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px">
       <el-table-column prop="pbId" label="建筑ID" width="150">
       </el-table-column>
       <el-table-column prop="pbName" label="建筑名称"> </el-table-column>
@@ -95,7 +95,7 @@
         <el-form-item
           label="建筑层数"
           :label-width="formLabelWidth"
-          v-show="dialogfrom.isSingle === true"
+          v-show="dialogfrom.isSingle === false"
         >
           <el-input v-model="dialogfrom.floors" auto-complete="off"></el-input>
         </el-form-item>
@@ -231,6 +231,7 @@ export default {
       prohibit: true,
       // 查询
       search_input: '',
+      loadingTable: true,
       // 分页
       currentPage1: 1,
       // 文章的总条数
@@ -255,6 +256,7 @@ export default {
   methods: {
     // 获取列表数据
     getBuildingList () {
+      this.loadingTable = true
       // 获取该用户所有项目信息
       let dto = {
         'pageIndex': this.pageIndex,
@@ -263,6 +265,7 @@ export default {
         'pbName': this.search_input
       }
       this.$http.post('/pf/project/build/query', dto).then((res) => {
+        this.loadingTable = false
         this.tableData = res.data.data.data
         this.totalCount = res.data.data.totalCount
       })
@@ -547,7 +550,7 @@ export default {
   display: block;
   // margin-bottom: 20px;
   position: absolute;
-  right: 150px;
+  right: 120px;
   top: 100px;
   z-index: 10;
 }

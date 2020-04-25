@@ -64,7 +64,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-table :data="tableData" border style="width: 100% ;margin-top: 15px">
+    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px">
       <el-table-column prop="devId" label="设备ID" width="80">
       </el-table-column>
       <el-table-column prop="proName" label="设备名称"> </el-table-column>
@@ -337,21 +337,20 @@
         <el-form-item
           label="定位"
           :label-width="formLabelWidth"
-          v-show="dialogfromB.personal === false"
         >
           <el-button @click="tkMap" :type="this.coorType">{{this.coordinateInfo}}</el-button>
         </el-form-item>
         <el-form-item
           label="所属建筑"
           :label-width="formLabelWidth"
-          v-show="dialogfromB.personal === false"
+          v-show="!dialogfromB.personal"
         >
           <el-input v-model="dialogfromB.pbName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item
           label="所属楼层"
           :label-width="formLabelWidth"
-            v-show="dialogfromB.personal === false"
+            v-show="!dialogfromB.personal"
         >
           <el-input
             v-model="dialogfromB.pbfName"
@@ -372,7 +371,7 @@
       </div>
       <el-dialog append-to-body title="定位" :visible.sync="dialogMap" width="40%" >
         <div class="mapboxS" ref="map">
-          <baidu-map
+          <baidu-map v-if="dialogMap"
             :center="center"
             :zoom="zoom"
             :scroll-wheel-zoom="true"
@@ -416,7 +415,7 @@
             </bm-control>
           </baidu-map>
         </div>
-        <el-button style="magin-top:20px" @click="getCoordinate" type="warning" round>确定位置</el-button>
+        <el-button @click="getCoordinate" type="warning" round>确定位置</el-button>
       </el-dialog>
     </el-dialog>
   </div>
@@ -455,6 +454,7 @@ export default {
       Sbuilding: {},
       screen_floor: '',
       Sfloor: {},
+      loadingTable: true,
       // 分页
       currentPage1: 1,
       totalCount: 0,
@@ -530,6 +530,7 @@ export default {
   methods: {
     // 获取列表数据
     getDataList () {
+      this.loadingTable = true
       const dto = {
         'userId': this.userInfo.userId,
         'devId': this.search_input,
@@ -542,9 +543,10 @@ export default {
         'pageRow': this.pageRow
       }
       this.$http.post('/pf/dpoint/queryList', dto).then((res) => {
-        console.log(res)
+        // console.log(res)
         this.tableData = res.data.data.data
         this.totalCount = res.data.data.totalCount
+        this.loadingTable = false
       })
     },
     getdetailed (row) {
@@ -679,10 +681,9 @@ export default {
     // 修改---------------------------------
     async editDptit (row) {
       this.dialogAddEdit = true
-      this.center.lng = null
-      this.center.lat = null
-      this.markers.lng = null
-      this.markers.lat = null
+      let point = { lng: null, lat: null }
+      this.center = point
+      this.markers = point
       this.dialogtit = '修改设备'
       await this.$http.get(`/pf/dpoint/${row.dpId}`).then((res) => {
         this.dialogfromB = res.data.data
@@ -693,15 +694,13 @@ export default {
           this.coordinateInfo = '获取'
           this.coorType = 'warning'
         }
-
-        console.log(this.dialogfromB.lng)
-        console.log(this.dialogfromB)
+        // console.log(this.dialogfromB.lng)
+        // console.log(this.dialogfromB)
+        let point = { lng: this.dialogfromB.lng, lat: this.dialogfromB.lat }
+        this.center = point
+        this.markers = point
       })
-      this.center.lng = this.dialogfromB.lng
-      this.center.lat = this.dialogfromB.lat
-      this.markers.lng = this.dialogfromB.lng
-      this.markers.lat = this.dialogfromB.lat
-      console.log(this.center.lng, 111111111111111111111111111111111111111)
+      // console.log(this.center.lng, 111111111111111111111111111111111111111)
     },
     changeDp (row) {
       const dto = {
@@ -770,15 +769,14 @@ export default {
     tkMap (row) {
       // this.zoom = 4
       this.dialogMap = true
-      this.markers.lng = ''
-      this.markers.lat = ''
-      this.center.lng = 116.416648
-      this.center.lat = 39.904375
       if (this.dialogfromB.lng !== undefined) {
-        this.center.lng = this.dialogfromB.lng
-        this.center.lat = this.dialogfromB.lat
-        this.markers.lng = this.dialogfromB.lng
-        this.markers.lat = this.dialogfromB.lat
+        let point = { lng: this.dialogfromB.lng, lat: this.dialogfromB.lat }
+        this.center = point
+        this.markers = point
+      } else {
+        let point = { lng: 116.416648, lat: 39.904375 }
+        this.center = point
+        this.markers = {}
       }
       console.log(this.center.lng, this.markers.lng, '============')
     },
@@ -798,6 +796,13 @@ export default {
         this.coorType = 'success'
       }
     },
+    getMyCoordinate () {
+      // console.log(1)
+      // this.center.lng = this.dialogfromB.lng
+      // this.center.lat = this.dialogfromB.lat
+      // this.markers.lng = this.dialogfromB.lng
+      // this.markers.lat = this.dialogfromB.lat
+    },
     handler ({ BMap, map }) {
       this.center.lng = this.center.lng
       this.center.lat = this.center.lat
@@ -806,8 +811,8 @@ export default {
     },
 
     getClickInfo (e) {
-      this.markers.lng = e.point.lng
-      this.markers.lat = e.point.lat
+      let point = { lng: e.point.lng, lat: e.point.lat }
+      this.markers = point
       console.log(this.markers.lng, this.markers.lat)
     },
     locationSuccess (e) { // 百度地图定位完成后
@@ -821,6 +826,15 @@ export default {
         this.search.lng = ''
         this.search.lat = ''
       }
+    },
+    mapLoad (e) {
+      console.log(e)
+    },
+    mapunLoad (e) {
+      console.log('11111111111111111111', 11111)
+    },
+    mapreload (e) {
+      console.log('2222222222222222222222222222', 222222222222222)
     },
 
     // 格式化表格内容

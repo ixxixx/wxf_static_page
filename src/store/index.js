@@ -5,7 +5,7 @@ import Vuex from 'vuex'
 // import sjzt from './modules/sjzt'
 // import Login from './modules/Login'
 import userInfo from './modules/userInfo'
-// import Socket from './modules/Socket'
+import Socket from './modules/Socket'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -16,8 +16,8 @@ export default new Vuex.Store({
     // sjzt,
     // 登录
     // c: Login,
-    userInfo
+    userInfo,
+    Socket
     // socket
-    // d: Socket
   }
 })

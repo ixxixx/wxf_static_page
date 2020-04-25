@@ -2,9 +2,9 @@
   <el-row>
     <el-col :span="4">
       <div class="box">
-        <TotalDevice v-show="sixShow" class="fix-ge" @totalec="tcShow"></TotalDevice>
-        <DeviceReported v-show="sixShow" class="fix-ge" @reportec="tcShow"></DeviceReported>
-        <EventRatio v-show="sixShow" class="fix-ge"></EventRatio>
+        <TotalDevice v-show="sixShow" class="fix-ge" @totalec="tcShow" :refreshInfo="sixShow"></TotalDevice>
+        <DeviceReported v-show="sixShow" class="fix-ge" @reportec="tcShow" :refreshInfo="sixShow"></DeviceReported>
+        <EventRatio v-show="sixShow" class="fix-ge" :refreshInfo="sixShow"></EventRatio>
       </div>
     </el-col>
     <el-col :span="16">
@@ -14,13 +14,16 @@
     </el-col>
     <el-col :span="4">
       <div class="box">
-        <HiddenDanger v-show="sixShow" class="fix-ge" @hiddenec="tcShow"></HiddenDanger>
-        <HiddenDangerLevel v-show="sixShow" class="fix-ge" @levelec="tcShow"></HiddenDangerLevel>
-        <Patrol v-show="sixShow" class="fix-ge" @patrolec="tcShow"></Patrol>
+        <HiddenDanger v-show="sixShow" class="fix-ge" @hiddenec="tcShow" :refreshInfo="sixShow"></HiddenDanger>
+        <HiddenDangerLevel v-show="sixShow" class="fix-ge" @levelec="tcShow" :refreshInfo="sixShow"></HiddenDangerLevel>
+        <Patrol v-show="sixShow" class="fix-ge" @patrolec="tcShow" :refreshInfo="sixShow"></Patrol>
       </div>
     </el-col>
     <!-- 6盒子窗口事件 -->
+     <el-tooltip placement="top">
+                <div slot="content">隐藏并刷新</div>
     <el-switch v-model="sixShow"> </el-switch>
+              </el-tooltip>
     <!-- 对话框 -->
     <el-dialog title="这是弹出的内容" :visible.sync="tcshow" width="30%">
       <span>{{ this.name }}</span>
@@ -46,6 +49,8 @@ export default {
       tcshow: null,
       name: ''
     }
+  },
+  created () {
   },
   components: {
     TotalDevice, // 设备总数

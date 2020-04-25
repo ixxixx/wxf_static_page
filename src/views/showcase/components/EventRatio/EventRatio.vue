@@ -5,11 +5,21 @@
 
 <script>
 export default {
+  props: ['refreshInfo'],
   data () {
     return {
       userInfo: {},
       eventRatioec: null,
       chartChereDataList: {}
+    }
+  },
+  watch: {
+    refreshInfo (val, old) {
+      console.log(val)
+      if (val) {
+        this.initEventEcharts()
+        console.log('更新成功eventRatio')
+      }
     }
   },
   methods: {
@@ -189,6 +199,10 @@ export default {
     window.addEventListener('resize', () => {
       this.eventRatioec.resize()
     })
+    setInterval(() => {
+      this.initEventEcharts()
+      // 30分钟刷新一次
+    }, 1800000)
   }
 }
 </script>

@@ -4,18 +4,19 @@
     <div class="footer" v-show="footquanShow" @dblclick="footerS">
       <div class="footer-quan">
         <div class="fireInfo Info">
-           <router-link :to="{name:'SmokeSensorEquip'}"><div id="fire-quan"></div>
-           </router-link>
+          <router-link :to="{ name: 'SmokeSensorEquip' }"
+            ><div id="fire-quan"></div>
+          </router-link>
           <div class="fire-notes noteList">
             <ul>
-              <li>这是数据的展示</li>
-              <li>这是数据的展示</li>
-              <li>这是数据的展示</li>
-              <li>
-                这是数据的展示这是数据的展示这是数据的展示这是数据的展示这是数据的展示这是数据的展示
+              <li v-for="(item, index) in alarmData" :key="index">
+                <p>
+                  {{ item.happenTime | dateFilter }}---{{ item.devId }}---{{
+                    item.province + item.city + item.county + item.detailAddress
+                  }}
+                </p>
+                <p>{{ item.remark }}</p>
               </li>
-              <li>这是数据的展示这是数据的展示这是数据的展示</li>
-              <li>这是数据的展示这是数据的展示这是数据的展示</li>
             </ul>
           </div>
         </div>
@@ -23,84 +24,25 @@
           <div id="fault-quan"></div>
           <div class="fault-notes noteList">
             <ul>
-              <li>这是数据的展示</li>
-              <li>这是数据的展示</li>
-              <li>这是数据的展示</li>
-              <li>
-                这是数据的展示这是数据的展示这是数据的展示这是数据的展示这是数据的展示这是数据的展示
+              <li v-for="(item, index) in faultData" :key="index">
+                <p>
+                  {{ item.happenTime | dateFilter }}---{{ item.devId }}---{{ item.province + item.city + item.county + item.detailAddress}}
+                </p>
+                <p>{{ item.remark }}</p>
               </li>
-              <li>这是数据的展示这是数据的展示这是数据的展示</li>
-              <li>这是数据的展示这是数据的展示这是数据的展示</li>
             </ul>
           </div>
         </div>
         <!-- 事件柱状图 -->
         <!-- <div id="event-zzt"></div> -->
         <div id="news">
-          <div class="topLi"><a href="#">最新消息。。。。。</a></div>
+          <div class="topLi"><a href="#">实时消息</a></div>
           <ul id="chatContainer">
-            <li>
-              <a href="#">1-1</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">1</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">1</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
-            </li>
-            <li>
-              <a href="#">2</a>
+            <li v-for="(item, index) in newsData" :key="index">
+              <p>
+                {{ item.happenTime | dateFilter }}---{{ item.devId}}---{{ item | capitalize }}
+              </p>
+              <p>{{ item.remark }}</p>
             </li>
           </ul>
         </div>
@@ -111,14 +53,33 @@
 </template>
 
 <script>
+// import dayjs from 'dayjs'
 export default {
   data () {
     return {
       fireec: null,
       faultec: null,
       // eventRatioec: null,
-      footquanShow: true
+      footquanShow: true,
+      newsData: '',
+      alarmData: '',
+      faultData: ''
     }
+  },
+  filters: {
+    capitalize: function (value) {
+      if (value.msgType === '2') {
+        return value.province + value.city + value.county + value.detailAddress
+      } else if (value.msgType === '3') {
+        return value.province + value.city + value.county + value.detailAddress
+      } else {
+        return '无'
+      }
+    } },
+  created () {
+    this.newsData = this.$store.state.Socket.news
+    this.alarmData = this.$store.state.Socket.alarm
+    this.faultData = this.$store.state.Socket.fault
   },
   methods: {
     // 火警
@@ -298,8 +259,6 @@ export default {
       this.footquanShow = true
     }
   },
-  created () {
-  },
   mounted () {
     this.initFireEcharts()
     this.initFaultEcharts()
@@ -327,9 +286,9 @@ export default {
 .el-icon-circle-plus {
   top: 75%;
   font-size: 20px;
-    color: #ccc;
-    position: absolute;
-    right: 5px;
+  color: #ccc;
+  position: absolute;
+  right: 5px;
 }
 .footer {
   animation: footerdh 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
@@ -357,9 +316,10 @@ export default {
       height: 100%;
       background-color: rgba(173, 172, 171, 0.2);
       position: absolute;
-    right: 0;
+      right: 0;
 
-      #fire-quan,  #fault-quan {
+      #fire-quan,
+      #fault-quan {
         position: absolute;
         top: 5%;
         left: 40%;
@@ -385,10 +345,20 @@ export default {
             color: #fff;
             line-height: 1.7;
             text-indent: 1em;
+            background-color: rgba(240, 237, 234, 0.1);
+            margin-bottom: 1px;
+            p {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              color: #fd6e06;
+              &:nth-child(2) {
+                color: #cccc00;
+              }
+            }
           }
         }
       }
-
     }
     .faultInfo {
       left: 35%;
@@ -396,11 +366,12 @@ export default {
     .topLi {
       width: 100%;
       height: 25px;
-      font-size: 14px;
+      font-size: 18px;
       margin-top: 10px;
       margin-bottom: 5px;
       a {
         margin-left: 15px;
+        font-weight: 700;
         color: #fff;
       }
     }
@@ -409,9 +380,16 @@ export default {
       height: 80%;
       overflow-y: scroll;
       li {
+        color: #fff;
         margin-left: 15px;
         list-style: none;
-        height: 20px;
+        height: 50px;
+        p {
+          width: 90%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
         a {
           color: #fff;
           text-decoration: none;

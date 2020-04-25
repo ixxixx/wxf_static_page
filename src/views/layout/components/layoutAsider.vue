@@ -42,48 +42,6 @@
           <el-menu-item index="/equipment/gasDeterctor">燃气设备</el-menu-item>
           <el-menu-item index="/equipment/electricalFireEquipment">电器火灾设备</el-menu-item>
           <el-menu-item index="/equipment/IOTGateway">物联网关设备</el-menu-item>
-          <!-- <el-submenu index="1-4">
-          <template slot="title">NB烟感/燃气</template>
-          <el-menu-item index="/alarm/SmokeSensorEquip">烟感设备</el-menu-item>
-          <el-menu-item index="/alarm/GosDeterctor">燃气设备</el-menu-item>
-          <el-menu-item index="/alarm/GosDetectorHost">电器火灾设备</el-menu-item>
-          <el-menu-item index="/alarm/GosDetectorHost">物联网关设备</el-menu-item>
-         </el-submenu>
-        <el-submenu index="1-5">
-          <template slot="title">消防报警系统</template>
-          <el-menu-item index="/alarm/FireAlarmController">火灾报警控制器</el-menu-item>
-          <el-menu-item index="/alarm/LORA868">LORA868</el-menu-item>
-          <el-menu-item index="/alarm/GSMAlarmSys">GSM报警系统</el-menu-item>
-          <el-menu-item index="/alarm/qbygbjxx">压力液位主机</el-menu-item>
-        </el-submenu>
-        <el-submenu index="1-6">
-          <template slot="title">压力/液位/温湿度</template>
-          <el-menu-item index="/alarm/qbygbjxx">压力表</el-menu-item>
-          <el-menu-item index="/alarm/qbygbjxx">液位计</el-menu-item>
-          <el-menu-item index="/alarm/qbygbjxx">温度计</el-menu-item>
-          <el-menu-item index="/alarm/qbygbjxx">温湿度计</el-menu-item>
-        </el-submenu>
-        <el-submenu index="1-7">
-          <template slot="title">智慧用电系统</template>
-          <el-menu-item index="/alarm/qbygbjxx">智慧用电</el-menu-item>
-          <el-menu-item index="/alarm/qbygbjxx">TD7011智慧用电</el-menu-item>
-        </el-submenu>
-        <el-submenu index="1-8">
-          <template slot="title">安全报警系统</template>
-          <el-menu-item index="/alarm/qbygbjxx">一键报警</el-menu-item>
-          <el-menu-item index="/alarm/qbygbjxx">SOS报警按钮</el-menu-item>
-          <el-menu-item index="/alarm/qbygbjxx">摄像头设备</el-menu-item>
-        </el-submenu>
-        <el-submenu index="1-9">
-          <template slot="title">联动系统</template>
-          <el-menu-item index="/alarm/qbygbjxx">控制模块</el-menu-item>
-        </el-submenu>
-        <el-submenu index="1-10">
-          <template slot="title">智慧城市</template>
-          <el-menu-item index="/alarm/qbygbjxx">室外消防</el-menu-item>
-        </el-submenu>
-           <el-menu-item index="/personal">个人信息</el-menu-item>
-          <el-menu-item index="/userInfo">用户列表</el-menu-item> -->
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="/2">
@@ -93,37 +51,9 @@
           <!-- <span>报警信息</span> -->
         </template>
         <el-menu-item-group>
-          <!-- <el-submenu index="alarm-1" >
-          <template slot="title">NB烟感/燃气</template>
-          <el-menu-item index="/alarm/rqtcq">用户防区</el-menu-item>
-          <el-menu-item index="/alarm/krqttcqzj">可燃气体探测器主机</el-menu-item>
-          </el-submenu> -->
           <el-menu-item index="/alarm/SmokeSensorEquipAlert">全部报警信息</el-menu-item>
-          <!-- <el-menu-item index="/alarm">NB烟感/燃气</el-menu-item>
-          <el-menu-item index="/alarm">消防报警系统</el-menu-item>
-          <el-menu-item index="/alarm">压力/液位/温湿度</el-menu-item>
-          <el-menu-item index="/alarm">智慧用电系统</el-menu-item>
-          <el-menu-item index="/alarm">安全报警系统</el-menu-item>
-          <el-menu-item index="/showcase/baiduMap">智慧城市</el-menu-item>-->
         </el-menu-item-group>
       </el-submenu>
-
-      <!-- <el-submenu  index="4">
-        <template slot="title">
-          <i class="el-icon-mobile-phone"></i>
-          <em class="asiderTitle">设备管理</em>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="/equipment">NB烟感/燃气</el-menu-item>
-          <el-menu-item index="/equipment">消防报警系统</el-menu-item>
-          <el-menu-item index="/equipment">压力/液位/温湿度</el-menu-item>
-          <el-menu-item index="/equipment">智慧用电系统</el-menu-item>
-          <el-menu-item index="/equipment">安全警报系统</el-menu-item>
-          <el-menu-item index="/equipment">联动系统</el-menu-item>
-          <el-menu-item index="/equipment">智慧城市</el-menu-item>
-          <el-menu-item index="/equipment">物资管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu> -->
       <el-submenu  index="5">
         <template slot="title">
           <i class="el-icon-document"></i>
@@ -131,11 +61,11 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/repair/recordFree">维修维保</el-menu-item>
-          <el-menu-item index="/repair">待确认维修单</el-menu-item>
+          <el-menu-item index="/repair/recordFree">待确认维修单</el-menu-item>
           <el-menu-item index="/repair/NewOrder">维修下单</el-menu-item>
-          <el-menu-item index="/repair">二维码</el-menu-item>
-          <el-menu-item index="/repair">设备巡检</el-menu-item>
-          <el-menu-item index="/repair">物资巡检</el-menu-item>
+          <el-menu-item index="/repair/recordFree">二维码</el-menu-item>
+          <el-menu-item index="/repair/recordFree">设备巡检</el-menu-item>
+          <el-menu-item index="/repair/recordFree">物资巡检</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu  index="6">
@@ -151,17 +81,6 @@
           <el-menu-item index="/increment">教育培训</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="7">
-        <template slot="title">
-          <i class="el-icon-setting"></i>
-          <em class="asiderTitle">系统设置</em>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="/systemSetup/comInfo">公司信息</el-menu-item>
-          <el-menu-item index="/userInfo">人员设置</el-menu-item>
-          <el-menu-item index="/personal">个人设置</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
       <el-submenu index="8">
         <template slot="title">
           <i class="el-icon-question"></i>
@@ -172,7 +91,17 @@
           <el-menu-item index="/helpCenter">意见反馈</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-
+<el-submenu index="7">
+        <template slot="title">
+          <i class="el-icon-setting"></i>
+          <em class="asiderTitle">系统设置</em>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/systemSetup/comInfo">公司信息</el-menu-item>
+          <!-- <el-menu-item index="/userInfo">人员设置</el-menu-item> -->
+          <el-menu-item index="/personal">个人设置</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
     </el-menu>
   </div>
 </template>

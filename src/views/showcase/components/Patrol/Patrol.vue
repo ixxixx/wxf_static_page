@@ -8,13 +8,21 @@
 
 <script>
 export default {
+  props: ['refreshInfo'],
   data () {
     return {
       userInfo: {},
       patrolec: null,
-      dhkshow: true,
-      name: '',
       chartSixDataList: {}
+    }
+  },
+  watch: {
+    refreshInfo (val, old) {
+      console.log(val)
+      if (val) {
+        this.initEcharts()
+        console.log('更新成功patrol')
+      }
     }
   },
   methods: {
@@ -22,8 +30,9 @@ export default {
       // 初始化
       let userId = this.userInfo.userId
       await this.$http.get(`/pf/show/deviceTypeNetworkTotal/${userId}`).then((res) => {
+        console.log(res.data)
         this.chartSixDataList = res.data.data
-        console.log(res.data.data)
+        // console.log(res.data.data)
         let devType = []
         let total1 = []
         let total2 = []
@@ -244,10 +253,6 @@ export default {
         ]
       }
       this.patrolec.setOption(option)
-      this.patrolec.on('click', (param) => {
-        this.name = param.name
-        this.$emit('patrolec', this.dhkshow, this.name)
-      })
     }
   },
   // 页面打开时初始化 echart
@@ -257,6 +262,12 @@ export default {
     window.addEventListener('resize', () => {
       this.patrolec.resize()
     })
+    setInterval(() => {
+      this.initEcharts()
+      // 30分钟刷新一次
+    }, 1800000)
+  },
+  beforeMount () {
   }
   // vue 的生命周期的问题；
   //  created: 没有生成 dom 初始化了 data & method

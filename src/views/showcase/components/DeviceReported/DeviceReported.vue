@@ -7,13 +7,21 @@
 <script>
 import dayjs from 'dayjs'
 export default {
+  props: ['refreshInfo'],
   data () {
     return {
       userInfo: {},
       reportec: null,
-      dhkshow: true,
-      name: '',
       chartTwoDataList: {}
+    }
+  },
+  watch: {
+    refreshInfo (val, old) {
+      console.log(val)
+      if (val) {
+        this.initEcharts()
+        console.log('更新成功deviceReported')
+      }
     }
   },
   methods: {
@@ -188,11 +196,6 @@ export default {
         }
       }
       this.reportec.setOption(option)
-      this.reportec.on('click', (param) => {
-        // this.dhkshow = true
-        this.name = param.name
-        this.$emit('reportec', this.dhkshow, this.name)
-      })
     }
   },
   // 页面打开时初始化 echart
@@ -204,6 +207,10 @@ export default {
     window.addEventListener('resize', () => {
       this.reportec.resize()
     })
+    setInterval(() => {
+      this.initEcharts()
+      // 30分钟刷新一次
+    }, 1800000)
   }
   // vue 的生命周期的问题；
   //  created: 没有生成 dom 初始化了 data & method

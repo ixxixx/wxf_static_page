@@ -20,6 +20,12 @@
        <el-table-column prop="devId" label="设备Id" width="150"> </el-table-column>
       <el-table-column prop="happenTime" label="发生时间" width="280" :formatter="formatter"> </el-table-column>
       <el-table-column prop="msgState" label="处理方式" width="240" :formatter="formatterState"> </el-table-column>
+      <el-table-column label="处理操作" width="240" >
+      <template slot-scope="scope">
+          <el-button :disabled='scope.row.msgState !== 0' @click="handle(scope.row)" size="mini" round>
+            <i class="el-icon-edit"></i>设置</el-button>
+        </template>
+      </el-table-column>
       <el-table-column prop="msgType" label="报警类型" width="240">
         <template slot-scope="scope">
         <el-tag
@@ -36,7 +42,8 @@
       :current-page.sync="currentPage1"
       :page-size="pageRow"
       layout="total, prev, pager, next"
-      :total="totalCount">
+      :total="totalCount"
+      >
     </el-pagination>
   </div>
   </div>
@@ -54,6 +61,7 @@ export default {
       totalCount: 0,
       sxform: {},
       search_input: '',
+      value1: true,
       currentPage1: 1
     }
   },
@@ -72,12 +80,22 @@ export default {
       this.$http.post('/pf/warn/query', dto).then((res) => {
         this.tableData = res.data.data.data
         this.totalCount = res.data.data.totalCount
-        console.log(res.data.data.data)
       })
       console.log(this.tableData)
     },
     search () {
       this.getQueryWarnMsgList()
+    },
+    handle (row) {
+      console.log(row)
+      let dto = {
+        'reIds': [row.reId],
+        'stateValue': 1
+      }
+      this.$http.post('/pf/warn/handle', dto).then((res) => {
+        console.log(res)
+        this.getQueryWarnMsgList()
+      })
     },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
@@ -89,7 +107,7 @@ export default {
     },
     // 格式化表格内容
     formatter (row) {
-      return dayjs(row.bindTime).format('YYYY-MM-DD HH:mm:ss')
+      return dayjs(row.happenTime).format('YYYY-MM-DD HH:mm:ss')
     },
     formatterState (row) {
       if (row.msgState === -1) {

@@ -21,7 +21,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-table :data="tableData" border style="width: 100% ;margin-top: 15px">
+    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px">
       <el-table-column prop="proId" label="项目ID" width="60">
       </el-table-column>
       <el-table-column prop="proName" label="项目名称"> </el-table-column>
@@ -177,6 +177,7 @@ export default {
       formLabelWidth: '160px',
       search_input: '',
       screen_projectType: '',
+      loadingTable: true,
       // 分页
       currentPage1: 1,
       // 文章的总条数
@@ -200,6 +201,7 @@ export default {
   methods: {
     // 获取列表数据
     getDataList () {
+      this.loadingTable = true
       // 获取该用户所有项目信息
       let dto = {
         'userId': this.userInfo.userId,
@@ -209,6 +211,7 @@ export default {
         'proType': this.screen_projectType
       }
       this.$http.post('/pf/project/query', dto).then((res) => {
+        this.loadingTable = false
         this.tableData = res.data.data.data
         this.totalCount = res.data.data.totalCount
       })
@@ -335,7 +338,11 @@ export default {
       }
     },
     address (row, column, cellValue) {
-      return (row.province + row.city + row.county + row.detailAddress)
+      if (!row.province) {
+        return '无'
+      } else {
+        return (row.province + row.city + row.county + row.detailAddress)
+      }
     }
   }
 }

@@ -16,7 +16,7 @@ module.exports = {
     port: 3000,
     proxy: {
       '': {
-        target: 'http://192.168.0.2:8888',
+        target: 'http://192.168.0.4:8888',
         changeOrigin: true,
         pathRewrite: {
           '^': ''
