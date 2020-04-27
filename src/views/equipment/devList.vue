@@ -421,12 +421,9 @@
   </div>
 </template>
 <script>
-// import '../../../styles/main.less'
 import FileSaver from 'file-saver'
-// import BaiDuMap from '../../showcase/components/DeviceDistribution/components/BaiDuMap1'
 import XLSX from 'xlsx'
 import dayjs from 'dayjs'
-// import moment from 'moment'
 export default {
   data () {
     return {
@@ -543,7 +540,6 @@ export default {
         'pageRow': this.pageRow
       }
       this.$http.post('/pf/dpoint/queryList', dto).then((res) => {
-        // console.log(res)
         this.tableData = res.data.data.data
         this.totalCount = res.data.data.totalCount
         this.loadingTable = false
@@ -558,7 +554,6 @@ export default {
         this.dialogfrom.bindTime = dayjs(res.data.data.bindTime).format('YYYY-MM-DD')
         this.dialogfrom.loginTime = dayjs(res.data.data.bindTime).format('YYYY-MM-DD')
         this.dialogfrom.network = res.data.data.network === 1 ? '在线' : '离线'
-        console.log(this.dialogfrom)
         if (this.dialogfrom.state === 1) {
           return this.$set(this.dialogfrom, 'state', '报警')
         } else if (this.dialogfrom.state === 2) {
@@ -597,10 +592,8 @@ export default {
       return wbout
     },
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
       this.pageIndex = val
       this.getDataList()
     },
@@ -625,7 +618,6 @@ export default {
         'pdfName': this.dialogfromB.pdfName
       }
       this.$http.post('/pf/dpoint', dto).then((res) => {
-        console.log(res)
         if (res.data.code === 0) {
           this.$message({
             message: '添加成功',
@@ -694,8 +686,6 @@ export default {
           this.coordinateInfo = '获取'
           this.coorType = 'warning'
         }
-        // console.log(this.dialogfromB.lng)
-        // console.log(this.dialogfromB)
         let point = { lng: this.dialogfromB.lng, lat: this.dialogfromB.lat }
         this.center = point
         this.markers = point
@@ -716,10 +706,7 @@ export default {
         'lng': this.markers.lng,
         'lat': this.markers.lat
       }
-      console.log(dto)
-      console.log(this.markers)
       this.$http.put('/pf/dpoint', dto).then((res) => {
-        console.log(res.data)
         this.getDataList()
       })
       this.dialogAddEdit = false
@@ -735,7 +722,6 @@ export default {
     // },
     // 删除
     deleteDp (row) {
-      console.log(row)
       this.$confirm('此操作将永久删除该设备, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -759,7 +745,6 @@ export default {
       })
     },
     emptyPb () {
-      console.log(111)
       if (this.dialogfromB.personal === true) {
         this.dialogfromB.pbName = ''
         this.dialogfromB.pbfName = ''
@@ -778,17 +763,7 @@ export default {
         this.center = point
         this.markers = {}
       }
-      console.log(this.center.lng, this.markers.lng, '============')
     },
-    // 关闭弹窗时清空
-    // onCloseDialog () {
-    //   this.dialogMap = false
-    // },
-    // // 关闭清空form表单
-    // handleCloseEdit () {
-    //   this.dialogfromB = {}
-    //   this.dialogAddEdit = false
-    // },
     getCoordinate () {
       this.dialogMap = false
       if (this.markers.lng) {
@@ -796,24 +771,15 @@ export default {
         this.coorType = 'success'
       }
     },
-    getMyCoordinate () {
-      // console.log(1)
-      // this.center.lng = this.dialogfromB.lng
-      // this.center.lat = this.dialogfromB.lat
-      // this.markers.lng = this.dialogfromB.lng
-      // this.markers.lat = this.dialogfromB.lat
-    },
     handler ({ BMap, map }) {
       this.center.lng = this.center.lng
       this.center.lat = this.center.lat
-
       this.zoom = this.zoom
     },
 
     getClickInfo (e) {
       let point = { lng: e.point.lng, lat: e.point.lat }
       this.markers = point
-      console.log(this.markers.lng, this.markers.lat)
     },
     locationSuccess (e) { // 百度地图定位完成后
       // console.log(e)
@@ -826,15 +792,6 @@ export default {
         this.search.lng = ''
         this.search.lat = ''
       }
-    },
-    mapLoad (e) {
-      console.log(e)
-    },
-    mapunLoad (e) {
-      console.log('11111111111111111111', 11111)
-    },
-    mapreload (e) {
-      console.log('2222222222222222222222222222', 222222222222222)
     },
 
     // 格式化表格内容

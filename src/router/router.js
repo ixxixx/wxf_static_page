@@ -30,11 +30,6 @@ let router = new Router({
           name: 'home',
           component: () => import('@/views/showcase/components/DeviceDistribution/DeviceDistribution')
         },
-        {
-          path: '/userInfo',
-          name: 'userInfo',
-          component: () => import('@/views/userInfo')
-        },
         // // 报警信息
         // {
         //   path: '/alarm',
@@ -56,15 +51,6 @@ let router = new Router({
           component: () => import('@/views/alarm/NBSmokeSensor/SmokeSensorEquipStatistics.vue'),
           meta: ['报警信息', '烟感设备统计']
         },
-        // {
-        //   path: '/alarm/SmokeSensorEquip',
-        //   name: 'SmokeSensorEquip',
-        //   component: () => import('@/views/alarm/NBSmokeSensor/SmokeSensorEquip.vue'),
-        //   meta: ['报警信息', '全部烟感设备']
-        // },
-        // ]
-        // },
-        // 设备管理
         {
           path: '/equipment/SmokeSensorEquip',
           name: 'SmokeSensorEquip',
