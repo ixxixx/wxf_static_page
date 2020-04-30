@@ -21,7 +21,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px">
+    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px" id="out-table">
       <el-table-column prop="proId" label="项目ID" width="60">
       </el-table-column>
       <el-table-column prop="proName" label="项目名称"> </el-table-column>

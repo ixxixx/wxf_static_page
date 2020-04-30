@@ -212,9 +212,6 @@ export default {
       // 30分钟刷新一次
     }, 1800000)
   }
-  // vue 的生命周期的问题；
-  //  created: 没有生成 dom 初始化了 data & method
-  //  mounted: 可以获取到 dom
 }
 </script>
 

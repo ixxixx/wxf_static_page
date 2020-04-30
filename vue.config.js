@@ -16,7 +16,7 @@ module.exports = {
     port: 3000,
     proxy: {
       '': {
-        target: 'http://192.168.0.4:8888',
+        target: 'http://192.168.0.28:8888',
         changeOrigin: true,
         pathRewrite: {
           '^': ''
@@ -27,6 +27,8 @@ module.exports = {
   productionSourceMap: true,
   chainWebpack: (config) => {
     config.plugins.delete('prefetch')
-  }
+  },
+  publicPath: './',
+  indexPath: 'index.html'
 
 }

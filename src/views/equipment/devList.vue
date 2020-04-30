@@ -64,7 +64,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px">
+    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px" id="out-table">
       <el-table-column prop="devId" label="设备ID" width="80">
       </el-table-column>
       <el-table-column prop="proName" label="设备名称"> </el-table-column>
@@ -587,7 +587,7 @@ export default {
           'sheetjs.xlsx'
         )
       } catch (e) {
-        if (typeof console !== 'undefined') console.log(e, wbout)
+        // console.log(1)
       }
       return wbout
     },
@@ -690,7 +690,6 @@ export default {
         this.center = point
         this.markers = point
       })
-      // console.log(this.center.lng, 111111111111111111111111111111111111111)
     },
     changeDp (row) {
       const dto = {
@@ -711,15 +710,6 @@ export default {
       })
       this.dialogAddEdit = false
     },
-    // onChangedistpicker (a) {
-    //   console.log(a)
-    //   // this.province = (a.province.value + a.city.value + a.area.value)
-    //   this.dialogfromB.province = a.province.value
-    //   this.dialogfromB.city = a.city.value
-    //   this.dialogfromB.county = a.area.value
-    //   this.$set(this.dialogfromB, 'detailAddress', a.province.value + a.city.value + a.area.value + this.dialogfromB.address)
-    //   console.log(this.dialogfromB.detailAddress, '====================')
-    // },
     // 删除
     deleteDp (row) {
       this.$confirm('此操作将永久删除该设备, 是否继续?', '提示', {

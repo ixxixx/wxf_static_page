@@ -41,7 +41,7 @@ let router = new Router({
           // 全部烟感报警信息
           path: '/alarm/SmokeSensorEquipAlert',
           name: 'SmokeSensorEquipAlert',
-          component: () => import('@/views/alarm/NBSmokeSensor/SmokeSensorEquipAlert.vue'),
+          component: () => import('@/views/alarm/SmokeSensorEquipAlert.vue'),
           meta: ['报警信息', '全部报警信息']
         },
         {

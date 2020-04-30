@@ -123,7 +123,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../../styles/main.less';
+@import '../../styles/main.less';
 .sx {
   /deep/.el-input__inner {
     color: #fff;

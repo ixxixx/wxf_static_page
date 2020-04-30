@@ -103,7 +103,7 @@ export default {
   created () {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     let id = this.userInfo.userId
-    let serverHome = 'http://192.168.0.4:3864'
+    let serverHome = 'http://192.168.0.28:3864'
 
     const socket = io(serverHome, {
       'force new connection': true,

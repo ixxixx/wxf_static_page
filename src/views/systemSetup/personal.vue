@@ -29,9 +29,6 @@
                             <el-radio :label=0>男</el-radio>
                             <el-radio :label=1>女</el-radio>
                          </el-radio-group>
-                        <!-- <el-radio v-model="radio" :label='this.user.sex = 0'>女</el-radio>
-                        <el-radio v-model="radio" :label='this.user.sex = 1'>男</el-radio> -->
-                        <!-- <el-input type="text" v-model="user.sex" autocomplete="off" @blur="yzName"></el-input> -->
                     </el-form-item>
                     <el-form-item>
                         <el-button @click="changeUserInfo">修改</el-button>

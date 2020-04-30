@@ -118,19 +118,6 @@
         ></i>
       </div>
       <ul>
-        <!-- <li @click="sidebarDialog(item)"
-          v-for="(item, index) in this.allSidebar.slice(0 , 9)"
-          :key="index"
-          class="sidebar-one notes">
-          <div class="yuan">
-            <p>{{item.msgType === 2 ? '报警' : '故障' }}</p>
-          </div>
-          <span class="time">{{ item.happenTime | dateFilter }}</span>
-          <span class="devId">{{ item.devType }}</span>
-          <span class="address">{{
-            item.province + item.city + item.county + item.detailAddress
-          }}</span>
-        </li> -->
         <li @click="sidebarDialog(item)"
           v-for="(item, index) in this.sjztData.slice(0 , 10)"
           :key="index"
@@ -218,7 +205,6 @@ import BaiDuMap from './components/BaiDuMap'
 // import Urgent from './components/Urgent'
 import Notice from './components/Notice'
 import dayjs from 'dayjs'
-// import axios from 'axios'
 export default {
   name: 'mapbox',
   data () {
@@ -710,10 +696,10 @@ export default {
     opacity: 1;
   }
 }
-.Acolor {
-  font-weight: bold !important;
-  color: #0094ff;
-}
+// .Acolor {
+//   font-weight: bold !important;
+//   color: #0094ff;
+// }
 .eq-main {
   div {
     box-sizing: border-box;

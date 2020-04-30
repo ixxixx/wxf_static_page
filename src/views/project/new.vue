@@ -9,10 +9,6 @@
       </el-form-item>
       <el-form-item label="项目负责人">
            <el-input v-model="NewsProjectform.people" placeholder="请输入项目负责人"></el-input>
-        <!-- <el-select v-model="NewsProjectform.people" placeholder="请输入负责人"> -->
-          <!-- <el-option label="负责人一" value="shanghai"></el-option> -->
-          <!-- <el-option label="负责人二" value="beijing"></el-option> -->
-        <!-- </el-select> -->
       </el-form-item>
       <el-form-item label="负责人电话" >
         <el-input v-model="NewsProjectform.phone" placeholder="请输入负责人电话"></el-input>
@@ -24,18 +20,6 @@
       <el-form-item label="项目类型" >
         <el-input v-model="NewsProjectform.proType" placeholder="请输入项目类型"></el-input>
       </el-form-item>
-      <!-- <el-form-item label="是否含有建筑">
-        <el-radio-group v-model="NewsProjectform.resource">
-          <el-radio label="true">是</el-radio>
-          <el-radio label="false">否</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="单层建筑数" v-show="NewsProjectform.resource === 'true'">
-        <el-input v-model="NewsProjectform.monolayer"></el-input>
-      </el-form-item>
-      <el-form-item label="多层建筑数" v-show="NewsProjectform.resource === 'true'">
-        <el-input v-model="NewsProjectform.multi_layer "></el-input>
-      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" @click="onSubmit" :loading="loadingButton">立即创建</el-button>
       </el-form-item>

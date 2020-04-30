@@ -22,10 +22,6 @@
         <span class="left">公司地址:</span
         ><span class="rigth">{{ cominfo.comAddress }}</span>
       </li>
-      <!-- <li>
-        <span class="left">创建时间:</span
-        ><span class="rigth">{{ cominfo.insertTime }}</span>
-      </li> -->
     </ul>
     <el-button
       type="danger"
