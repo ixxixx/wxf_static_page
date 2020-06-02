@@ -91,7 +91,6 @@
       id="out-table"
     >
       <el-table-column prop="devId" label="设备ID" width="100">
-    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px" id="out-table">
       </el-table-column>
       <el-table-column prop="proName" label="设备名称"> </el-table-column>
       <el-table-column prop="devType" label="设备类型"> </el-table-column>
