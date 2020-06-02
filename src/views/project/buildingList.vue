@@ -4,7 +4,12 @@
       <!-- 筛选信息 -->
       <el-form ref="form" label-width="80px">
         <el-form-item class="sx">
-          <el-input style="width:200px" clearable v-model="search_input" auto-complete="off" placeholder="按建筑名关键字查询"
+          <el-input
+            style="width:200px"
+            clearable
+            v-model="search_input"
+            auto-complete="off"
+            placeholder="按建筑名关键字查询"
           ></el-input>
         </el-form-item>
         <el-form-item>
@@ -13,7 +18,14 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px">
+    <el-table
+      v-loading="loadingTable"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+      :data="tableData"
+      border
+      style="width: 100% ;margin-top: 15px"
+      id="out-table"
+    >
       <el-table-column prop="pbId" label="建筑ID" width="150">
       </el-table-column>
       <el-table-column prop="pbName" label="建筑名称"> </el-table-column>
@@ -42,10 +54,7 @@
             <i class="el-icon-delete"></i>删除</el-button
           >
           <el-button @click="deleteFloors(scope.row)" size="mini" round>
-            <i
-              class="el-icon-edit-outline"
-            ></i
-            >楼层信息</el-button
+            <i class="el-icon-edit-outline"></i>楼层信息</el-button
           >
         </template>
       </el-table-column>
@@ -70,7 +79,10 @@
           :show-file-list="false"
           v-show="this.DetailedTit === '修改信息'"
         >
-          <img :src="`/pf` + imageUrl" class="avatar" />
+          <img
+            :src="`http://xf.padssz.com:9265/pf` + imageUrl"
+            class="avatar"
+          />
         </el-upload>
         <el-form-item
           label="建筑ID"
@@ -118,15 +130,15 @@
       </div>
     </el-dialog>
     <el-dialog :title="floorsTit" :visible.sync="dialogFloors">
-        <el-button @click="addNewFloor" type="warning">添加楼层</el-button>
+      <el-button @click="addNewFloor" type="warning">添加楼层</el-button>
       <el-table :data="FloorsData">
+        <el-table-column  width="100" property="pbfId" label="楼层ID"></el-table-column>
         <el-table-column
           property="createTime"
           label="创建时间"
-          width="150"
-          :formatter="formatter"
+          width="180"
+          :formatter="formattercreate"
         ></el-table-column>
-        <el-table-column property="pbfId" label="楼层ID"></el-table-column>
         <el-table-column property="pbfName" label="楼层名"></el-table-column>
         <el-table-column label="操作" width="250">
           <template slot-scope="scope">
@@ -141,9 +153,10 @@
       </el-table>
       <div class="block pagination diafy">
         <el-pagination
+          class="flInfoPagination"
           @current-change="handleCurrentChangeFl"
           :current-page.sync="currentPage1"
-          :page-size= 5
+          :page-size="5"
           layout="total, prev, pager, next"
           :total="totalCountFl"
         >
@@ -155,46 +168,70 @@
           :visible.sync="innerVisible"
           append-to-body
         >
-        <el-form :model="dialogFloorsFrom">
-        <el-upload
-          class="avatar-uploader"
-          :action="uploadUrl"
-          :http-request="uploadImgFl"
-          :show-file-list="false"
-          v-show="this.floorTit === '楼层详细信息'"
-        >
-          <img :src="`/pf` + imageUrl" class="avatar" />
-        </el-upload>
-         <el-form-item label="建筑ID" :label-width="formLabelWidth" v-show="this.floorTit === '楼层详细信息'">
-          <el-input :disabled="prohibit" v-model="dialogFloorsFrom.pbfId" auto-complete="off" ></el-input>
-        </el-form-item>
-        <el-form-item label="楼层名称" :label-width="formLabelWidth" >
-          <el-input v-model="dialogFloorsFrom.pbfName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="创建时间" :label-width="formLabelWidth"  v-show="this.floorTit === '楼层详细信息'">
-          <el-input disabled v-model="dialogFloorsFrom.createTime" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="innerVisible = false">取 消</el-button>
-         <el-button
-          :class="[this.floorTit === '添加楼层' ? 'buttonS' : 'buttonH']"
-          type="primary"
-          @click="addNewFl"
-          >确定添加</el-button
-        >
-        <el-button
-          :class="[this.floorTit === '楼层详细信息' ? 'buttonS' : 'buttonH']"
-          type="primary"
-          @click="changeFl"
-          >确定修改</el-button
-        >
-      </div>
+          <el-form :model="dialogFloorsFrom">
+            <el-upload
+              class="avatar-uploader"
+              :action="uploadUrl"
+              :http-request="uploadImgFl"
+              :show-file-list="false"
+              v-show="this.floorTit === '楼层详细信息'"
+            >
+              <img
+                :src="`http://xf.padssz.com:9265/pf` + imageUrl"
+                class="avatar"
+              />
+            </el-upload>
+            <el-form-item
+              label="建筑ID"
+              :label-width="formLabelWidth"
+              v-show="this.floorTit === '楼层详细信息'"
+            >
+              <el-input
+                :disabled="prohibit"
+                v-model="dialogFloorsFrom.pbfId"
+                auto-complete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="楼层名称" :label-width="formLabelWidth">
+              <el-input
+                v-model="dialogFloorsFrom.pbfName"
+                auto-complete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item
+              label="创建时间"
+              :label-width="formLabelWidth"
+              v-show="this.floorTit === '楼层详细信息'"
+            >
+              <el-input
+                disabled
+                v-model="dialogFloorsFrom.createTime"
+                auto-complete="off"
+              ></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="innerVisible = false">取 消</el-button>
+            <el-button
+              :class="[this.floorTit === '添加楼层' ? 'buttonS' : 'buttonH']"
+              type="primary"
+              @click="addNewFl"
+              >确定添加</el-button
+            >
+            <el-button
+              :class="[
+                this.floorTit === '楼层详细信息' ? 'buttonS' : 'buttonH'
+              ]"
+              type="primary"
+              @click="changeFl"
+              >确定修改</el-button
+            >
+          </div>
         </el-dialog>
       </div>
     </el-dialog>
     <el-dialog title="建筑图片" :visible.sync="dialogImg" width="30%">
-      <img :src="`/pf` + img1" class="bdavatar" />
+      <img :src="`http://xf.padssz.com:9265/pf` + img1" class="bdavatar" />
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogImg = false">取 消</el-button>
         <el-button type="primary" @click="dialogImg = false">确 定</el-button>
@@ -244,7 +281,7 @@ export default {
       pageRow: 10,
       img1: '',
       imageUrl: '', // 图片地址
-      uploadUrl: 'http://192.168.0.2:8888/pf/file/upload/buildimg' }
+      uploadUrl: 'http://xf.padssz.com:9265/pf/file/upload/buildimg' }
   },
 
   created () {
@@ -360,13 +397,19 @@ export default {
         pageRow: this.pageRow
       }
       this.$http.put('/pf/project/build', dto).then((res) => {
+        if (res.data.code === 0) {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+        }
         this.getBuildingList()
       })
       this.dialogDetailed = false
     },
     // 删除
     deleteBd (row) {
-      this.$confirm('此操作将永久删除该项目, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该建筑, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -397,6 +440,7 @@ export default {
         'pbId': this.storageId
       }
       this.$http.post('/pf/project/build/floor/query', dto).then((res) => {
+        console.log(res.data.data)
         this.FloorsData = res.data.data.data
         this.totalCountFl = res.data.data.totalCount
       })
@@ -426,6 +470,7 @@ export default {
       }
       this.$http.post('/pf/project/build/floor', dto).then((res) => {
         this.innerVisible = false
+        console.log(res.data, '------------------------------------------272')
         if (res.data.code === 0) {
           this.$message({
             message: '添加成功',
@@ -456,6 +501,12 @@ export default {
         pageRow: this.pageRow
       }
       this.$http.put('/pf/project/build/floor', dto).then((res) => {
+        if (res.data.code === 0) {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+        }
         this.innerVisible = false
       })
     },
@@ -503,8 +554,11 @@ export default {
         this.imageUrl = res.data.data
       })
     },
-    formatter (row, column) {
-      return dayjs(row.bindTime).format('YYYY-MM-DD HH:mm:ss')
+    // formatter (row, column) {
+    //   return dayjs(row.bindTime).format('YYYY-MM-DD HH:mm:ss')
+    // },
+    formattercreate (row, column) {
+      return dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss')
     },
     isSingle (row, column, cellValue) {
       if (row.isSingle === true) {
@@ -562,8 +616,11 @@ export default {
   margin-left: 25px;
   z-index: 10;
 }
-.diafy .btn-next {
-  color: #000 !important;
+.diafy {
+  margin-left: 350px !important;
+  .btn-next {
+    color: #000 !important;
+}
 }
 /deep/.distpicker-address-wrapper {
   float: left;
@@ -574,6 +631,15 @@ export default {
     border-radius: 2px;
     border: 1px solid #dcdfe6;
     border-radius: 4px;
+  }
+}
+.flInfoPagination {
+  color: #000 !important;
+  /deep/.el-pagination__total {
+    color: #000 !important;
+  }
+  /deep/.el-icon {
+    color: #000 !important;
   }
 }
 </style>

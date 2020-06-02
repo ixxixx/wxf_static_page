@@ -8,7 +8,6 @@
       @ready="handler"
       :mapStyle="mapStyle"
     >
-      <!-- 必须给容器指高度，不然地图将显示在一个高度为0的容器中，看不到 -->
       <bm-map-type
         :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']"
         anchor="BMAP_ANCHOR_TOP_LEFT"

@@ -14,12 +14,12 @@ const actions = {
 const mutations = {
   setReceiveInfo (state, data) {
     state.news.unshift(data)
-    if (data.msgType === '2') {
+    if (data.msgType === 2) {
       state.alarm.unshift(data)
-    } else if (data.msgType === '3') {
+    } else if (data.msgType === 3) {
       state.fault.unshift(data)
     }
-    if (data.msgType === '2' || data.msgType === '3') {
+    if (data.msgType === 2 || data.msgType === 3) {
       state.sidebarInfo.unshift(data)
     }
   }

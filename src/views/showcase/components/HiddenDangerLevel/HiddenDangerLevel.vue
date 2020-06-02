@@ -13,15 +13,14 @@ export default {
       levelec: null,
       dhkshow: true,
       name: '',
-      chartFiveDataList: {}
+      chartFiveDataList: {},
+      timer: ''
     }
   },
   watch: {
     refreshInfo (val, old) {
-      console.log(val)
       if (val) {
         this.initEcharts()
-        console.log('更新成功level')
       }
     }
   },
@@ -162,10 +161,10 @@ export default {
         ]
       }
       this.levelec.setOption(option)
-      this.levelec.on('click', (param) => {
-        this.name = param.name
-        this.$emit('levelec', this.dhkshow, this.name)
-      })
+      // this.levelec.on('click', (param) => {
+      //   this.name = param.name
+      //   this.$emit('levelec', this.dhkshow, this.name)
+      // })
     }
   },
   // 页面打开时初始化 echart
@@ -177,14 +176,16 @@ export default {
     window.addEventListener('resize', () => {
       this.levelec.resize()
     })
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.initEcharts()
       // 30分钟刷新一次
     }, 1800000)
+  },
+  beforeDestroy () {
+    // 清除定时器
+    clearInterval(this.timer)
+    this.timer = null
   }
-  // vue 的生命周期的问题；
-  //  created: 没有生成 dom 初始化了 data & method
-  //  mounted: 可以获取到 dom
 }
 </script>
 

@@ -23,6 +23,7 @@
           <el-button type="primary" @click="onSubmit">立即登录</el-button>
         </el-form-item>
       </el-form>
+      <span class="ICP">粤ICP备19096252号-1</span>
     </div>
     <!-- 注册帐号弹窗 -->
     <el-dialog
@@ -40,15 +41,15 @@
         </el-form-item>
         <el-form-item prop="phone" label="电话" :label-width="formLabelWidth">
           <el-row>
-            <el-col :span="12">
+            <el-col :span="10">
                <el-input style="width:90%" maxlength=11 v-model="formzc.phone" clearable></el-input>
             </el-col>
             <el-col :span="10">
-              <el-button style="width:90%" :disabled="!!timer" @click="getvcode" type="primary">{{timer ? `${codeTime}秒后重新获取` : '获取验证码'}}</el-button>
+              <el-button style="width:90%;padding:10px 0;" :disabled="!!timer" @click="getvcode" type="primary">{{timer ? `${codeTime}秒后重新获取` : '获取验证码'}}</el-button>
             </el-col>
             </el-row>
         </el-form-item>
-        <el-form-item label="手机验证码" :label-width="formLabelWidth">
+        <el-form-item label="验证码" :label-width="formLabelWidth">
           <el-input v-model="formzc.vcode" clearable></el-input>
         </el-form-item>
       </el-form>
@@ -138,7 +139,7 @@ export default {
         userPwd: ''
       },
       forgetFormVisible: false,
-      formLabelWidth: '120px',
+      formLabelWidth: '20%',
       // 倒计时的时候
       codeTime: 60,
       // 设置一个定时器
@@ -154,7 +155,7 @@ export default {
           'userPwd': this.form.userPwd
         }
         this.$http.post('/pf/user/login', dto).then((res) => {
-          console.log(res)
+          // console.log(res)
           let userInfo = res.data.data
           if (res.data.code === 0) {
             this.$router.push('/home')
@@ -162,7 +163,7 @@ export default {
               message: '登录成功',
               type: 'success'
             })
-            console.log(res.data)
+            // console.log(res.data)
             this.$store.commit('setUserInfo', userInfo)
           } else if (res.data.code === 1) {
             this.$message({
@@ -188,6 +189,7 @@ export default {
       this.$refs['formzc'].validateField('phone', errMsg => {
         let phoneNumber = this.formzc.phone
         this.$http.get(`/pf/user/reg/vcode/${phoneNumber}`).then((res) => {
+          console.log(res)
           if (res.data.code === 0) {
             this.$message({
               message: '发送成功,请查看手机',
@@ -251,18 +253,18 @@ export default {
 .login {
   width: 100%;
   height: 100%;
-  // background: url("../../assets/background.jpg") no-repeat;
-  background: url("../../assets/timg1.png") no-repeat;
+  background: url("../../assets/loginBg.jpg") no-repeat;
   background-size: 100% 100%;
   display: flex; // 主轴居中：默认 水平
   justify-content: center; // 侧轴居中：默认 垂直
   align-items: center;
   .login-warp {
+    position: relative;
     width: 550px;
     height: 410px;
     border-radius: 30px;
     padding: 35px;
-    background-color: rgba(206, 209, 216, 0.6);
+    background-color: rgba(255, 255, 255, 0.7);
     .logo {
       img {
         margin-left: 25%;
@@ -315,6 +317,12 @@ export default {
     .el-input {
       width: 80%;
     }
+  }
+  .ICP {
+    position: absolute;
+    font-size: 16px;
+    left: 200px;
+    bottom: -50px;
   }
 }
 </style>

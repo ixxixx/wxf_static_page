@@ -29,9 +29,6 @@
                             <el-radio :label=0>男</el-radio>
                             <el-radio :label=1>女</el-radio>
                          </el-radio-group>
-                        <!-- <el-radio v-model="radio" :label='this.user.sex = 0'>女</el-radio>
-                        <el-radio v-model="radio" :label='this.user.sex = 1'>男</el-radio> -->
-                        <!-- <el-input type="text" v-model="user.sex" autocomplete="off" @blur="yzName"></el-input> -->
                     </el-form-item>
                     <el-form-item>
                         <el-button @click="changeUserInfo">修改</el-button>
@@ -64,7 +61,7 @@
           :http-request="uploadImg"
           :show-file-list="false"
         >
-          <img :src="`/pf`+imageUrl" class="avatar" />
+          <img :src="`http://xf.padssz.com:9265/pf`+imageUrl" class="avatar" />
           <!-- <i class="el-icon-plus avatar-uploader-icon"></i> -->
         </el-upload>
             </el-col>
@@ -120,7 +117,7 @@ export default {
         ]
       },
       imageUrl: '', // 图片地址
-      uploadUrl: 'http://192.168.0.2:8888/pf/file/upload/headimg',
+      uploadUrl: 'http://xf.padssz.com:9265/pf/file/upload/headimg',
       yzData: false
     }
   },
@@ -172,13 +169,13 @@ export default {
 
       this.$http.put('/pf/user/pwd', dto).then((res) => {
         console.log(res.data)
-        if (res.data.code === 1) {
+        if (res.data.code === 0) {
           this.dialogChange = true
           this.$message({
             type: 'success',
             message: '修改成功!请重新登录!'
           })
-          this.$router.push({ name: 'Login' })
+          this.$router.push({ name: 'login' })
         } else {
           this.$message({
             type: 'error',

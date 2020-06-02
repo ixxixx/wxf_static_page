@@ -3,7 +3,7 @@
     <h1>公司信息</h1>
     <ul>
       <li>
-        <img :src="`/pf`+cominfo.comLogo" />
+        <img :src="`http://xf.padssz.com:9265/pf` + cominfo.comLogo" />
         <!-- <img :src="[cominfo.comLogo === undefined ? '../../assets/background.jpg' : `/pf`+cominfo.comLogo]" /> -->
       </li>
       <li>
@@ -11,71 +11,81 @@
         ><span class="rigth">{{ cominfo.comName }}</span>
       </li>
       <li>
-        <span class="left">负责人:</span
+        <span class="left">平台标题:</span
+        ><span class="rigth">{{ cominfo.title }}</span>
+      </li>
+      <li>
+        <span class="left">负 责 人:</span
         ><span class="rigth">{{ cominfo.legalPeople }}</span>
       </li>
       <li>
-        <span class="left">负责人电话:</span
+        <span class="left">负责电话:</span
         ><span class="rigth">{{ cominfo.legalPhone }}</span>
       </li>
       <li>
-        <span class="left">公司地址:</span
-        ><span class="rigth">{{ cominfo.comAddress }}</span>
+        <span class="left">公司地址:</span>
+        <el-tooltip placement="top">
+          <div slot="content">{{ cominfo.comAddress }}</div>
+          <span class="rigth">{{ cominfo.comAddress }}</span>
+        </el-tooltip>
       </li>
-      <!-- <li>
-        <span class="left">创建时间:</span
-        ><span class="rigth">{{ cominfo.insertTime }}</span>
-      </li> -->
     </ul>
     <el-button
       type="danger"
       :class="[this.cominfo.comName ? 'buttonS' : 'buttonH']"
       round
-      @click="dialogChange = true"
+      @click="diaChange"
       >修改公司信息</el-button
     >
     <el-button
       :class="[!this.cominfo.comName ? 'buttonS' : 'buttonH']"
       type="danger"
       round
-      @click="dialogChange = true"
+      @click="diaChange"
       >添加公司信息</el-button
     >
     <!-- 弹框 -->
-    <el-dialog :title="!this.cominfo.comName ? '添加公司信息' : '修改公司信息'" :visible.sync="dialogChange">
-      <el-form :model="cominfo">
+    <el-dialog
+      :title="!this.cominfo.comName ? '添加公司信息' : '修改公司信息'"
+      :visible.sync="dialogChange"
+    >
+      <el-form :model="form">
         <el-upload
           class="avatar-uploader"
           action="www.baidu.com"
           :http-request="uploadImg"
           :show-file-list="false"
         >
-          <img :src="`/pf`+cominfo.comLogo" class="avatar" />
+          <img
+            :src="`http://xf.padssz.com:9265/pf` + form.comLogo"
+            class="avatar"
+          />
           <!-- <i class="el-icon-plus avatar-uploader-icon"></i> -->
         </el-upload>
         <el-form-item label="公司名称" :label-width="formLabelWidth">
-          <el-input v-model="cominfo.comName" auto-complete="off"></el-input>
+          <el-input v-model="form.comName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="负 责 人" :label-width="formLabelWidth">
-          <el-input
-            v-model="cominfo.legalPeople"
-            auto-complete="off"
-          ></el-input>
+          <el-input v-model="form.legalPeople" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="平台标题" :label-width="formLabelWidth">
+          <el-input v-model="form.title" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="负责人电话" :label-width="formLabelWidth">
-          <el-input v-model="cominfo.legalPhone" auto-complete="off"></el-input>
+          <el-input v-model="form.legalPhone" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="公司地址" :label-width="formLabelWidth">
-          <el-input v-model="cominfo.comAddress" auto-complete="off"></el-input>
+          <el-input v-model="form.comAddress" auto-complete="off"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="创建时间" :label-width="formLabelWidth">
-          <el-input v-model="cominfo.insertTime" auto-complete="off"></el-input>
-        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogChange = false">取 消</el-button>
-        <el-button v-show="this.cominfo.comId" type="primary" @click="upComInfo">修 改</el-button>
-        <el-button v-show="!this.cominfo.comId" type="primary" @click="addComInfo">添 加</el-button>
+        <el-button v-show="this.form.comId" type="primary" @click="upComInfo"
+          >修 改</el-button
+        >
+        <el-button v-show="!this.form.comId" type="primary" @click="addComInfo"
+          >添 加</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -88,9 +98,8 @@ export default {
       userInfo: {},
       cominfo: {},
       dialogChange: false,
-      formLabelWidth: '160px',
-      form: {
-      }
+      formLabelWidth: '100px',
+      form: {}
     }
   },
   methods: {
@@ -99,9 +108,8 @@ export default {
       let userId = this.userInfo.userId
       console.log(userId)
       this.$http.get(`/pf/company/byUserId/${userId}`).then(res => {
-        console.log(res.data.data, '看来是没修改成功')
+        console.log(res.data)
         this.cominfo = res.data.data
-        console.log(this.cominfo)
         if (!this.cominfo.comName) {
           this.$message({
             message: '请您填写完善的公司信息',
@@ -110,17 +118,23 @@ export default {
         }
       })
     },
+    diaChange () { // 点击按钮时把内容赋值给form
+      this.dialogChange = true
+      let userId = this.userInfo.userId
+      this.$http.get(`/pf/company/byUserId/${userId}`).then(res => {
+        this.form = res.data.data
+      })
+    },
     addComInfo () {
       const dto = {
         userId: this.userInfo.userId,
-        comAddress: this.cominfo.comAddress,
-        comLogo: this.cominfo.comLogo,
-        comName: this.cominfo.comName,
-        legalPeople: this.cominfo.legalPeople,
-        legalPhone: this.cominfo.legalPhone
+        comAddress: this.form.comAddress,
+        comLogo: this.form.comLogo,
+        comName: this.form.comName,
+        legalPeople: this.form.legalPeople,
+        legalPhone: this.form.legalPhone
       }
       this.$http.post('/pf/company', dto).then((res) => {
-        console.log(res, '11111----------------')
         this.getComInfo()
         this.$message({
           message: '信息已更新',
@@ -132,17 +146,15 @@ export default {
     // 改变公司信息
     upComInfo () {
       const dto = {
-        comAddress: this.cominfo.comAddress,
-        comId: this.cominfo.comId,
-        comLogo: this.cominfo.comLogo,
-        comName: this.cominfo.comName,
-        legalPeople: this.cominfo.legalPeople,
-        legalPhone: this.cominfo.legalPhone,
-        userId: this.userInfo.userId
+        userId: this.userInfo.userId,
+        comAddress: this.form.comAddress,
+        comId: this.form.comId,
+        comLogo: this.form.comLogo,
+        comName: this.form.comName,
+        legalPeople: this.form.legalPeople,
+        legalPhone: this.form.legalPhone
       }
-      console.log(dto)
       this.$http.put('/pf/company', dto).then((res) => {
-        console.log(res, '11111----------------')
         this.getComInfo()
         this.$message({
           message: '信息已更新',
@@ -151,22 +163,16 @@ export default {
       })
       this.dialogChange = false
     },
-    // addComInfo () {
-    //   this.$http.post('/pf/company/1').then((res) => {
-
-    //   })
-    // },
     uploadImg (params) {
       const fd = new FormData()
       fd.append('logo', params.file)
       this.$http.post('/pf/file/upload/logo', fd).then((res) => {
-        this.cominfo.comLogo = res.data.data
+        this.form.comLogo = res.data.data
       })
     }
   },
   created () {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    console.log(this.userInfo)
   },
   mounted () {
     this.getComInfo()
@@ -212,10 +218,7 @@ export default {
   }
   h1 {
     font-size: 48px;
-    margin-bottom: 50px;
-  }
-  ul {
-    height: 450px;
+    margin-bottom: 30px;
   }
   li {
     width: 800px;
@@ -234,6 +237,9 @@ export default {
       text-align: left;
       width: 470px;
       margin-left: 30px;
+      overflow: hidden; //超出的文本隐藏
+      text-overflow: ellipsis; //溢出用省略号显示
+      white-space: nowrap; //溢出不换行
     }
     &:nth-child(1) {
       display: block;

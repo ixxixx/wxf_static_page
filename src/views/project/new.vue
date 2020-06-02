@@ -3,41 +3,53 @@
     <div class="projectTit">
       <p class="title">项目基本信息设置</p>
     </div>
-    <el-form :label-position="labelPosition" ref="form" :model="NewsProjectform" label-width="80px">
-      <el-form-item label="项目名称" >
-        <el-input v-model="NewsProjectform.proName" placeholder="请输入项目名称"></el-input>
+    <el-form
+      :label-position="labelPosition"
+      :rules="rules"
+      ref="NewsProjectform"
+      :model="NewsProjectform"
+      label-width="80px"
+    >
+      <el-form-item label="项目名称" prop="proName">
+        <el-input
+          v-model="NewsProjectform.proName"
+          placeholder="请输入项目名称"
+        ></el-input>
       </el-form-item>
       <el-form-item label="项目负责人">
-           <el-input v-model="NewsProjectform.people" placeholder="请输入项目负责人"></el-input>
-        <!-- <el-select v-model="NewsProjectform.people" placeholder="请输入负责人"> -->
-          <!-- <el-option label="负责人一" value="shanghai"></el-option> -->
-          <!-- <el-option label="负责人二" value="beijing"></el-option> -->
-        <!-- </el-select> -->
+        <el-input
+          v-model="NewsProjectform.people"
+          placeholder="请输入项目负责人"
+        ></el-input>
       </el-form-item>
-      <el-form-item label="负责人电话" >
-        <el-input v-model="NewsProjectform.phone" placeholder="请输入负责人电话"></el-input>
+      <el-form-item label="负责人电话" prop="phone">
+        <el-input
+          v-model="NewsProjectform.phone"
+          placeholder="请输入负责人电话"
+        ></el-input>
       </el-form-item>
-      <el-form-item label="地址">
-      <v-distpicker :placeholders="placeholders" @selected="onChangedistpicker"></v-distpicker>
-      <el-input class="address" v-model="NewsProjectform.address" placeholder="详细地址"></el-input>
-      </el-form-item>
-      <el-form-item label="项目类型" >
-        <el-input v-model="NewsProjectform.proType" placeholder="请输入项目类型"></el-input>
-      </el-form-item>
-      <!-- <el-form-item label="是否含有建筑">
-        <el-radio-group v-model="NewsProjectform.resource">
-          <el-radio label="true">是</el-radio>
-          <el-radio label="false">否</el-radio>
+            <el-form-item label="项目类型">
+        <!-- <el-input v-model="NewsProjectform.proType" placeholder="请输入项目类型"></el-input> -->
+        <el-radio-group v-model="NewsProjectform.proType">
+          <el-radio style="color:#fff" :label="0">散户</el-radio>
+          <el-radio style="color:#fff" :label="1">工程队</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="单层建筑数" v-show="NewsProjectform.resource === 'true'">
-        <el-input v-model="NewsProjectform.monolayer"></el-input>
+      <el-form-item v-show="NewsProjectform.proType === 1" label="地址">
+        <v-distpicker
+          :placeholders="placeholders"
+          @selected="onChangedistpicker"
+        ></v-distpicker>
+        <el-input
+          class="address"
+          v-model="NewsProjectform.address"
+          placeholder="详细地址"
+        ></el-input>
       </el-form-item>
-      <el-form-item label="多层建筑数" v-show="NewsProjectform.resource === 'true'">
-        <el-input v-model="NewsProjectform.multi_layer "></el-input>
-      </el-form-item> -->
       <el-form-item>
-        <el-button type="primary" @click="onSubmit" :loading="loadingButton">立即创建</el-button>
+        <el-button type="primary" @click="onSubmit" :loading="loadingButton"
+          >立即创建</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
@@ -46,6 +58,7 @@
 <script>
 import VDistpicker from 'v-distpicker'
 export default {
+  name: 'new',
   data () {
     return {
       userInfo: {},
@@ -57,6 +70,14 @@ export default {
         province: '------ 省 ------',
         city: '------ 市 ------',
         area: '------ 区 ------'
+      },
+      rules: {
+        phone: [
+          { min: 11, max: 11, message: '长度必须为11位数字', trigger: 'blur' }
+        ],
+        proName: [
+          { required: true, message: '请输入项目名称', trigger: 'blur' }
+        ]
       }
       // province: [],
       // address: ''
@@ -69,6 +90,11 @@ export default {
   methods: {
     onSubmit () {
       this.loadingButton = true
+      if (this.NewsProjectform.proType === 0) {
+        this.placeholders.city = ''
+        this.placeholders.area = ''
+        this.placeholders.province = ''
+      }
       let dto = {
         'userId': this.userInfo.userId,
         'city': this.placeholders.city,
@@ -88,6 +114,7 @@ export default {
             message: '新建成功',
             type: 'success'
           })
+          this.NewsProjectform = {}
           this.$router.push({ name: 'project/list' })
         } else {
           this.$message({
@@ -115,9 +142,10 @@ export default {
   margin-left: 150px;
   .projectTit {
     position: relative;
-    margin-top: 40px;
+    // margin-top: 40px;
+    margin: 5% 22%;
     margin-bottom: 40px;
-    margin-left: 330px;
+    // margin-left: 330px;
     width: 620px;
     border-bottom: 3px solid #ccc;
     .title {
@@ -135,7 +163,8 @@ export default {
     }
   }
   /deep/.el-form {
-    margin-left: 400px;
+    // margin-left: 400px;
+    margin: 5% 26%;
     width: 450px;
     .el-form-item__label {
       width: 100px !important;
@@ -154,20 +183,19 @@ export default {
     .address {
       float: left;
       margin-top: 20px;
-      width: 345px;
+      width: 348px;
     }
   }
   /deep/.distpicker-address-wrapper {
-      float: left;
+    float: left;
     select {
       width: 113px;
-      padding: 0 ;
+      padding: 0;
       font-size: 14px;
-      border-radius:2px;
+      border-radius: 2px;
       border: 1px solid #dcdfe6;
       border-radius: 4px;
     }
-    }
+  }
 }
-
 </style>

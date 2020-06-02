@@ -2,6 +2,14 @@
 import Vue from 'vue'
 // 导入了第三方包 vue-router
 import Router from 'vue-router'
+// 导入 nprogress
+import nprogress from 'nprogress'
+// 导入样式文件
+import 'nprogress/nprogress.css'
+const originalPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 // 使用路由
 Vue.use(Router)
 
@@ -41,7 +49,7 @@ let router = new Router({
           // 全部烟感报警信息
           path: '/alarm/SmokeSensorEquipAlert',
           name: 'SmokeSensorEquipAlert',
-          component: () => import('@/views/alarm/NBSmokeSensor/SmokeSensorEquipAlert.vue'),
+          component: () => import('@/views/alarm/SmokeSensorEquipAlert.vue'),
           meta: ['报警信息', '全部报警信息']
         },
         {
@@ -95,7 +103,9 @@ let router = new Router({
           path: '/project/new',
           name: 'project/new',
           component: () => import('@/views/project/new.vue'),
-          meta: ['项目管理', '新建项目']
+          meta: {
+            nav: ['项目管理', '新建项目']
+          }
         },
         {
           path: '/project/list',
@@ -136,17 +146,23 @@ let router = new Router({
           meta: ['维修/维保', '维修下单']
         },
         // 系统设置
-        {
-          path: '/systemSetup',
-          name: 'systemSetup',
-          component: () => import('@/views/systemSetup'),
-          meta: ['系统设置']
-        },
+        // {
+        //   path: '/systemSetup',
+        //   name: 'systemSetup',
+        //   component: () => import('@/views/systemSetup'),
+        //   meta: ['系统设置']
+        // },
         {
           path: '/systemSetup/comInfo',
           name: 'ComInfo',
           component: () => import('@/views/systemSetup/comInfo.vue'),
           meta: ['系统设置', '公司信息']
+        },
+        {
+          path: '/systemSetup/personnelInfo',
+          name: 'PersonnelInfo',
+          component: () => import('@/views/systemSetup/personnelInfo.vue'),
+          meta: ['系统设置', '人员信息']
         },
         {
           path: '/personal',
@@ -174,22 +190,26 @@ let router = new Router({
 //  from: 发起跳转的路由
 //  next: 函数，是否执行后续代码
 router.beforeEach((to, from, next) => {
-  // 开启进度条
-  // 说明请求的路由发生了改变
+  nprogress.start()
   // 排除跳转到登录页面
-  if (to.path !== '/login') {
-    // 得到 localstorage 中的 userInfo： 如果存在  userInfo 说明登录成功，如果 userInfo 不存在，说明没有登录
-    let userInfo = window.localStorage.getItem('userInfo')
-    // 判断用户是否登录：
-    if (!userInfo) {
-      // 如果不存在说明没有登录过，应该跳转到登录页面
-      router.push('/login')
+  setTimeout(() => {
+    if (to.path !== '/login') {
+      // 得到 localstorage 中的 userInfo： 如果存在  userInfo 说明登录成功，如果 userInfo 不存在，说明没有登录
+      let userInfo = window.localStorage.getItem('userInfo')
+      // 判断用户是否登录：
+      if (!userInfo) {
+        // 如果不存在说明没有登录过，应该跳转到登录页面
+        router.push('/login')
+      } else {
+        next() // 执行后续代码
+      }
     } else {
+      // 如果访问的是 login 说明不需要进行登录验证
       next() // 执行后续代码
     }
-  } else {
-    // 如果访问的是 login 说明不需要进行登录验证
-    next() // 执行后续代码
-  }
+  }, 1)
+})
+router.afterEach((to, from) => {
+  nprogress.done()
 })
 export default router

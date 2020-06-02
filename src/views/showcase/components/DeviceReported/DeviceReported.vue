@@ -12,15 +12,14 @@ export default {
     return {
       userInfo: {},
       reportec: null,
-      chartTwoDataList: {}
+      chartTwoDataList: {},
+      timer: ''
     }
   },
   watch: {
     refreshInfo (val, old) {
-      console.log(val)
       if (val) {
         this.initEcharts()
-        console.log('更新成功deviceReported')
       }
     }
   },
@@ -66,7 +65,8 @@ export default {
         grid: {
           top: 60,
           x: 40,
-          y2: 30
+          x2: 40,
+          y2: 40
         },
         xAxis: {
           type: 'category',
@@ -90,9 +90,6 @@ export default {
           }
         },
         yAxis: {
-          // max: function (value) {
-          //   return value.max + 20
-          // },
           minInterval: 1,
           type: 'value',
           // data: ['烟感', '燃气', '电气', '网关', 'NB', 'GBRS'],
@@ -207,14 +204,17 @@ export default {
     window.addEventListener('resize', () => {
       this.reportec.resize()
     })
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.initEcharts()
+      console.log('11111')
       // 30分钟刷新一次
     }, 1800000)
+  },
+  beforeDestroy () {
+    // 清除定时器
+    clearInterval(this.timer)
+    this.timer = null
   }
-  // vue 的生命周期的问题；
-  //  created: 没有生成 dom 初始化了 data & method
-  //  mounted: 可以获取到 dom
 }
 </script>
 

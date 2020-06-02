@@ -1,5 +1,10 @@
 <template>
-  <div id="app"  v-loading="loading2" element-loading-text="加载中" element-loading-background="rgba(0, 0, 0, 0.8)">
+  <div
+    id="app"
+    v-loading="loading2"
+    element-loading-text="加载中"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+  >
     <header>
       <el-row>
         <el-col :span="6">
@@ -10,137 +15,6 @@
                 <i class="el-icon-menu" @click="getMenuS"></i>
               </el-tooltip>
             </div>
-            <!-- <el-menu
-              :router="true"
-              default-active="2"
-              class="el-menu-vertical-demo"
-              background-color="#304156"
-              text-color="#fff"
-              active-text-color="#ffd04b"
-              :unique-opened="true"
-              :collapse="true"
-              v-show="menuS">
-              <el-menu-item index="/home">
-                <i class="el-icon-menu"></i>
-                <em class="asiderTitle">首页</em>
-              </el-menu-item>
-              <el-menu-item index="/showcase">
-                <i class="el-icon-view"></i>
-                <em class="asiderTitle">展示台</em>
-              </el-menu-item>
-              <el-submenu index="1">
-                <template slot="title">
-                  <i class="el-icon-news"></i>
-                  <em class="asiderTitle">实时状况</em>
-                </template>
-                <el-menu-item-group>
-                  <el-submenu index="1-4" :collapse="true">
-                    <template slot="title">二级菜单</template>
-                    <el-menu-item index="/alarm/qbygbjxx">三级子菜单</el-menu-item>
-                  </el-submenu>
-                  <el-menu-item index="/personal">个人信息</el-menu-item>
-                  <el-menu-item index="/userInfo">用户列表</el-menu-item>
-                </el-menu-item-group>
-              </el-submenu>
-              <el-submenu index="2">
-                <template slot="title">
-                  <i class="el-icon-info"></i>
-                  <em class="asiderTitle">报警信息</em>
-                </template>
-                <el-menu-item-group>
-                  <el-submenu index="alarm-1">
-                    <template slot="title">NB烟感/燃气</template>
-                    <el-menu-item index="/alarm/qbygbjxx">全部烟感报警信息</el-menu-item>
-                    <el-menu-item index="/alarm/rqtcq">燃气探测器</el-menu-item>
-                    <el-menu-item index="/alarm/krqttcqzj">可燃气体探测器主机</el-menu-item>
-                  </el-submenu>
-                  <el-submenu index="alarm-2">
-                    <template slot="title">消防报警系统</template>
-                    <el-menu-item index="/alarm/hzbjkzqbjxx">火灾报警控制器报警信息</el-menu-item>
-                    <el-menu-item index="/alarm/LORA868">LORA868</el-menu-item>
-                    <el-menu-item index="/alarm/GSMbjxtbjxx">GSM报警系统报警信息</el-menu-item>
-                  </el-submenu>
-                  <el-menu-item index="/alarm">压力/液位/温湿度</el-menu-item>
-                  <el-menu-item index="/alarm">智慧用电系统</el-menu-item>
-                  <el-menu-item index="/alarm">安全报警系统</el-menu-item>
-                  <el-menu-item index="/showcase/baiduMap">智慧城市</el-menu-item>
-                </el-menu-item-group>
-              </el-submenu>
-              <el-submenu index="3">
-                <template slot="title">
-                  <i class="el-icon-printer"></i>
-                  <em class="asiderTitle">项目管理</em>
-                </template>
-                <el-menu-item-group>
-                  <el-menu-item index="/project/new">新建项目</el-menu-item>
-                  <el-menu-item index="/project/list">项目列表</el-menu-item>
-                  <el-menu-item index="/project/deviceConfig">设备配置</el-menu-item>
-                </el-menu-item-group>
-              </el-submenu>
-              <el-submenu index="4">
-                <template slot="title">
-                  <i class="el-icon-mobile-phone"></i>
-                  <em class="asiderTitle">设备管理</em>
-                </template>
-                <el-menu-item-group>
-                  <el-menu-item index="/equipment">NB烟感/燃气</el-menu-item>
-                  <el-menu-item index="/equipment">消防报警系统</el-menu-item>
-                  <el-menu-item index="/equipment">压力/液位/温湿度</el-menu-item>
-                  <el-menu-item index="/equipment">智慧用电系统</el-menu-item>
-                  <el-menu-item index="/equipment">安全警报系统</el-menu-item>
-                  <el-menu-item index="/equipment">联动系统</el-menu-item>
-                  <el-menu-item index="/equipment">智慧城市</el-menu-item>
-                  <el-menu-item index="/equipment">物资管理</el-menu-item>
-                </el-menu-item-group>
-              </el-submenu>
-              <el-submenu index="5">
-                <template slot="title">
-                  <i class="el-icon-document"></i>
-                  <em class="asiderTitle">维修/维保</em>
-                </template>
-                <el-menu-item-group>
-                  <el-menu-item index="/repair/recordFree">维修维保</el-menu-item>
-                  <el-menu-item index="/repair">待确认维修单</el-menu-item>
-                  <el-menu-item index="/repair/NewOrder">维修下单</el-menu-item>
-                  <el-menu-item index="/repair">二维码</el-menu-item>
-                  <el-menu-item index="/repair">设备巡检</el-menu-item>
-                  <el-menu-item index="/repair">物资巡检</el-menu-item>
-                </el-menu-item-group>
-              </el-submenu>
-              <el-submenu index="6">
-                <template slot="title">
-                  <i class="el-icon-star-off"></i>
-                  <em class="asiderTitle">增值服务</em>
-                </template>
-                <el-menu-item-group>
-                  <el-menu-item index="/increment">短信充值</el-menu-item>
-                  <el-menu-item index="/increment">语音充值</el-menu-item>
-                  <el-menu-item index="/increment">数据云存储查询</el-menu-item>
-                  <el-menu-item index="/increment">数据备份</el-menu-item>
-                  <el-menu-item index="/increment">教育培训</el-menu-item>
-                </el-menu-item-group>
-              </el-submenu>
-              <el-submenu index="7">
-                <template slot="title">
-                  <i class="el-icon-setting"></i>
-                  <em class="asiderTitle">系统设置</em>
-                </template>
-                <el-menu-item-group>
-                  <el-menu-item index="/systemSetup">公司信息</el-menu-item>
-                  <el-menu-item index="/systemSetup">人员设置</el-menu-item>
-                </el-menu-item-group>
-              </el-submenu>
-              <el-submenu index="8">
-                <template slot="title">
-                  <i class="el-icon-question"></i>
-                  <em class="asiderTitle">帮助中心</em>
-                </template>
-                <el-menu-item-group>
-                  <el-menu-item index="/helpCenter">热门问题</el-menu-item>
-                  <el-menu-item index="/helpCenter">意见反馈</el-menu-item>
-                </el-menu-item-group>
-              </el-submenu>
-            </el-menu> -->
           </div>
         </el-col>
         <el-col :span="12">
@@ -158,22 +32,106 @@
     <main>
       <PAMain></PAMain>
     </main>
+    <el-dialog
+      class="urgentTit"
+      :title="this.msgTit"
+      :visible.sync="urgentDialogVisible"
+      width="25%"
+      center
+    >
+      <!-- <span>{{this.alarmData[0]}}</span> -->
+      <el-form v-if="this.allSidebar[0]">
+        <el-form-item label="项目名称 :" label-width="150px">
+          <P>{{ this.allSidebar[0].proName }}</P>
+        </el-form-item>
+        <el-form-item label="消息描述:" label-width="150px">
+          <P>{{ this.allSidebar[0].msgDesc }}</P>
+        </el-form-item>
+        <el-form-item label="负责人电话 :" label-width="150px">
+          <P>{{ this.allSidebar[0].phone }}</P>
+        </el-form-item>
+        <!-- <el-form-item label="设备类型 :" label-width="150px">
+          <P>{{ this.allSidebar[0].devType }}</P>
+        </el-form-item>
+        <el-form-item label="危险等级 :" label-width="150px">
+          <P>{{ this.allSidebar[0].dangerLevel }}</P>
+        </el-form-item>
+        <el-form-item label="是否为个人 :" label-width="150px">
+          <el-radio-group disabled v-model="allSidebar[0].personal">
+            <el-radio :label=false>否</el-radio>
+            <el-radio :label=true>是</el-radio>
+          </el-radio-group>
+        </el-form-item> -->
+        <el-form-item label="地址 :" label-width="150px">
+          <P>{{
+            this.allSidebar[0].province +
+              this.allSidebar[0].city +
+              this.allSidebar[0].county +
+              this.allSidebar[0].detailAddress
+          }}</P>
+        </el-form-item>
+        <el-form-item label="安装位置 :" label-width="150px">
+          <P>{{ this.allSidebar[0].point }}</P>
+        </el-form-item>
+        <el-form-item label="发生时间 :" label-width="150px">
+          <P>{{ this.allSidebar[0].happenTime }}</P>
+        </el-form-item>
+        <el-form-item label="备注 :" label-width="150px">
+          <P>{{ this.allSidebar[0].remark }}</P>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="warning" plain v-show="this.msgTit === '报警'" >消 音</el-button>
+        <el-button @click="urgentDialogVisible = false">关 闭</el-button>
+        <router-link :to="{ name: 'SmokeSensorEquipAlert' }">
+          <el-button
+            @click="urgentDialogVisible = false"
+            style="margin-left: 10px"
+            type="danger"
+            plain
+            >进入报警页面</el-button
+          ></router-link
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import PAMain from './PA_Main'
 import moment from 'moment'
+import io from 'socket.io-client'
+import dayjs from 'dayjs'
 export default {
   data () {
     return {
+      userInfo: '',
+      userId: '',
       nowTime: new Date(), // 初始化时间
       Allture: true,
       loading2: true,
-      menuS: false
+      menuS: false,
+      allSidebar: [],
+      urgentDialogVisible: false,
+      msgTit: ''
     }
   },
   components: {
     PAMain
+  },
+  watch: {
+    allSidebar (val, old) {
+      console.log(val, '===============val')
+      console.log(old, '===============old')
+
+      if (old[0] !== undefined) {
+        this.urgentDialogVisible = true
+        if (old[0].msgType === 2) {
+          this.msgTit = '报警'
+        } else if (old[0].msgType === 3) {
+          this.msgTit = '故障'
+        }
+      }
+    }
   },
   filters: {
     datefilter: function (value) {
@@ -186,12 +144,34 @@ export default {
     }
   },
   created () {
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+    this.userId = this.userInfo.userId
+    let serverHome = 'http://xf.padssz.com:3863'
+    const socket = io(serverHome, {
+      'force new connection': true,
+      'query': 'id=' + this.userId
+    })
+    // 连接事件
+    socket.on('connect', () => {
+      console.log('连接中。。。')
+    }).on('auth', (data) => {
+      console.log('连接后验证：' + data)
+    }).on('message', (data) => {
+      // 后台推送的业务的数据
+      console.log(data)
+      data.happenTime = dayjs(data.happenTime).format('YYYY-MM-DD HH:mm:ss')
+      // this.msgDesc = data.msgDesc
+      this.$store.commit('setReceiveInfo', data)
+    }).on('disconnect', () => {
+      console.log('连接已断开。。。')
+    })
     setTimeout(() => {
       this.loading2 = false
     }, 1000)
   },
   mounted () {
     // 定时器实时更新时间数据
+    this.allSidebar = this.$store.state.Socket.sidebarInfo
     setInterval(() => {
       this.nowTime = new Date()
     }, 1000)
@@ -200,8 +180,8 @@ export default {
 </script>
 <style lang="less" scoped >
 /deep/.el-menu-item-group__title {
-    padding: 0 !important;
-  }
+  padding: 0 !important;
+}
 #app {
   background: url("../../assets/background.jpg");
   // background: -webkit-gradient(linear, 0 0, 0 100%, from(#0a2971), to(#45a1ea));
@@ -224,8 +204,7 @@ export default {
           height: 100%;
           position: relative;
           z-index: 5;
-          /deep/
-          ul {
+          /deep/ ul {
             margin-top: 30px;
           }
           .el-submenu {
@@ -267,10 +246,10 @@ export default {
       }
       .menuNav {
         position: relative;
-        top: 20px;
+        top: 15px;
         left: 25px;
         .el-icon-menu {
-          width:60px;
+          width: 60px;
           height: 60px;
           background: rgba(105, 102, 99, 0.5);
           border-radius: 50%;
@@ -302,6 +281,29 @@ export default {
     background-color: transparent;
     width: 100%;
     height: 90%;
+  }
+  .urgentTit {
+    /deep/.el-dialog {
+      margin-top: 25vh !important;
+      .el-dialog__body {
+        padding: 0;
+        .el-form-item {
+          margin-bottom: 0;
+          .el-form-item__content {
+            p {
+              width: 85%;
+              overflow: hidden; //超出的文本隐藏
+              text-overflow: ellipsis; //溢出用省略号显示
+              white-space: nowrap; //溢出不换行
+            }
+          }
+        }
+      }
+    }
+    /deep/.el-dialog__title {
+      font-size: 30px;
+      color: #fb3205;
+    }
   }
 }
 </style>

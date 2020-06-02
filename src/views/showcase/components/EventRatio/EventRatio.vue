@@ -10,15 +10,14 @@ export default {
     return {
       userInfo: {},
       eventRatioec: null,
-      chartChereDataList: {}
+      chartChereDataList: {},
+      timer: ''
     }
   },
   watch: {
     refreshInfo (val, old) {
-      console.log(val)
       if (val) {
         this.initEventEcharts()
-        console.log('更新成功eventRatio')
       }
     }
   },
@@ -40,17 +39,17 @@ export default {
       this.eventRatioec = this.echarts.init(document.querySelector('#event-zzt'))
       let colorArray = [
         {
-          top: '#33116b', // 红
+          top: '#33116b', // 登录
           bottom: '#316799'
         }, {
-          top: '#ee3b49', // 橙
+          top: '#ee3b49', // 报警
           bottom: '#ff877b'
         },
         {
-          top: '#fda04f', // 黄
+          top: '#fda04f', // 故障
           bottom: '#fcaa7f'
         }, {
-          top: '#1ff5fc', // 蓝
+          top: '#1ff5fc', // 状态
           bottom: '#0094ff'
         },
         {
@@ -60,6 +59,14 @@ export default {
         {
           top: '#e8edf4', // 灰
           bottom: '#d1dae9'
+        },
+        {
+          top: '#d5a0ff', // 灰
+          bottom: '#7381d8'
+        },
+        {
+          top: '#f1ef47', // 灰
+          bottom: '#15d84f'
         }
       ]
       let option = {
@@ -69,7 +76,7 @@ export default {
           y: '10px',
           textStyle: {
             color: '#fff',
-            fontSize: 16
+            fontSize: 15
           },
           subtextStyle: {
             color: '#fff',
@@ -199,10 +206,15 @@ export default {
     window.addEventListener('resize', () => {
       this.eventRatioec.resize()
     })
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.initEventEcharts()
       // 30分钟刷新一次
     }, 1800000)
+  },
+  beforeDestroy () {
+    // 清除定时器
+    clearInterval(this.timer)
+    this.timer = null
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <div class="Main">
     <!-- <el-card class="title">全部烟感报警信息</el-card> -->
     <router-link :to="{ name: 'SmokeSensorEquip' }"
-      ><el-card class="title on ">{{devType}}设备</el-card></router-link
+      ><el-card class="title on ">{{ devType }}设备</el-card></router-link
     >
     <router-link :to="{ name: 'SmokeSensorEquipAlert' }"
       ><el-card class="title">报警信息</el-card></router-link
@@ -14,19 +14,32 @@
       <!-- 筛选信息 -->
       <el-form label-width="80px">
         <el-form-item class="sx">
-          <el-input style="width:200px" clearable v-model="search_input" auto-complete="off" placeholder="请输入精确的设备ID"
+          <el-input
+            style="width:200px"
+            clearable
+            v-model="search_input"
+            auto-complete="off"
+            placeholder="请输入精确的设备ID"
           ></el-input>
         </el-form-item>
-         <el-form-item>
-           <el-select v-model="screen_projectType" placeholder="项目类型" @change="getproName">
-            <el-option label="全部类型" value='' ></el-option>
-            <el-option label="工程队" value=1 ></el-option>
-            <el-option label="散户" value=0 ></el-option>
+        <el-form-item>
+          <el-select
+            v-model="screen_projectType"
+            placeholder="项目类型"
+            @change="getproName"
+          >
+            <el-option label="全部类型" value=""></el-option>
+            <el-option label="工程队" value="1"></el-option>
+            <el-option label="散户" value="0"></el-option>
           </el-select>
         </el-form-item>
-          <el-form-item v-show="screen_projectType !== ''">
-          <el-select v-model="screen_project" placeholder="项目筛选" @change="getproBd">
-            <el-option label="全部项目" value='' ></el-option>
+        <el-form-item v-show="screen_projectType !== ''">
+          <el-select
+            v-model="screen_project"
+            placeholder="项目筛选"
+            @change="getproBd"
+          >
+            <el-option label="全部项目" value=""></el-option>
             <el-option
               v-for="(item, index) in Sproject"
               :key="index"
@@ -34,10 +47,14 @@
               :value="item.proId"
             ></el-option>
           </el-select>
-        </el-form-item >
+        </el-form-item>
         <el-form-item v-show="screen_project !== ''">
-          <el-select v-model="screen_building" placeholder="建筑筛选" @change="getproFl">
-            <el-option label="全部建筑" value='' ></el-option>
+          <el-select
+            v-model="screen_building"
+            placeholder="建筑筛选"
+            @change="getproFl"
+          >
+            <el-option label="全部建筑" value=""></el-option>
             <el-option
               v-for="(item, index) in Sbuilding"
               :key="index"
@@ -48,7 +65,7 @@
         </el-form-item>
         <el-form-item v-show="screen_building !== ''">
           <el-select v-model="screen_floor" placeholder="楼层筛选">
-            <el-option label="全部楼层" value='' ></el-option>
+            <el-option label="全部楼层" value=""></el-option>
             <el-option
               v-for="(item, index) in Sfloor"
               :key="index"
@@ -59,13 +76,21 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="screen">筛选</el-button>
+          <el-button @click="reset">重置</el-button>
           <el-button @click="addDptit">添加设备</el-button>
           <el-button @click="exportExcel">导出表格</el-button>
         </el-form-item>
       </el-form>
     </el-card>
-    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px">
-      <el-table-column prop="devId" label="设备ID" width="80">
+    <el-table
+      v-loading="loadingTable"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+      :data="tableData"
+      border
+      style="width: 100% ;margin-top: 15px"
+      id="out-table"
+    >
+      <el-table-column prop="devId" label="设备ID" width="100">
       </el-table-column>
       <el-table-column prop="proName" label="设备名称"> </el-table-column>
       <el-table-column prop="devType" label="设备类型"> </el-table-column>
@@ -78,11 +103,14 @@
         width="80"
         :formatter="formatterNetwork"
       >
-       <template slot-scope="scope">
-        <el-tag
-          :type="scope.row.network === 0 ? 'warning' : 'success'" close-transition>
-          {{scope.row.network === 0 ? '离线':'在线'}}</el-tag>
-      </template>
+        <template slot-scope="scope">
+          <el-tag
+            :type="scope.row.network === 0 ? 'warning' : 'success'"
+            close-transition
+          >
+            {{ scope.row.network === 0 ? "离线" : "在线" }}</el-tag
+          >
+        </template>
       </el-table-column>
       <el-table-column
         prop="state"
@@ -92,6 +120,13 @@
       >
       </el-table-column>
       <el-table-column prop="bindTime" label="绑定时间" :formatter="formatter">
+      </el-table-column>
+      <el-table-column prop="bindTime" label="联系人" width="100">
+        <template slot-scope="scope">
+          <el-button @click="getContacts(scope.row)" size="mini" round>
+            <i class="el-icon-tickets"></i>设置</el-button
+          >
+        </template>
       </el-table-column>
       <el-table-column label="操作" width="220">
         <template slot-scope="scope">
@@ -118,8 +153,14 @@
       >
       </el-pagination>
     </div>
-    <el-dialog :title="dialogtit" :visible.sync="dialogDetails">
+    <el-dialog
+      class="dialogmain"
+      :title="dialogtit"
+      :visible.sync="dialogDetails"
+    >
       <el-form :model="dialogfrom">
+        <el-row>
+          <el-col :span="12">
         <el-form-item label="所属项目" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -127,6 +168,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="所属建筑" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -134,6 +177,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="住户名称" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -141,6 +186,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="住户电话" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -148,6 +195,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="危险等级" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -155,6 +204,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="绑定时间" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -162,6 +213,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="是否为个人" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -169,6 +222,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="设备名称" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -176,6 +231,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="登录时间" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -183,6 +240,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="网关" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -190,6 +249,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="IMEI" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -197,6 +258,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="设备ID" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -204,6 +267,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item
           label="监控状态"
           :label-width="formLabelWidth"
@@ -215,6 +280,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="电池容量" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -222,6 +289,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="通讯方式" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -229,6 +298,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="物联网关" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -236,6 +307,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="设备型号" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -243,6 +316,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="网络状态" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -250,6 +325,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="设备状态" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -257,6 +334,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item label="信号" :label-width="formLabelWidth">
           <el-input
             disabled
@@ -264,6 +343,8 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
         <el-form-item
           label="开关状态"
           :label-width="formLabelWidth"
@@ -275,13 +356,155 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
+         </el-col>
+         <el-col :span="12">
+        <el-form-item
+          label="防区管理"
+          :label-width="formLabelWidth"
+          v-show="this.$route.name === 'IOTGateway'"
+        >
+          <el-button type="success" size="small " @click="getDefenceArea"
+            >设置</el-button
+          >
+        </el-form-item>
+         </el-col>
+         <el-col :span="12">
+        <el-form-item
+          label="声光设置"
+          :label-width="formLabelWidth"
+          v-show="this.$route.name === 'IOTGateway'"
+        >
+          <el-button type="success" size="small " @click="getAodata"
+            >设置</el-button
+          >
+        </el-form-item>
+         </el-col>
+      </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogDetails = false">关闭</el-button>
+        <el-button type="primary" class="xxoff" @click="dialogDetails = false"
+          >关闭</el-button
+        >
       </div>
+      <el-drawer
+        style="margin-top: 5vh"
+        width="40%"
+        title="防区管理"
+        :visible.sync="defenceArea"
+        append-to-body
+      >
+        <el-button @click="openAddArea" type="warning">添加防区</el-button>
+        <el-table :data="defenceAreaData" border>
+        <!-- <el-table :data="tableData" border> -->
+          <el-table-column width="80" property="daId" label="防区Id"></el-table-column>
+          <el-table-column property="daName" label="防区名称"
+            ></el-table-column
+          >
+          <el-table-column property="description" label="防区描述"
+            ></el-table-column
+          >
+          <el-table-column label="操作" width="180">
+            <template slot-scope="scope">
+              <el-button size="mini" @click="openAreaInfo(scope.row)" round>
+                <i class="el-icon-edit"></i
+              ></el-button>
+              <el-button size="mini" @click="deleDefenceArea(scope.row)" round>
+                <i class="el-icon-delete"></i
+              ></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="block pagination">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentCG"
+            :current-page.sync="currentPage1"
+            :page-size="pageRow"
+            layout="total, prev, pager, next"
+            :total="totalCountSG"
+          >
+          </el-pagination>
+        </div>
+      </el-drawer>
+    </el-dialog>
+    <el-drawer
+      :visible.sync="dialogAreaInfo"
+      direction="rtl"
+      custom-class="demo-drawer"
+      ref="AreaData"
+    >
+      <h1 style="font-size:36px;text-align: center;margin-top:80px">
+        {{ this.areaTit }}
+      </h1>
+      <div class="demo-drawer__content">
+        <el-form style="margin-top:50px;margin-bottom:50px" :model="AreaData">
+          <el-form-item label="防 区 Id" :label-width="formLabelWidth">
+            <el-input v-model="AreaData.daId" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="防区名称" :label-width="formLabelWidth">
+            <el-input v-model="AreaData.daName" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="防区描述" :label-width="formLabelWidth">
+            <el-input
+              v-model="AreaData.description"
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+        <div class="demo-drawer__footer">
+          <el-button @click="dialogAreaInfo = false">取 消</el-button>
+          <el-button
+            @click="addDefenceArea"
+            type="primary"
+            :class="[this.areaTit === '添加防区' ? 'buttonS' : 'buttonH']"
+            >确定添加</el-button
+          >
+          <el-button
+          @click="changeDefenceArea"
+            type="primary"
+            :class="[this.areaTit === '修改防区' ? 'buttonS' : 'buttonH']"
+            >确定修改</el-button
+          >
+        </div>
+      </div>
+    </el-drawer>
+    <el-dialog
+      class="fqtk"
+      width="40%"
+      title="声光管理"
+      :visible.sync="dialogAO"
+    >
+      <div class="fqbh">
+        <el-tree :data="aoaodata" :props="defaultProps" @node-click="getTree"></el-tree>
+      </div>
+      <div class="fqsgcz">
+        <el-button type="primary" @click="addAo">添 加</el-button>
+        <el-button class="deld" type="danger" @click="delAo">删 除</el-button>
+      </div>
+      <div class="kxfq">
+        <p class="wz">未绑定防区编号</p>
+        <el-checkbox-group class="check" v-model="aoDatafx">
+          <el-checkbox
+            v-for="(item, index) in aoData"
+            :key="index"
+            :label="item"
+          ></el-checkbox>
+        </el-checkbox-group>
+      </div>
+      <div class="fqbhyx"><p v-show="this.slId !== ''&& this.slId !== '声光 ID'"  class="wz">{{`当前选择声光ID为:`+  this.slId}}</p>
+      <p class="wz">已绑定选防区编号</p>
+       <el-checkbox-group class="check" v-model="bindAodatafx">
+          <el-checkbox
+            v-for="(item, index) in bindAodata"
+            :key="index"
+            :label="item"
+          ></el-checkbox>
+        </el-checkbox-group>
+      </div>
+
     </el-dialog>
     <!-- 添加与修改弹框 -->
-    <el-dialog :title="dialogtit" :visible.sync="dialogAddEdit" >
+    <el-dialog :title="dialogtit" :visible.sync="dialogAddEdit">
       <el-form :model="dialogfromB">
         <el-form-item label="绑定设备ID" :label-width="formLabelWidth">
           <el-input v-model="dialogfromB.devId" auto-complete="off"></el-input>
@@ -328,29 +551,28 @@
         <el-form-item label="安装点" :label-width="formLabelWidth">
           <el-input v-model="dialogfromB.point" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="是否为个人" :label-width="formLabelWidth" >
+        <el-form-item label="是否为个人" :label-width="formLabelWidth">
           <el-radio-group v-model="dialogfromB.personal" @change="emptyPb">
             <el-radio :label="true">是</el-radio>
             <el-radio :label="false">否</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item
-          label="定位"
-          :label-width="formLabelWidth"
-        >
-          <el-button @click="tkMap" :type="this.coorType">{{this.coordinateInfo}}</el-button>
+        <el-form-item label="定位" :label-width="formLabelWidth">
+          <el-button @click="tkMap" :type="this.coorType">{{
+            this.coordinateInfo
+          }}</el-button>
         </el-form-item>
         <el-form-item
           label="所属建筑"
           :label-width="formLabelWidth"
-          v-show="!dialogfromB.personal"
+          v-show="dialogfromB.personal === false"
         >
           <el-input v-model="dialogfromB.pbName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item
           label="所属楼层"
           :label-width="formLabelWidth"
-            v-show="!dialogfromB.personal"
+          v-show="dialogfromB.personal  === false"
         >
           <el-input
             v-model="dialogfromB.pbfName"
@@ -360,18 +582,29 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogAddEdit = false">取 消</el-button>
-        <el-button :class="[this.dialogtit === '添加设备' ? 'buttonS' : 'buttonH']" type="primary"  @click="addDp" >确定添加</el-button
+        <el-button
+          :class="[this.dialogtit === '添加设备' ? 'buttonS' : 'buttonH']"
+          type="primary"
+          @click="addDp"
+          >确定添加</el-button
         >
         <el-button
+          style="margin-left:20px"
           :class="[this.dialogtit === '修改设备' ? 'buttonS' : 'buttonH']"
           type="primary"
           @click="changeDp"
           >确定修改</el-button
         >
       </div>
-      <el-dialog append-to-body title="定位" :visible.sync="dialogMap" width="40%" >
+      <el-dialog
+        append-to-body
+        title="定位"
+        :visible.sync="dialogMap"
+        width="40%"
+      >
         <div class="mapboxS" ref="map">
-          <baidu-map v-if="dialogMap"
+          <baidu-map
+            v-if="dialogMap"
             :center="center"
             :zoom="zoom"
             :scroll-wheel-zoom="true"
@@ -415,7 +648,112 @@
             </bm-control>
           </baidu-map>
         </div>
-        <el-button @click="getCoordinate" type="warning" round>确定位置</el-button>
+        <el-button @click="getCoordinate" type="warning" round
+          >确定位置</el-button
+        >
+      </el-dialog>
+    </el-dialog>
+    <el-dialog
+      width="50%"
+      title="联系人设置"
+      :visible.sync="contactsDialog"
+      append-to-body
+    >
+      <el-button @click="openAddCon" type="warning">添加联系人</el-button>
+      <el-table :data="contactsFrom" border class="confrom">
+        <el-table-column
+          property="conId"
+          label="联系人Id"
+          width="100"
+        ></el-table-column>
+        <el-table-column
+          property="conName"
+          label="联系人名称"
+          width="150"
+        ></el-table-column>
+        <el-table-column
+          property="conPhone"
+          label="联系人电话"
+          width="150"
+        ></el-table-column>
+        <el-table-column property="acceptVms" label="允许接收短信">
+          <template slot-scope="scope">
+            <el-switch disabled v-model="scope.row.acceptSms"> </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column
+          property="acceptSms"
+          label="允许接收语音电话"
+        >
+          <template slot-scope="scope">
+            <el-switch disabled v-model="scope.row.acceptVms"> </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" change="changeContacts">
+          <template slot-scope="scope">
+            <el-button @click="openConInfo(scope.row)" size="mini" round>
+              <i class="el-icon-edit"></i
+            ></el-button>
+            <el-button @click="deleContacts(scope.row)" size="mini" round>
+              <i class="el-icon-delete"></i
+            ></el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-dialog
+        width="40%"
+        :title="contactsTit"
+        :visible.sync="contactsInfo"
+        append-to-body
+      >
+        <el-form :model="dialogContactsFrom">
+          <el-form-item
+            label="联系人ID"
+            :label-width="formLabelWidth"
+            v-show="this.contactsTit === '联系人信息修改'"
+          >
+            <el-input
+              disabled
+              v-model="dialogContactsFrom.conId"
+              auto-complete="off"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="联系人名称" :label-width="formLabelWidth">
+            <el-input
+              v-model="dialogContactsFrom.conName"
+              auto-complete="off"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="联系人电话" :label-width="formLabelWidth">
+            <el-input
+              v-model="dialogContactsFrom.conPhone"
+              auto-complete="off"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="允许接收短信" :label-width="formLabelWidth">
+            <el-switch v-model="dialogContactsFrom.acceptSms"> </el-switch>
+          </el-form-item>
+          <el-form-item label="允许接收语音电话" :label-width="formLabelWidth">
+            <el-switch v-model="dialogContactsFrom.acceptVms"> </el-switch>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="contactsInfo = false">取 消</el-button>
+          <el-button
+            :class="[this.contactsTit === '添加联系人' ? 'buttonS' : 'buttonH']"
+            type="primary"
+            @click="addContacts"
+            >确定添加</el-button
+          >
+          <el-button
+            :class="[
+              this.contactsTit === '联系人信息修改' ? 'buttonS' : 'buttonH'
+            ]"
+            type="primary"
+            @click="changeContacts"
+            >确定修改</el-button
+          >
+        </div>
       </el-dialog>
     </el-dialog>
   </div>
@@ -429,8 +767,6 @@ export default {
     return {
       userInfo: {},
       tableData: [],
-      AllFloor: [],
-      datetime: [],
       dialogfrom: {},
       dialogfromB: {
       },
@@ -452,13 +788,83 @@ export default {
       screen_floor: '',
       Sfloor: {},
       loadingTable: true,
+      // 防区
+      defenceAreaData: [],
+      defenceArea: false,
+      dialogAreaInfo: false,
+      areaTit: '',
+      AreaData: {},
+      // 声光
+      dialogAO: false,
+      aoDatafx: [],
+      aoData: [],
+      aoaodata: [{
+        label: '声光 ID',
+        children: [{
+          label: '1'
+        }, {
+          label: '2'
+        }, {
+          label: '3'
+        }, {
+          label: '4'
+        }, {
+          label: '5'
+        }, {
+          label: '6'
+        }, {
+          label: '7'
+        }, {
+          label: '8'
+        }, {
+          label: '9'
+        }, {
+          label: '10'
+        }, {
+          label: '11'
+        }, {
+          label: '10'
+        }, {
+          label: '12'
+        }, {
+          label: '13'
+        }, {
+          label: '13'
+        }, {
+          label: '14'
+        }, {
+          label: '15'
+        }
+        ]
+      }],
+      slId: '',
+      bindAodatafx: [],
+      bindAodata: [],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
+      totalCountSG: 0,
+      currentPageSG: 1,
+      indexSG: 1,
+      // 联系人
+      contactsData: '',
+      contactsDialog: false,
+      contactsFrom: [],
+      tkpdId: '',
+      dialogContactsFrom: {
+        acceptSms: false,
+        acceptVms: false
+      },
+      contactsInfo: false,
+      contactsTit: '',
       // 分页
       currentPage1: 1,
       totalCount: 0,
       pageIndex: 1,
       pageRow: 10,
-      NewsProjectform: {},
-      coordinateInfo: '获取',
+      // NewsProjectform: {},
+      coordinateInfo: '未获取',
       coorType: 'warning',
       // 地图
       center: {}, // 经纬度
@@ -480,7 +886,6 @@ export default {
       }
     }
   },
-
   components: {
     // BaiDuMap // 地图组件
   },
@@ -499,9 +904,6 @@ export default {
       this.devType = '物联网关'
       this.getDataList()
     }
-  },
-  mounted () {
-    this.getDataList()
   },
   watch: {
     '$route': function () {
@@ -540,6 +942,7 @@ export default {
         'pageRow': this.pageRow
       }
       this.$http.post('/pf/dpoint/queryList', dto).then((res) => {
+        console.log(res.data)
         this.tableData = res.data.data.data
         this.totalCount = res.data.data.totalCount
         this.loadingTable = false
@@ -566,6 +969,14 @@ export default {
     screen () {
       this.getDataList()
     },
+    reset () {
+      this.search_input = ''
+      this.screen_projectType = ''
+      this.screen_project = ''
+      this.screen_floor = ''
+      this.screen_building = ''
+      this.getDataList()
+    },
     // 定义导出Excel表格事件
     exportExcel () {
       /* 从表生成工作簿对象 */
@@ -587,7 +998,7 @@ export default {
           'sheetjs.xlsx'
         )
       } catch (e) {
-        if (typeof console !== 'undefined') console.log(e, wbout)
+        // console.log(1)
       }
       return wbout
     },
@@ -683,14 +1094,13 @@ export default {
           this.coordinateInfo = '已获取'
           this.coorType = 'success'
         } else if (!this.dialogfromB.lng) {
-          this.coordinateInfo = '获取'
+          this.coordinateInfo = '未获取'
           this.coorType = 'warning'
         }
         let point = { lng: this.dialogfromB.lng, lat: this.dialogfromB.lat }
         this.center = point
         this.markers = point
       })
-      // console.log(this.center.lng, 111111111111111111111111111111111111111)
     },
     changeDp (row) {
       const dto = {
@@ -707,19 +1117,24 @@ export default {
         'lat': this.markers.lat
       }
       this.$http.put('/pf/dpoint', dto).then((res) => {
-        this.getDataList()
+        if (this.dialogfromB.devName !== '' && this.dialogfromB.dangerLevel !== '' && this.dialogfromB.phone !== '' &&
+          this.dialogfromB.point !== '' && this.dialogfromB.pdName !== '' && this.dialogfromB.pdfName !== '') {
+          if (res.data.code === 0) {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+            this.getDataList()
+          }
+        } else {
+          this.$message({
+            message: '请正确填写,信息不能为空',
+            type: 'info'
+          })
+        }
       })
       this.dialogAddEdit = false
     },
-    // onChangedistpicker (a) {
-    //   console.log(a)
-    //   // this.province = (a.province.value + a.city.value + a.area.value)
-    //   this.dialogfromB.province = a.province.value
-    //   this.dialogfromB.city = a.city.value
-    //   this.dialogfromB.county = a.area.value
-    //   this.$set(this.dialogfromB, 'detailAddress', a.province.value + a.city.value + a.area.value + this.dialogfromB.address)
-    //   console.log(this.dialogfromB.detailAddress, '====================')
-    // },
     // 删除
     deleteDp (row) {
       this.$confirm('此操作将永久删除该设备, 是否继续?', '提示', {
@@ -749,6 +1164,270 @@ export default {
         this.dialogfromB.pbName = ''
         this.dialogfromB.pbfName = ''
       }
+    },
+    // 联系人 () {
+    getContacts (row) {
+      this.contactsDialog = true
+      this.tkpdId = row.dpId
+      this.qqContacts()
+    },
+    qqContacts () {
+      this.$http.get(`/pf/dpoint/contact/${this.tkpdId}`).then((res) => {
+        this.contactsFrom = res.data.data
+      })
+    },
+    openConInfo (row) {
+      this.contactsInfo = true
+      this.dialogContactsFrom = row
+      this.contactsTit = '联系人信息修改'
+    },
+    openAddCon () {
+      this.contactsInfo = true
+      this.dialogContactsFrom = { acceptSms: false, acceptVms: false }
+      this.contactsTit = '添加联系人'
+    },
+    addContacts () {
+      let dto = {
+        'conName': this.dialogContactsFrom.conName,
+        'conPhone': this.dialogContactsFrom.conPhone,
+        'acceptSms': this.dialogContactsFrom.acceptSms,
+        'acceptVms': this.dialogContactsFrom.acceptVms,
+        'dpId': this.tkpdId
+      }
+      this.$http.post('/pf/dpoint/contact', dto).then((res) => {
+        if (res.data.code === 0) {
+          this.$message({
+            message: '新增成功',
+            type: 'success'
+          })
+          this.contactsInfo = false
+          // this.contactsDialog = false
+          this.qqContacts()
+        } else {
+          this.$message({
+            message: '添加失败,请正确填写',
+            type: 'error'
+          })
+        }
+      })
+    },
+    changeContacts () {
+      let dto = {
+        'conName': this.dialogContactsFrom.conName,
+        'conPhone': this.dialogContactsFrom.conPhone,
+        'acceptSms': this.dialogContactsFrom.acceptSms,
+        'acceptVms': this.dialogContactsFrom.acceptVms,
+        'conId': this.dialogContactsFrom.conId
+      }
+      this.$http.put('/pf/dpoint/contact', dto).then((res) => {
+        if (res.data.code === 0) {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+          this.contactsInfo = false
+          this.qqContacts()
+        } else {
+          this.$message({
+            message: '修改失败,请正确填写',
+            type: 'error'
+          })
+        }
+      })
+    },
+    deleContacts (row) {
+      this.$confirm('此操作将永久删除该联系人, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http({
+          url: `/pf/dpoint/contact/${row.conId}`,
+          method: 'DELETE'
+        }).then(res => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.qqContacts()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    // 防区管理
+    getDefenceArea () {
+      this.defenceArea = true
+      // let devId = 1003019
+      let index = this.indexSG
+      let pageRow = this.pageRow
+      this.$http.get(`/pf/device/area?devId=${this.dialogfrom.devId}&index=${index}&pageRow=${pageRow}`).then((res) => {
+        this.totalCountSG = res.data.data.totalCount
+        this.defenceAreaData = res.data.data.data
+      })
+    },
+    qqDefenceArea () {
+
+    },
+    handleCurrentCG (val) {
+      this.indexSG = val
+      this.getDefenceArea()
+    },
+    openAreaInfo (row) {
+      this.dialogAreaInfo = true
+      this.areaTit = '修改防区'
+      let AreaData = row
+      this.AreaData = AreaData
+    },
+    openAddArea () {
+      this.dialogAreaInfo = true
+      this.areaTit = '添加防区'
+      this.AreaData = {}
+    },
+    addDefenceArea () {
+      let dto = {
+        'devId': this.dialogfrom.devId,
+        // 'devId': 1003019,
+        'daId': this.AreaData.daId,
+        'daName': this.AreaData.daName,
+        'daType': 1,
+        // 'daType': this.AreaData.daType,
+        'description': this.AreaData.description
+      }
+      this.$http.post('/pf/device/area', dto).then((res) => {
+        if (res.data.code === 0) {
+          this.$message({
+            type: 'success',
+            message: '添加成功!'
+          })
+          this.getDefenceArea()
+          this.dialogAreaInfo = false
+        } else {
+          this.$message({
+            type: 'error',
+            message: '添加失败'
+          })
+        }
+      })
+    },
+    changeDefenceArea (row) {
+      let dto = {
+        'devId': this.dialogfrom.devId,
+        // 'devId': 1003019,
+        'daId': this.AreaData.daId,
+        'daName': this.AreaData.daName,
+        'daType': 1,
+        'description': this.AreaData.description
+      }
+      this.$http.put('/pf/device/area', dto).then((res) => {
+        if (res.data.code === 0) {
+          this.$message({
+            type: 'success',
+            message: '添加成功!'
+          })
+          this.getDefenceArea()
+          this.dialogAreaInfo = false
+        } else {
+          this.$message({
+            type: 'error',
+            message: '添加失败'
+          })
+        }
+      })
+    },
+    deleDefenceArea (row) {
+      this.$confirm('此操作将永久删除该防区, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // let devId = 1003019
+        // let daId = row.devId
+        this.$http({
+          url: `/pf/device/area?daId=${row.daId}&devId=${this.dialogfrom.devId}`,
+          method: 'DELETE'
+        }).then(res => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.getDefenceArea()
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+
+    // 声光设置
+    getAodata () {
+      this.dialogAO = true
+      // let devId = this.dialogfrom.devId
+      let devId = 1003019
+
+      this.$http.get(`/pf/device/sl/nodaId/${devId}`).then((res) => {
+        this.aoData = res.data.data
+      })
+    },
+    getTree (data) {
+      this.slId = data.label
+      if (!data.children) {
+        this.getbind()
+      }
+    },
+    getbind () {
+      this.$http.get(`/pf/device/sl/hasdaId?devId=${1003019}&slId=${this.slId}`).then((res) => {
+        this.bindAodata = res.data.data
+      })
+    },
+    addAo () {
+      // this.dialogAO = false
+      let dto = {
+        'devId': 1003019,
+        // 'devId': this.dialogfrom.devId,
+        'daIds': this.aoDatafx,
+        'slId': this.slId
+      }
+      this.$http.post('/pf/device/sl', dto).then((res) => {
+        this.aoDatafx = []
+        if (res.data.code === 0) {
+          this.$message({
+            type: 'success',
+            message: '添加成功!'
+          })
+          this.getAodata()
+          this.getbind()
+        } else {
+          this.$message({
+            type: 'error',
+            message: '添加失败'
+          })
+        }
+      })
+    },
+    delAo () {
+      this.$http.delete(`/pf/device/sl?devId=${1003019}&daIds=${this.bindAodatafx}`).then((res) => {
+      // this.$http.delete(`/pf/device/sl?devId=${this.dialogfrom.devId}&daIds=${this.bindAodatafx}`).then((res) => {
+        this.bindAodatafx = []
+        if (res.data.code === 0) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.getAodata()
+          this.getbind()
+        } else {
+          this.$message({
+            type: 'error',
+            message: '删除失败'
+          })
+        }
+      })
     },
     // 获取定位
     tkMap (row) {
@@ -837,6 +1516,28 @@ export default {
     color: #fff;
   }
 }
+/deep/.el-dialog {
+  width: 35%;
+  .xxoff {
+    margin-top: 50px;
+    margin-right: 60px;
+  }
+}
+.dialogmain {
+  /deep/.el-dialog {
+    width: 50%;
+  }
+  // .el-form-item {
+  //   float: left;
+  //   width: 100%;
+    .el-input {
+      width: 80%;
+    }
+    /deep/.el-input__inner {
+      color: #505353;
+    }
+  // }
+}
 /deep/.el-dialog__header {
   border-bottom: 2px solid #eee;
   .el-dialog__title {
@@ -845,7 +1546,7 @@ export default {
   }
 }
 .el-button + .el-button {
-  margin-left: 0;
+  margin-left: 5px;
 }
 .el-input {
   float: left;
@@ -866,8 +1567,81 @@ export default {
   height: 500px;
   // border: 1px solid #ccc;
   .el-input {
-  // float: left;
-  width: 150%;
+    // float: left;
+    width: 150%;
+  }
 }
+.demo-drawer__footer {
+  text-align: center;
+  .el-button--primary {
+    margin-left: 30px;
+  }
+}
+.fqtk {
+  width: 100%;
+  margin-top: 5vh;
+  /deep/.el-dialog__body {
+    height: 420px;
+  }
+  .kxfq,
+  .fqbhyx {
+    float: left;
+    // background-color: pink;
+    width: 50%-1px;
+    height: 170px;
+    border: 1px solid #0094ff;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    overflow: scroll;
+    .wz {
+      font-size: 16px;
+      margin-top: 5px;
+      margin-left: 10px;
+    }
+    .check {
+      /deep/.el-checkbox {
+        width: 12%;
+        // display: block;
+        margin-top: 4.5px;
+        margin-left: 15px;
+      }
+    }
+  }
+  .fqbh {
+    float: left;
+    height: 350px;
+    width: 30%-1px;
+    border: 1px solid #0094ff;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    overflow-y: scroll;
+    .wz {
+      font-size: 16px;
+      margin-top: 5px;
+      margin-left: 10px;
+    }
+  }
+  .fqsgcz {
+    float: right;
+    width: 15%;
+    height: 350px;
+    margin-left: 10px;
+    position: relative;
+    .deld {
+      margin-top: 150px;
+      margin-left: 0;
+    }
+  }
+}
+/deep/.confrom {
+  margin-top: 10px;
+  th {
+    text-align: center;
+  }
+  td {
+    text-align: center;
+  }
 }
 </style>

@@ -4,7 +4,7 @@
         <el-row>
             <!-- 列 -->
             <el-col :span="20" >
-                <span class="GSname">智慧消防报警平台</span>
+                <span class="GSname">焱安智慧消防接警平台</span>
             </el-col>
             <el-col :offset="5" :span="4" class="youName">
                 <el-dropdown trigger="click">
@@ -14,7 +14,7 @@
                          <!-- <img class="icon" src="http://b-ssl.duitang.com/uploads/item/201511/13/20151113110434_kyReJ.jpeg" alt=""> -->
                         <span class="name">{{this.userInfo.userName}}</span>
                         <span class="role">{{this.userInfo.grade}}级管理员</span>
-                        <i class="el-icon-arrow-down el-icon--right"></i>
+                        <i style="font-size:14px;color:#fff" class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item ><router-link :to="{name:'Personal'}">个人信息</router-link></el-dropdown-item>

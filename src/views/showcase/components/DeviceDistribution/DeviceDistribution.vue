@@ -12,7 +12,7 @@
         <el-tab-pane label="百度地图" name="second">
           <BaiDuMap></BaiDuMap>
         </el-tab-pane>
-          <el-tab-pane label="消防CRT" disabled> </el-tab-pane>
+          <!-- <el-tab-pane label="消防CRT" disabled> </el-tab-pane> -->
       </el-tabs>
     </div>
     <Notice v-show="$route.name === 'home'"></Notice>
@@ -47,7 +47,7 @@
         <li>
            <router-link :to="{ name: 'SmokeSensorEquip' }">
           <i class="ulBG">
-            <img src="@/assets/ul-six.png" alt="" />
+            <img src="@/assets/sSensation.png" alt="" />
             <em class="SixNumber">{{ this.circleNavData.total[0] }}</em>
           </i>
           <p>{{ this.circleNavData.devType[0] }}</p>
@@ -56,7 +56,7 @@
         <li>
           <router-link :to="{ name: 'IOTGateway' }">
             <i class="ulBG"
-              ><img src="@/assets/ul-six.png" alt="" /><em class="SixNumber">{{
+              ><img src="@/assets/host.png" alt="" /><em class="SixNumber">{{
                 this.circleNavData.total[1]
               }}</em></i
             >
@@ -66,7 +66,7 @@
         <li>
           <router-link :to="{ name: 'GasDeterctor' }">
           <i class="ulBG"
-            ><img src="@/assets/ul-six.png" alt="" /><em class="SixNumber">{{
+            ><img src="@/assets/gas.png" alt="" /><em class="SixNumber">{{
               this.circleNavData.total[2]
             }}</em></i
           >
@@ -76,7 +76,7 @@
         <li>
           <router-link :to="{ name: 'ElectricalFireEquipment' }">
           <i class="ulBG"
-            ><img src="@/assets/ul-six.png" alt="" /><em class="SixNumber">{{
+            ><img src="@/assets/electricalFire.png" alt="" /><em class="SixNumber">{{
               this.circleNavData.total[3]
             }}</em></i
           >
@@ -118,19 +118,6 @@
         ></i>
       </div>
       <ul>
-        <!-- <li @click="sidebarDialog(item)"
-          v-for="(item, index) in this.allSidebar.slice(0 , 9)"
-          :key="index"
-          class="sidebar-one notes">
-          <div class="yuan">
-            <p>{{item.msgType === 2 ? '报警' : '故障' }}</p>
-          </div>
-          <span class="time">{{ item.happenTime | dateFilter }}</span>
-          <span class="devId">{{ item.devType }}</span>
-          <span class="address">{{
-            item.province + item.city + item.county + item.detailAddress
-          }}</span>
-        </li> -->
         <li @click="sidebarDialog(item)"
           v-for="(item, index) in this.sjztData.slice(0 , 10)"
           :key="index"
@@ -141,7 +128,7 @@
           <span class="time">{{ item.happenTime | dateFilter }}</span>
           <span class="devId">{{ item.devType }}</span>
           <span class="address">{{
-            item.province + item.city + item.county + item.detailAddress
+            !(item.province + item.city + item.county + item.detailAddress) ? '地址:无' : item.province + item.city + item.county + item.detailAddress
           }}</span>
         </li>
       </ul>
@@ -190,7 +177,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogSidebar = false">取 消</el-button>
+        <el-button style="margin-right:20px" type="primary" @click="dialogSidebar = false">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 底部 -->
@@ -218,7 +205,6 @@ import BaiDuMap from './components/BaiDuMap'
 // import Urgent from './components/Urgent'
 import Notice from './components/Notice'
 import dayjs from 'dayjs'
-// import axios from 'axios'
 export default {
   name: 'mapbox',
   data () {
@@ -239,12 +225,6 @@ export default {
       dialogSidebar: false,
       allSidebar: [],
       singleSidebarInfo: {},
-      // colorShow: [], // 点击时的颜色
-      // optData: [], // 获取optData
-      // optData1: [], // 获取optData1
-      // optData2: [], // 获取optData2
-      // optData3: [], // 获取optData3
-      // optData4: [], // 获取optData4
       sjztData: []
     }
   },
@@ -278,13 +258,13 @@ export default {
         const arr = this.allSidebar
         this.sjztData = arr.concat(res.data.data)
         this.sjztData.happenTime = dayjs(this.sjztData.happenTime).format('YYYY-MM-DD HH:mm:ss')
-        // console.log(this.sjztData)
+        console.log(this.sjztData)
       })
     },
     sidebarDialog (item) {
       this.dialogSidebar = true
       this.singleSidebarInfo = item
-      this.singleSidebarInfo.address = item.province + item.city + item.county + item.detailAddress
+      this.singleSidebarInfo.address = !(item.province + item.city + item.county + item.detailAddress) ? '地址:无' : item.province + item.city + item.county + item.detailAddress
       this.singleSidebarInfo.happenTime = dayjs(this.singleSidebarInfo.happenTime).format('YYYY-MM-DD HH:mm:ss')
     },
     changeStateValue () {
@@ -299,9 +279,9 @@ export default {
       console.log(tab, event)
     },
     // 中国地图
-    initChinaMap (data) {
+    async initChinaMap (data) {
       this.chinaMapec = this.echarts.init(document.querySelector('#china-map'))
-      this.renderMap(data)
+      await this.renderMap(data)
     },
     //  ----------------------------------------------------------------------------------------------------
     // Urgentmessage () {
@@ -567,12 +547,6 @@ export default {
             tipHtml += '<p style="font-size:12px;font-weight:bold;">' + '全部设备总数: ' + sum + '个' + '</p>'
             tipHtml += '</div>' + '</div>'
             return tipHtml
-            // tipHtml = '<div style="background:#fff;border-radius:10px;padding-top:10px;box-shadow:0 0 10px #666">' +
-            //   '<div style="color:#fff;height:20px;border-radius:6px;font-size:16px;line-height:20px;background-color:#5861a2;text-align:center;margin:0 2px;">' + data.data.city + '</div>' +
-            //   '<div style="text-align:left;color:#494949;padding:8px 6px">' +
-            //   '<p style="font-size:12px;font-weight:bold;">' + '总数: ' + data.data.value[2] + ' ' + '</p>' +
-            //   '<p style="font-size:12px;font-weight:bold;">' + '设备类型: ' + data.data.devType + ' ' + '</p>' +
-            //   '</div>' + '</div>'
           }
         },
         geo: {
@@ -609,9 +583,6 @@ export default {
                 color: '#fff'
               }
             }
-            // emphasis: {
-            //     color: '#fff',
-            // }
           }
         },
         series: [{
@@ -710,10 +681,10 @@ export default {
     opacity: 1;
   }
 }
-.Acolor {
-  font-weight: bold !important;
-  color: #0094ff;
-}
+// .Acolor {
+//   font-weight: bold !important;
+//   color: #0094ff;
+// }
 .eq-main {
   div {
     box-sizing: border-box;
@@ -723,7 +694,13 @@ export default {
   position: relative;
   .dialogsd {
     /deep/.el-dialog {
-      width: 30%;
+      width: 35%;
+      .el-dialog__body {
+        padding: 0;
+        .el-form-item {
+          margin-bottom: 10px;
+        }
+      }
     }
     p {
       margin-left: 20px;
@@ -778,32 +755,13 @@ export default {
       box-shadow: 0px 0px 8px #1176a7 inset;
     }
   }
-  .total-title {
-    position: absolute;
-    top: 0;
-    left: 15px;
-    color: #fff;
-    li {
-      float: left;
-      margin-top: 18px;
-      margin-right: 20px;
-      font-size: 16px;
-      line-height: 18px;
-      &:nth-child(1) {
-        font-size: 18px;
-      }
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
   .nav {
     position: absolute;
     animation: rightEaseInAnimate 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
     animation-fill-mode: forwards; /*定义动画结束的状态*/
     top: 30px;
     right: 0;
-    width: 25%;
+    width: 320px;
     height: 22%;
     margin-top: 30px;
     .ul-six {
@@ -843,7 +801,7 @@ export default {
             position: absolute;
             text-align: center;
             width: 100%;
-            bottom: 5px;
+            bottom: 15%;
             left: 0;
           }
         }
@@ -899,7 +857,8 @@ export default {
         width: 190px;
         color: #fff;
         float: right;
-        margin-top: 4px;
+        height: 33%;
+        line-height: 1.5;
         margin-right: 10px;
         font-size: 12px;
         overflow: hidden;

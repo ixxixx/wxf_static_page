@@ -19,11 +19,9 @@ export default {
 /deep/.text {
     font-size: 14px;
   }
-
   .item {
     margin-bottom: 18px;
   }
-
   .clearfix:before,
   .clearfix:after {
     display: table;

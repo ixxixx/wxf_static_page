@@ -21,11 +21,11 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px">
-      <el-table-column prop="proId" label="项目ID" width="60">
+    <el-table v-loading="loadingTable"  element-loading-background="rgba(0, 0, 0, 0.8)" :data="tableData" border style="width: 100% ;margin-top: 15px" id="out-table">
+      <el-table-column prop="proId" label="项目ID" width="80">
       </el-table-column>
       <el-table-column prop="proName" label="项目名称"> </el-table-column>
-      <el-table-column prop="people" label="项目负责人"> </el-table-column>
+      <el-table-column prop="people" label="项目负责人" width="100"> </el-table-column>
       <el-table-column prop="phone" label="负责人电话" width="120">
       </el-table-column>
       <el-table-column prop="proType" label="项目类型" width="80" :formatter="protype">
@@ -35,17 +35,14 @@
       <el-table-column
         prop="createTime"
         label="创建时间"
-        width="95"
+        width="120"
         :formatter="formatter"
       >
       </el-table-column>
-      <el-table-column prop="multiBuildingAmount" label="单层建筑">
+      <el-table-column prop="multiBuildingAmount" label="单层建筑" width="80">
       </el-table-column>
-      <el-table-column prop="singleBuildingAmount" label="多层建筑">
+      <el-table-column prop="singleBuildingAmount" label="多层建筑" width="80" >
       </el-table-column>
-      <!-- <el-table-column prop="province" label="省/市"> </el-table-column>
-      <el-table-column prop="city" label="市"> </el-table-column>
-      <el-table-column prop="county" label="县"> </el-table-column> -->
       <el-table-column prop="detailAddress" label="详细地址" width="300" :formatter="address"> </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -77,7 +74,7 @@
           :http-request="uploadImg"
           :show-file-list="false"
         >
-          <img :src="`/pf` + imageUrl" class="avatar" />
+          <img :src="`http://xf.padssz.com:9265/pf` + imageUrl" class="avatar" />
           <!-- <i class="el-icon-plus avatar-uploader-icon"></i> -->
         </el-upload>
         <el-form-item label="项目名称" :label-width="formLabelWidth">
@@ -108,9 +105,13 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="项目类型" :label-width="formLabelWidth">
-          <el-input v-model="dialogfrom.proType" auto-complete="off"></el-input>
+          <!-- <el-input v-model="dialogfrom.proType" auto-complete="off"></el-input> -->
+          <el-radio-group v-model="dialogfrom.proType">
+                            <el-radio :label=0>散户</el-radio>
+                            <el-radio :label=1>工程队</el-radio>
+                         </el-radio-group>
         </el-form-item>
-        <el-form-item label="安装总数" :label-width="formLabelWidth">
+        <el-form-item v-show="dialogfrom.proType === 1" label="安装总数" :label-width="formLabelWidth">
           <el-input
             disabled
             v-model="dialogfrom.deviceTotal"
@@ -124,7 +125,7 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item
+        <el-form-item v-show="dialogfrom.proType === 1"
           label="单层建筑"
           :label-width="formLabelWidth"
         >
@@ -134,7 +135,7 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item
+        <el-form-item v-show="dialogfrom.proType === 1"
           label="多层建筑"
           :label-width="formLabelWidth"
         >
@@ -144,7 +145,7 @@
             auto-complete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item
+        <el-form-item v-show="dialogfrom.proType === 1"
           label="查看建筑"
           :label-width="formLabelWidth"
         >
@@ -187,7 +188,7 @@ export default {
       // 页容量
       pageRow: 10,
       imageUrl: '', // 图片地址
-      uploadUrl: 'http://192.168.0.2:8888/pf/file/upload/proimg'
+      uploadUrl: 'http://xf.padssz.com:9265/pf/file/upload/proimg'
     }
   },
 
@@ -259,6 +260,7 @@ export default {
       this.dialogDetailed = true
       this.$http.get(`/pf/project/${row.proId}`).then((res) => {
         this.dialogfrom = res.data.data
+        console.log(this.dialogfrom)
         this.imageUrl = res.data.data.img
         this.dialogfrom.createTime = dayjs(res.data.data.createTime).format('YYYY-MM-DD')
       })
@@ -287,7 +289,22 @@ export default {
         pageRow: this.pageRow
       }
       this.$http.put('/pf/project', dto).then((res) => {
-        this.getDataList()
+        console.log(res)
+        if (this.dialogfrom.proName !== '' && this.dialogfrom.people !== '' && this.dialogfrom.province !== '' &&
+        this.dialogfrom.city !== '' && this.dialogfrom.county !== '' && this.dialogfrom.detailAddress !== '' && this.dialogfrom.phone !== '') {
+          if (res.data.code === 0) {
+            this.$message({
+              message: '修改成功',
+              type: 'success'
+            })
+            this.getDataList()
+          }
+        } else {
+          this.$message({
+            message: '请正确填写,信息不能为空',
+            type: 'info'
+          })
+        }
       })
       this.dialogDetailed = false
     },

@@ -162,9 +162,6 @@ export default {
       this.totalec.resize()
     })
   }
-  // vue 的生命周期的问题；
-  //  created: 没有生成 dom 初始化了 data & method
-  //  mounted: 可以获取到 dom
 }
 </script>
 

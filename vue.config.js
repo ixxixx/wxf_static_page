@@ -1,3 +1,4 @@
+
 module.exports = {
   css: {
     loaderOptions: {
@@ -5,28 +6,36 @@ module.exports = {
       postcss: {
         plugins: [
           require('postcss-px2rem')({
-            remUnit: 60
+            remUnit: 192
           })
         ]
       }
     }
   },
-  devServer: {
-    host: 'localhost',
-    port: 3000,
-    proxy: {
-      '': {
-        target: 'http://192.168.0.4:8888',
-        changeOrigin: true,
-        pathRewrite: {
-          '^': ''
-        }
-      }
-    }
-  },
-  productionSourceMap: true,
+  // devServer: {
+  //   host: 'localhost',
+  //   port: 3000,
+  //   proxy: {
+  //     '': {
+  //       target: 'http://xf.padssz.com:9265',
+  //       changeOrigin: true,
+  //       pathRewrite: {
+  //         '^': ''
+  //       }
+  //     }
+  //   }
+  // },
+  // build: {
+  //   index: path.resolve(__dirname, '../dist/index.html'),
+  //   assetsRoot: path.resolve(__dirname, '../dist'),
+  //   assetsSubDirectory: 'static',
+  //   assetsPublicPath: './'
+  // },
+  productionSourceMap: false,
   chainWebpack: (config) => {
     config.plugins.delete('prefetch')
-  }
+  },
+  publicPath: './',
+  indexPath: 'index.html'
 
 }

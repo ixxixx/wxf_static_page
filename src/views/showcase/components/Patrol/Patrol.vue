@@ -13,15 +13,14 @@ export default {
     return {
       userInfo: {},
       patrolec: null,
-      chartSixDataList: {}
+      chartSixDataList: {},
+      timer: ''
     }
   },
   watch: {
     refreshInfo (val, old) {
-      console.log(val)
       if (val) {
         this.initEcharts()
-        console.log('更新成功patrol')
       }
     }
   },
@@ -30,7 +29,7 @@ export default {
       // 初始化
       let userId = this.userInfo.userId
       await this.$http.get(`/pf/show/deviceTypeNetworkTotal/${userId}`).then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         this.chartSixDataList = res.data.data
         // console.log(res.data.data)
         let devType = []
@@ -262,16 +261,16 @@ export default {
     window.addEventListener('resize', () => {
       this.patrolec.resize()
     })
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.initEcharts()
       // 30分钟刷新一次
     }, 1800000)
   },
-  beforeMount () {
+  beforeDestroy () {
+    // 清除定时器
+    clearInterval(this.timer)
+    this.timer = null
   }
-  // vue 的生命周期的问题；
-  //  created: 没有生成 dom 初始化了 data & method
-  //  mounted: 可以获取到 dom
 }
 </script>
 

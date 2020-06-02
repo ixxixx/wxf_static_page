@@ -34,7 +34,7 @@
           </div>
         </div>
         <!-- 事件柱状图 -->
-        <!-- <div id="event-zzt"></div> -->
+        <!-- <div id="event-zzt1"></div> -->
         <div id="news">
           <div class="topLi"><a href="#">实时消息</a></div>
           <ul id="chatContainer">

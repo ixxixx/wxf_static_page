@@ -24,6 +24,8 @@
       <template slot-scope="scope">
           <el-button :disabled='scope.row.msgState !== 0' @click="handle(scope.row)" size="mini" round>
             <i class="el-icon-edit"></i>设置</el-button>
+          <!-- <el-button  @click="seeInfo(scope.row)" size="mini" round>
+            <i class="el-icon-view"></i>查看</el-button> -->
         </template>
       </el-table-column>
       <el-table-column prop="msgType" label="报警类型" width="240">
@@ -78,6 +80,7 @@ export default {
         'pageRow': this.pageRow
       }
       this.$http.post('/pf/warn/query', dto).then((res) => {
+        console.log(res.data.data.data)
         this.tableData = res.data.data.data
         this.totalCount = res.data.data.totalCount
       })
@@ -97,6 +100,8 @@ export default {
         this.getQueryWarnMsgList()
       })
     },
+    // seeInfo (row) {
+    // },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
@@ -123,7 +128,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../../styles/main.less';
+@import '../../styles/main.less';
 .sx {
   /deep/.el-input__inner {
     color: #fff;

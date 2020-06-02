@@ -1,21 +1,21 @@
 <template>
   <el-row>
-    <el-col :span="4">
+    <el-col :span="this.sixShow===true?4:1">
       <div class="box">
         <TotalDevice v-show="sixShow" class="fix-ge" @totalec="tcShow" :refreshInfo="sixShow"></TotalDevice>
-        <DeviceReported v-show="sixShow" class="fix-ge" @reportec="tcShow" :refreshInfo="sixShow"></DeviceReported>
+        <DeviceReported  v-show="sixShow" class="fix-ge middel " @reportec="tcShow" :refreshInfo="sixShow"></DeviceReported>
         <EventRatio v-show="sixShow" class="fix-ge" :refreshInfo="sixShow"></EventRatio>
       </div>
     </el-col>
-    <el-col :span="16">
+    <el-col :span="this.sixShow===true?16:22">
       <div class="box">
         <DeviceDistribution></DeviceDistribution>
       </div>
     </el-col>
-    <el-col :span="4">
+    <el-col :span="this.sixShow===true?4:1">
       <div class="box">
         <HiddenDanger v-show="sixShow" class="fix-ge" @hiddenec="tcShow" :refreshInfo="sixShow"></HiddenDanger>
-        <HiddenDangerLevel v-show="sixShow" class="fix-ge" @levelec="tcShow" :refreshInfo="sixShow"></HiddenDangerLevel>
+        <HiddenDangerLevel v-show="sixShow" class="fix-ge middel" @levelec="tcShow" :refreshInfo="sixShow"></HiddenDangerLevel>
         <Patrol v-show="sixShow" class="fix-ge" @patrolec="tcShow" :refreshInfo="sixShow"></Patrol>
       </div>
     </el-col>
@@ -78,19 +78,23 @@ export default {
 .el-row {
   width: 100%;
   height: 100%;
+  padding-bottom: 20px;
   /deep/.el-switch {
     position: absolute;
-    // top: -30/96rem;
+    top: -30px;
     right: 15px;
   }
   .el-col {
     height: 100%;
     .box {
-      height: 96%;
+      height: 100%;
+       display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       .fix-ge {
         width: 90%;
-        height: 30.33%;
-        margin: 9% auto 0;
+        height: 30%;
+        margin: 0 auto;
         box-sizing: border-box;
         border: 3px solid #289fe3;
         box-shadow: 0px 0px 10px #1176a7 inset, 0px 0px 10px #27a9eb;

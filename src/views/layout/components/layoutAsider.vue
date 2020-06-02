@@ -14,7 +14,7 @@
        :collapse="true"
     >
     <el-menu-item index="/home">
-        <i class="el-icon-menu"></i>
+        <i class="el-icon-s-home"></i>
         <em class="asiderTitle">首页</em>
       </el-menu-item>
       <el-menu-item index="/showcase">
@@ -48,21 +48,37 @@
         <template slot="title">
           <i class="el-icon-info"></i>
           <em class="asiderTitle">报警信息</em>
-          <!-- <span>报警信息</span> -->
+          <span>报警信息</span>
         </template>
         <el-menu-item-group>
           <el-menu-item index="/alarm/SmokeSensorEquipAlert">全部报警信息</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu  index="5">
-        <template slot="title">
+          <!-- <el-menu-item index="/alarm/SmokeSensorEquipAlert">
+          <i class="el-icon-info"></i>
+          <em class="asiderTitle">报警信息</em>
+          </el-menu-item>
+        <el-menu-item @click="incomplete">
+        <i class="el-icon-document"></i>
+          <em class="asiderTitle" >维修/维保</em>
+        </el-menu-item>
+        <el-menu-item @click="incomplete">
+        <i class="el-icon-star-off"></i>
+          <em class="asiderTitle" >增值服务</em>
+        </el-menu-item>
+        <el-menu-item @click="incomplete">
+        <i class="el-icon-question"></i>
+          <em class="asiderTitle" >帮助中心</em>
+        </el-menu-item> -->
+
+        <!--<template slot="title">
           <i class="el-icon-document"></i>
-          <em class="asiderTitle">维修/维保</em>
+          <em class="asiderTitle" @click="incomplete">维修/维保</em>
         </template>
-        <el-menu-item-group>
+         <el-menu-item-group>
           <el-menu-item index="/repair/recordFree">维修维保</el-menu-item>
           <el-menu-item index="/repair/recordFree">待确认维修单</el-menu-item>
-          <el-menu-item index="/repair/NewOrder">维修下单</el-menu-item>
+          <el-menu-item index="/repair/recordFree">维修下单</el-menu-item>
           <el-menu-item index="/repair/recordFree">二维码</el-menu-item>
           <el-menu-item index="/repair/recordFree">设备巡检</el-menu-item>
           <el-menu-item index="/repair/recordFree">物资巡检</el-menu-item>
@@ -90,7 +106,7 @@
           <el-menu-item index="/helpCenter">热门问题</el-menu-item>
           <el-menu-item index="/helpCenter">意见反馈</el-menu-item>
         </el-menu-item-group>
-      </el-submenu>
+      </el-submenu>-->
 <el-submenu index="7">
         <template slot="title">
           <i class="el-icon-setting"></i>
@@ -98,8 +114,9 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/systemSetup/comInfo">公司信息</el-menu-item>
-          <!-- <el-menu-item index="/userInfo">人员设置</el-menu-item> -->
+          <!-- <el-menu-item index="/systemSetup/personnelInfo">人员设置</el-menu-item> -->
           <el-menu-item index="/personal">个人设置</el-menu-item>
+          <el-menu-item @click="incomplete">人员设置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -107,6 +124,11 @@
 </template>
 <script>
 export default {
+  methods: {
+    incomplete () {
+      this.$message('功能正在开发中,敬请期待!')
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -116,7 +138,7 @@ export default {
 .asider {
   .logoDiv {
     width: 100%;
-    height: 120px;
+    height: 180px;
     .logo {
       display: block;
       width: 100%;
