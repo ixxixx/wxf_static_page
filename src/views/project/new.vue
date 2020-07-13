@@ -31,8 +31,8 @@
             <el-form-item label="项目类型">
         <!-- <el-input v-model="NewsProjectform.proType" placeholder="请输入项目类型"></el-input> -->
         <el-radio-group v-model="NewsProjectform.proType">
-          <el-radio style="color:#fff" :label="0">散户</el-radio>
-          <el-radio style="color:#fff" :label="1">工程队</el-radio>
+          <el-radio style="color:#fff" :label="0">个人用户</el-radio>
+          <el-radio style="color:#fff" :label="1">集团用户</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item v-show="NewsProjectform.proType === 1" label="地址">
@@ -94,6 +94,15 @@ export default {
         this.placeholders.city = ''
         this.placeholders.area = ''
         this.placeholders.province = ''
+      }
+      if (this.placeholders.province === '------ 省 ------') {
+        this.placeholders.province = ''
+      }
+      if (this.placeholders.city === '------ 市 ------') {
+        this.placeholders.city = ''
+      }
+      if (this.placeholders.area === '------ 区 ------') {
+        this.placeholders.area = ''
       }
       let dto = {
         'userId': this.userInfo.userId,

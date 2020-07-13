@@ -1,9 +1,9 @@
 <template>
   <div class="Main">
-      <!-- <el-card class="title">全部烟感报警信息</el-card> -->
+      <!-- <el-card class="title">全部烟感报警信息</el-card>
       <router-link :to="{name:'SmokeSensorEquip'}"><el-card class="title " >设备信息</el-card></router-link>
 <router-link :to="{name:'SmokeSensorEquipAlert'}"><el-card class="title on">报警信息</el-card></router-link>
-      <router-link :to="{name:'SmokeSensorEquipStatistics'}"><el-card class="title " >设备统计</el-card></router-link>
+      <router-link :to="{name:'SmokeSensorEquipStatistics'}"><el-card class="title " >设备统计</el-card></router-link> -->
     <el-card class="box-card screen">
       <!-- 筛选信息 -->
       <el-form ref="form" :model="sxform" label-width="80px">

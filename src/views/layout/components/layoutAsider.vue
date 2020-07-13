@@ -10,7 +10,6 @@
       background-color="#304156"
       text-color="#fff"
       active-text-color="#ffd04b"
-      :unique-opened="true"
        :collapse="true"
     >
     <el-menu-item index="/home">
@@ -38,9 +37,10 @@
           <em class="asiderTitle">设备管理</em>
         </template>
         <el-menu-item-group>
+          <el-menu-item index="/equipment/AllDev">全部设备</el-menu-item>
           <el-menu-item index="/equipment/SmokeSensorEquip">烟感设备</el-menu-item>
           <el-menu-item index="/equipment/gasDeterctor">燃气设备</el-menu-item>
-          <el-menu-item index="/equipment/electricalFireEquipment">电器火灾设备</el-menu-item>
+          <el-menu-item index="/equipment/electricalFireEquipment">电气火灾设备</el-menu-item>
           <el-menu-item index="/equipment/IOTGateway">物联网关设备</el-menu-item>
         </el-menu-item-group>
       </el-submenu>

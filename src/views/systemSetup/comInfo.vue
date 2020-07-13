@@ -3,16 +3,11 @@
     <h1>公司信息</h1>
     <ul>
       <li>
-        <img :src="`http://xf.padssz.com:9265/pf` + cominfo.comLogo" />
-        <!-- <img :src="[cominfo.comLogo === undefined ? '../../assets/background.jpg' : `/pf`+cominfo.comLogo]" /> -->
+        <img :src="`http://xf.padssz.com/` + urlImg" />
       </li>
       <li>
         <span class="left">公司名称:</span
         ><span class="rigth">{{ cominfo.comName }}</span>
-      </li>
-      <li>
-        <span class="left">平台标题:</span
-        ><span class="rigth">{{ cominfo.title }}</span>
       </li>
       <li>
         <span class="left">负 责 人:</span
@@ -56,20 +51,17 @@
           :http-request="uploadImg"
           :show-file-list="false"
         >
-          <img
-            :src="`http://xf.padssz.com:9265/pf` + form.comLogo"
+          <img v-if="urlImg !== ''"
+            :src="`http://xf.padssz.com/` + urlImg"
             class="avatar"
           />
-          <!-- <i class="el-icon-plus avatar-uploader-icon"></i> -->
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         <el-form-item label="公司名称" :label-width="formLabelWidth">
           <el-input v-model="form.comName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="负 责 人" :label-width="formLabelWidth">
           <el-input v-model="form.legalPeople" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="平台标题" :label-width="formLabelWidth">
-          <el-input v-model="form.title" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="负责人电话" :label-width="formLabelWidth">
           <el-input v-model="form.legalPhone" auto-complete="off"></el-input>
@@ -99,7 +91,8 @@ export default {
       cominfo: {},
       dialogChange: false,
       formLabelWidth: '100px',
-      form: {}
+      form: {},
+      urlImg: ''
     }
   },
   methods: {
@@ -129,7 +122,7 @@ export default {
       const dto = {
         userId: this.userInfo.userId,
         comAddress: this.form.comAddress,
-        comLogo: this.form.comLogo,
+        comLogo: this.urlImg,
         comName: this.form.comName,
         legalPeople: this.form.legalPeople,
         legalPhone: this.form.legalPhone
@@ -149,7 +142,7 @@ export default {
         userId: this.userInfo.userId,
         comAddress: this.form.comAddress,
         comId: this.form.comId,
-        comLogo: this.form.comLogo,
+        comLogo: this.urlImg,
         comName: this.form.comName,
         legalPeople: this.form.legalPeople,
         legalPhone: this.form.legalPhone
@@ -167,7 +160,7 @@ export default {
       const fd = new FormData()
       fd.append('logo', params.file)
       this.$http.post('/pf/file/upload/logo', fd).then((res) => {
-        this.form.comLogo = res.data.data
+        this.urlImg = res.data.data
       })
     }
   },
@@ -253,4 +246,26 @@ export default {
     }
   }
 }
+.avatar-uploader {
+    text-align: center;
+}
+.avatar-uploader .el-upload {
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+    border: 2px dashed #d9d9d9;
+    margin-bottom: 10px;
+  }
 </style>

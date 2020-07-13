@@ -34,7 +34,7 @@
           物联网关
         </li>
         <li :class="{ Acolor: this.colorShow[4] }" @click="wlwgGetPointData">
-          电器火灾
+          电气火灾
         </li>
       </ul>
     </div> -->
@@ -54,9 +54,10 @@
            </router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'IOTGateway' }">
+          <router-link :to="{ name: 'GasDeterctor' }">
             <i class="ulBG"
-              ><img src="@/assets/host.png" alt="" /><em class="SixNumber">{{
+            ><img src="@/assets/gas.png" alt="" /><em class="SixNumber">{{
+
                 this.circleNavData.total[1]
               }}</em></i
             >
@@ -64,9 +65,9 @@
           </router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'GasDeterctor' }">
+          <router-link :to="{ name: 'IOTGateway' }">
           <i class="ulBG"
-            ><img src="@/assets/gas.png" alt="" /><em class="SixNumber">{{
+              ><img src="@/assets/host.png" alt="" /><em class="SixNumber">{{
               this.circleNavData.total[2]
             }}</em></i
           >
@@ -168,15 +169,25 @@
         <el-form-item label="备注 :" label-width="150px">
           <P>{{ this.singleSidebarInfo.remark }}</P>
         </el-form-item>
-        <el-form-item label="处理情况 :" label-width="150px">
+        <el-form-item label="处理标记 :" label-width="150px">
           <el-radio-group :disabled="this.singleSidebarInfo.msgState!== 0" v-model="singleSidebarInfo.msgState" @change="changeStateValue">
             <el-radio :label=-1>无需处理</el-radio>
             <el-radio :label=0>未处理</el-radio>
             <el-radio :label=1>已处理</el-radio>
           </el-radio-group>
         </el-form-item>
+      <!-- <span class="cl-method">处理方式：</span> -->
+      <el-form-item label="处理方式:" label-width="150px">
+        <el-button type="primary" @click="dialogSidebar = false">误 报</el-button>
+        <el-button  type="primary" @click="dialogSidebar = false">测 试</el-button>
+        <el-button  type="danger" @click="dialogSidebar = false">真实警情</el-button>
+        </el-form-item>
+        <el-form-item label="处理备注 :" label-width="150px">
+          <el-input class="cl-remark"  auto-complete="off"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
+
         <el-button style="margin-right:20px" type="primary" @click="dialogSidebar = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -240,6 +251,7 @@ export default {
     getCircleNav () {
       let userId = this.userInfo.userId
       this.$http.get(`/pf/show/deviceTypeTotal/${userId}`).then((res) => {
+        console.log(res)
         this.circleNavData = res.data.data
         let devType = []
         let total = []
@@ -258,7 +270,6 @@ export default {
         const arr = this.allSidebar
         this.sjztData = arr.concat(res.data.data)
         this.sjztData.happenTime = dayjs(this.sjztData.happenTime).format('YYYY-MM-DD HH:mm:ss')
-        console.log(this.sjztData)
       })
     },
     sidebarDialog (item) {
@@ -513,7 +524,8 @@ export default {
         '菏泽市': [115.480656, 35.23375],
         '合肥市': [117.27, 31.86],
         '武汉市': [114.31, 30.52],
-        '大庆市': [125.03, 46.58]
+        '大庆市': [125.03, 46.58],
+        '北京城区': [116.40, 39.90]
       }
       var data = this.allCity
       var convertData = function (data) {
@@ -664,6 +676,17 @@ export default {
     color: #f10;
   }
 }
+// @-webkit-keyframes bgColor {
+//   0% {
+//     background-color: #f10;
+//   }
+//   50% {
+//     background-color: #fff;
+//   }
+//   100% {
+//     background-color: #f10;
+//   }
+// }
 .bgshow {
   background: transparent !important;
 }
@@ -681,11 +704,14 @@ export default {
     opacity: 1;
   }
 }
-// .Acolor {
-//   font-weight: bold !important;
-//   color: #0094ff;
-// }
+
 .eq-main {
+  // animation: rightEaseInAnimate 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
+  //   animation-fill-mode: forwards; /*定义动画结束的状态*/
+  // -webkit-animation: bgColor 4s infinite linear;
+  // animation: rightEaseInAnimate 1s ease 1; /*调用动画：动画名、时间、时间线条、播放次数*/
+  //   animation-fill-mode: forwards; /*定义动画结束的状态*/
+  // -webkit-animation: bgColor 4s infinite linear;
   div {
     box-sizing: border-box;
   }
@@ -704,6 +730,9 @@ export default {
     }
     p {
       margin-left: 20px;
+    }
+    .cl-remark {
+      width: 60%;
     }
   }
   /deep/.map {
@@ -864,12 +893,6 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-      }
-      .time {
-      }
-      .devId {
-      }
-      .address {
       }
     }
     li:nth-child(1) {

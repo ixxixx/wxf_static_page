@@ -29,9 +29,7 @@ export default {
       // 初始化
       let userId = this.userInfo.userId
       await this.$http.get(`/pf/show/deviceTypeNetworkTotal/${userId}`).then((res) => {
-        // console.log(res.data)
         this.chartSixDataList = res.data.data
-        // console.log(res.data.data)
         let devType = []
         let total1 = []
         let total2 = []
@@ -189,7 +187,7 @@ export default {
           barGap: '0%',
           barCategoryGap: '65%',
           // data: [9900, 7723, 7900, 9821]
-          data: this.chartSixDataList.total1
+          data: this.chartSixDataList.total2
         },
         {
           type: 'bar',
@@ -247,7 +245,7 @@ export default {
           barGap: '120%',
           barCategoryGap: '65%',
           // data: [8900, 8723, 7000, 7821]
-          data: this.chartSixDataList.total2
+          data: this.chartSixDataList.total1
         }
         ]
       }

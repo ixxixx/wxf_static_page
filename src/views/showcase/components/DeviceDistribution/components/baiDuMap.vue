@@ -25,6 +25,7 @@
           @close="infoWindowClose(index)"
           @open="infoWindowOpen(index)"
           ><p>项目名称: {{ item.proName }}</p>
+          <p>设备编号: {{ item.devId }}</p>
           <p>安装点: {{ item.dpName }}</p>
           <p>地址: {{ item.detailAddress }}</p>
         </bm-info-window>
@@ -252,11 +253,6 @@ export default {
       this.infoMarkerData[index].show = true
     },
     infoMarker () {
-      // this.$http('/js/bdm-data.json').then(res => {
-      //   // this.infoMarkerData = res.data
-      //   console.log(res, '==============')
-      // }
-      // )
       let userId = this.userInfo.userId
       this.$http.get(`/pf/show/dpiontMarkInfo/${userId}`).then((res) => {
         for (let index = 0; index < res.data.data.length; index++) {

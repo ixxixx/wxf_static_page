@@ -32,8 +32,8 @@ Vue.use(BaiduMap, {
   ak: '6EtTxRf8kxcj3x71mhxGkRYtlfVCbX1S'
 })
 Vue.prototype.$http = axios
-// axios.defaults.baseURL = 'http://xf.padssz.com:9265'
-axios.defaults.baseURL = 'http://192.168.0.2:9265'
+axios.defaults.baseURL = 'http://xf.padssz.com:9265'
+// axios.defaults.baseURL = 'http://192.168.0.2:9265'
 Vue.prototype.echarts = echarts
 Vue.prototype.$moment = moment
 moment.locale('zh-cn') // 需要汉化

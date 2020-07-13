@@ -70,7 +70,8 @@
       >
       </el-pagination>
     </div>
-    <el-dialog :title="DetailedTit" :visible.sync="dialogDetailed">
+    <el-drawer :visible.sync="dialogDetailed">
+      <span class="drawerTit">{{this.DetailedTit}}</span>
       <el-form :model="dialogfrom">
         <el-upload
           class="avatar-uploader"
@@ -79,10 +80,11 @@
           :show-file-list="false"
           v-show="this.DetailedTit === '修改信息'"
         >
-          <img
-            :src="`http://xf.padssz.com:9265/pf` + imageUrl"
+          <img v-if="imageUrl"
+            :src="`http://xf.padssz.com` + imageUrl"
             class="avatar"
           />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         <el-form-item
           label="建筑ID"
@@ -112,8 +114,7 @@
           <el-input v-model="dialogfrom.floors" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogDetailed = false">取 消</el-button>
+        <el-button style="margin-left: 150px;margin-top: 50px" @click="dialogDetailed = false">取 消</el-button>
         <!-- <el-button type="primary" @click="changeBd">确定修改</el-button> -->
         <el-button
           :class="[this.DetailedTit === '添加建筑' ? 'buttonS' : 'buttonH']"
@@ -127,8 +128,7 @@
           @click="changeBd"
           >确定修改</el-button
         >
-      </div>
-    </el-dialog>
+    </el-drawer>
     <el-dialog :title="floorsTit" :visible.sync="dialogFloors">
       <el-button @click="addNewFloor" type="warning">添加楼层</el-button>
       <el-table :data="FloorsData">
@@ -168,7 +168,7 @@
           :visible.sync="innerVisible"
           append-to-body
         >
-          <el-form :model="dialogFloorsFrom">
+          <el-form style="padding-left: 150px;" :model="dialogFloorsFrom">
             <el-upload
               class="avatar-uploader"
               :action="uploadUrl"
@@ -176,10 +176,11 @@
               :show-file-list="false"
               v-show="this.floorTit === '楼层详细信息'"
             >
-              <img
-                :src="`http://xf.padssz.com:9265/pf` + imageUrl"
+              <img v-if="imageUrl"
+                :src="`http://xf.padssz.com` + imageUrl"
                 class="avatar"
               />
+               <i style="margin-" v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
             <el-form-item
               label="建筑ID"
@@ -231,7 +232,7 @@
       </div>
     </el-dialog>
     <el-dialog title="建筑图片" :visible.sync="dialogImg" width="30%">
-      <img :src="`http://xf.padssz.com:9265/pf` + img1" class="bdavatar" />
+      <img :src="`http://xf.padssz.com` + img1" class="bdavatar" />
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogImg = false">取 消</el-button>
         <el-button type="primary" @click="dialogImg = false">确 定</el-button>
@@ -490,6 +491,7 @@ export default {
       this.prohibit = true
       this.floorTit = '楼层详细信息'
       this.dialogFloorsFrom = row
+      this.dialogFloorsFrom.createTime = dayjs(this.dialogFloorsFrom.createTime).format('YYYY-MM-DD')
       this.imageUrl = this.dialogFloorsFrom.pbfImg
     },
     changeFl () {
@@ -587,7 +589,15 @@ export default {
     color: #fff;
   }
 }
-
+.el-drawer {
+  .el-form {
+    margin-left: 50px;
+    margin-top: 30px;
+  }
+  .el-button + .el-button {
+  margin-left: 30px;
+}
+}
 .el-input {
   float: left;
   width: 40%;
@@ -602,10 +612,11 @@ export default {
   width: 170px;
   height: 150px;
   display: block;
+  margin: 0px 125px 30px;
   // margin-bottom: 20px;
-  position: absolute;
-  right: 120px;
-  top: 100px;
+  // position: absolute;
+  // right: 120px;
+  // top: 100px;
   z-index: 10;
 }
 .bdavatar {
@@ -616,6 +627,27 @@ export default {
   margin-left: 25px;
   z-index: 10;
 }
+.avatar-uploader .el-upload {
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #0094ff;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+    border: 2px dashed #0094ff;
+    // margin-bottom: 10px;
+      display: block;
+  margin: 0px 125px 30px;
+  }
 .diafy {
   margin-left: 350px !important;
   .btn-next {
@@ -641,5 +673,11 @@ export default {
   /deep/.el-icon {
     color: #000 !important;
   }
+}
+.drawerTit {
+  border-bottom: 2px solid #eee;
+    font-size: 28px;
+    font-weight: 700;
+    margin-left: 200px;
 }
 </style>

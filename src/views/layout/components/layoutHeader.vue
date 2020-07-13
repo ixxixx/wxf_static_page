@@ -4,7 +4,8 @@
         <el-row>
             <!-- 列 -->
             <el-col :span="20" >
-                <span class="GSname">焱安智慧消防接警平台</span>
+                <span v-if="!this.userInfo.title" class="GSname">智慧安防管理平台</span>
+                <span v-else class="GSname">{{this.userInfo.title}}</span>
             </el-col>
             <el-col :offset="5" :span="4" class="youName">
                 <el-dropdown trigger="click">
@@ -51,6 +52,7 @@ export default {
     // this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
     // 从 vuex 中取出 userInfo
     this.userInfo = this.$store.state.userInfo.userInfo
+    console.log(this.userInfo)
   }
 }
 </script>

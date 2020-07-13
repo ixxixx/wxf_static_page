@@ -12,7 +12,7 @@
               <li v-for="(item, index) in alarmData" :key="index">
                 <p>
                   {{ item.happenTime | dateFilter }}---{{ item.devId }}---{{
-                    item.province + item.city + item.county + item.detailAddress
+                    !(item.province + item.city + item.county + item.detailAddress) ? '地址:无' : item.province + item.city + item.county + item.detailAddress
                   }}
                 </p>
                 <p>{{ item.remark }}</p>
@@ -26,21 +26,21 @@
             <ul>
               <li v-for="(item, index) in faultData" :key="index">
                 <p>
-                  {{ item.happenTime | dateFilter }}---{{ item.devId }}---{{ item.province + item.city + item.county + item.detailAddress}}
+                  {{ item.happenTime | dateFilter }}---{{ item.devId }}---{{
+                    !(item.province + item.city + item.county + item.detailAddress) ? '地址:无' : item.province + item.city + item.county + item.detailAddress
+                  }}
                 </p>
                 <p>{{ item.remark }}</p>
               </li>
             </ul>
           </div>
         </div>
-        <!-- 事件柱状图 -->
-        <!-- <div id="event-zzt1"></div> -->
         <div id="news">
           <div class="topLi"><a href="#">实时消息</a></div>
           <ul id="chatContainer">
             <li v-for="(item, index) in newsData" :key="index">
               <p>
-                {{ item.happenTime | dateFilter }}---{{ item.devId}}---{{ item | capitalize }}
+                {{ item.happenTime | dateFilter }}---{{ item.devId}}---{{ !(item.province + item.city + item.county + item.detailAddress) ? '地址:无' : item.province + item.city + item.county + item.detailAddress }}
               </p>
               <p>{{ item.remark }}</p>
             </li>
@@ -134,7 +134,7 @@ export default {
             name: '占位',
             label: {
               normal: {
-                formatter: '火警',
+                formatter: '报警',
                 textStyle: {
                   color: '#fff',
                   fontSize: 14

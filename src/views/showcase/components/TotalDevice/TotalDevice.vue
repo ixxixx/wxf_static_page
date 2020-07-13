@@ -81,9 +81,7 @@ export default {
         },
         yAxis: {
           type: 'value',
-          // splitNumber: 3,
           minInterval: 1,
-          // min: 1000,
           axisLabel: {
             textStyle: {
               color: '#fff',

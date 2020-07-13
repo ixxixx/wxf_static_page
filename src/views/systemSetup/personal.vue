@@ -21,6 +21,12 @@
                     <el-form-item label="用户名">
                         <el-input type="text" v-model="user.userName" autocomplete="off" @blur="yzName"></el-input>
                     </el-form-item>
+                    <el-form-item label="平台标题">
+                        <el-input type="text" v-model="user.title"  autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="推荐码">
+                        <el-input type="text" autocomplete="off"></el-input>
+                    </el-form-item>
                     <el-form-item label="邮箱">
                         <el-input type="text" v-model="user.email" autocomplete="off"></el-input>
                     </el-form-item>
@@ -61,8 +67,8 @@
           :http-request="uploadImg"
           :show-file-list="false"
         >
-          <img :src="`http://xf.padssz.com:9265/pf`+imageUrl" class="avatar" />
-          <!-- <i class="el-icon-plus avatar-uploader-icon"></i> -->
+          <img v-if="imageUrl" :src="`http://xf.padssz.com`+imageUrl" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
             </el-col>
         </el-row>
@@ -128,7 +134,6 @@ export default {
       this.$http.post('/pf/file/upload/headimg', fd).then((res) => {
         this.user.headImg = res.data.data
         this.imageUrl = this.user.headImg
-        console.log(this.imageUrl, '================imageUrl')
         this.$store.commit('changeUserInfoImg', this.imageUrl)
       })
     },
@@ -137,16 +142,15 @@ export default {
         'email': this.user.email,
         'headImg': this.imageUrl,
         'sex': this.user.sex,
+        'title': this.user.title,
         'userId': this.user.userId,
         'userName': this.user.userName
       }
-      console.log(this.yzData, '111111111111111111111`````````````````````')
       if (!this.yzData) {
         this.$http.put('/pf/user/info', dto).then((res) => {
           console.log(res)
           // 提示用户更新成功
           this.$store.commit('changeUserInfo', dto)
-          console.log(dto)
           this.$message({
             message: '用户信息更新成功',
             type: 'success'
@@ -166,23 +170,23 @@ export default {
         'userId': this.user.userId
       }
       console.log(dto)
-
-      this.$http.put('/pf/user/pwd', dto).then((res) => {
-        console.log(res.data)
-        if (res.data.code === 0) {
-          this.dialogChange = true
-          this.$message({
-            type: 'success',
-            message: '修改成功!请重新登录!'
-          })
-          this.$router.push({ name: 'login' })
-        } else {
-          this.$message({
-            type: 'error',
-            message: '信息错误,无法修改'
-          })
-        }
-      })
+      if (this.changePawInfo.newPwd === this.changePawInfo.checkPass) {
+        this.$http.put('/pf/user/pwd', dto).then((res) => {
+          if (res.data.code === 0) {
+            this.dialogChange = true
+            this.$message({
+              type: 'success',
+              message: '修改成功!请重新登录!'
+            })
+            this.$router.push({ name: 'login' })
+          } else {
+            this.$message({
+              type: 'error',
+              message: '信息错误,无法修改'
+            })
+          }
+        })
+      }
     },
     // 获取图片路径
     getImageUrl () {
@@ -195,7 +199,6 @@ export default {
       let userId = this.user.userId
       this.$http.get(`/pf/user/info/used/${userId}/${userName}`).then((res) => {
         this.yzData = res.data.data
-        console.log(res.data.data, '')
       })
     },
     formatter (row, column) {
@@ -254,4 +257,23 @@ export default {
     height: 178px;
     display: block;
 }
+.avatar-uploader .el-upload {
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #0094ff;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+    border: 2px dashed #0094ff;
+    margin-bottom: 10px;
+  }
 </style>

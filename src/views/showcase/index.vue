@@ -18,9 +18,10 @@
           </div>
         </el-col>
         <el-col :span="12">
-          <div class="title">
-            智慧消防云服务平台
+          <div v-if="!this.userInfo.title" class="title">
+            智慧安防管理平台
           </div>
+          <div v-else class="title"> {{this.userInfo.title}}</div>
         </el-col>
         <el-col :span="6">
           <div class="box">
@@ -41,6 +42,9 @@
     >
       <!-- <span>{{this.alarmData[0]}}</span> -->
       <el-form v-if="this.allSidebar[0]">
+        <el-form-item label="设备Id :" label-width="150px">
+          <P>{{ this.allSidebar[0].devId }}</P>
+        </el-form-item>
         <el-form-item label="项目名称 :" label-width="150px">
           <P>{{ this.allSidebar[0].proName }}</P>
         </el-form-item>
@@ -50,21 +54,12 @@
         <el-form-item label="负责人电话 :" label-width="150px">
           <P>{{ this.allSidebar[0].phone }}</P>
         </el-form-item>
-        <!-- <el-form-item label="设备类型 :" label-width="150px">
-          <P>{{ this.allSidebar[0].devType }}</P>
-        </el-form-item>
-        <el-form-item label="危险等级 :" label-width="150px">
-          <P>{{ this.allSidebar[0].dangerLevel }}</P>
-        </el-form-item>
-        <el-form-item label="是否为个人 :" label-width="150px">
-          <el-radio-group disabled v-model="allSidebar[0].personal">
-            <el-radio :label=false>否</el-radio>
-            <el-radio :label=true>是</el-radio>
-          </el-radio-group>
-        </el-form-item> -->
         <el-form-item label="地址 :" label-width="150px">
           <P>{{
-            this.allSidebar[0].province +
+            !(this.allSidebar[0].province +
+              this.allSidebar[0].city +
+              this.allSidebar[0].county +
+              this.allSidebar[0].detailAddress) ? '无' : this.allSidebar[0].province +
               this.allSidebar[0].city +
               this.allSidebar[0].county +
               this.allSidebar[0].detailAddress
@@ -81,7 +76,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button type="warning" plain v-show="this.msgTit === '报警'" >消 音</el-button>
+         <el-button @click="xybutton" plain type="warning" round>消音</el-button>
+        <el-button type="warning" plain v-show="this.msgTit === '报警'" @click="Silencing" >复 位</el-button>
         <el-button @click="urgentDialogVisible = false">关 闭</el-button>
         <router-link :to="{ name: 'SmokeSensorEquipAlert' }">
           <el-button
@@ -94,6 +90,9 @@
         >
       </span>
     </el-dialog>
+    <audio class="success" source  loop ref="alarmMp3"
+    src="@/assets/alarm.mp3">
+</audio>
   </div>
 </template>
 <script>
@@ -131,6 +130,14 @@ export default {
           this.msgTit = '故障'
         }
       }
+    },
+    urgentDialogVisible (val, old) {
+      if (val === true) {
+        this.$refs.alarmMp3.play()
+      } else if (val === false) {
+        this.$refs.alarmMp3.currentTime = 0
+        this.$refs.alarmMp3.pause()
+      }
     }
   },
   filters: {
@@ -141,6 +148,39 @@ export default {
   methods: {
     getMenuS () {
       this.$router.push({ name: 'home' })
+    },
+    xybutton () {
+      this.$message({
+        type: 'success',
+        message: '消音成功!'
+      })
+      this.$refs.alarmMp3.currentTime = 0
+      this.$refs.alarmMp3.pause()
+    },
+    Silencing () {
+      const loading = this.$loading({
+        lock: true,
+        text: '正在处理中',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+      this.$http.get(`/pf/device?devId=${this.allSidebar[0].devId}`).then(res => {
+        console.log(res)
+        if (res.data.code === 0) {
+          this.$message({
+            type: 'success',
+            message: '复位成功!'
+          })
+          loading.close()
+          this.urgentDialogVisible = false
+        } else {
+          this.$message({
+            type: 'error',
+            message: '复位失败'
+          })
+          loading.close()
+        }
+      })
     }
   },
   created () {
@@ -156,12 +196,21 @@ export default {
       console.log('连接中。。。')
     }).on('auth', (data) => {
       console.log('连接后验证：' + data)
+      if (data === '客户端连接成功' || data === '客户端已经重新连接') {
+        this.$notify({
+          title: '成功',
+          message: '实时消息接收已开启',
+          type: 'success',
+          duration: 2500
+        })
+      }
     }).on('message', (data) => {
       // 后台推送的业务的数据
       console.log(data)
-      data.happenTime = dayjs(data.happenTime).format('YYYY-MM-DD HH:mm:ss')
+      let socketData = JSON.parse(data)
+      socketData.happenTime = dayjs(socketData.happenTime).format('YYYY-MM-DD HH:mm:ss')
       // this.msgDesc = data.msgDesc
-      this.$store.commit('setReceiveInfo', data)
+      this.$store.commit('setReceiveInfo', socketData)
     }).on('disconnect', () => {
       console.log('连接已断开。。。')
     })
@@ -184,7 +233,6 @@ export default {
 }
 #app {
   background: url("../../assets/background.jpg");
-  // background: -webkit-gradient(linear, 0 0, 0 100%, from(#0a2971), to(#45a1ea));
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;

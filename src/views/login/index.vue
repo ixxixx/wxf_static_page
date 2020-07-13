@@ -39,6 +39,9 @@
         <el-form-item label="密码" :label-width="formLabelWidth">
           <el-input v-model="formzc.userPwd" clearable></el-input>
         </el-form-item>
+        <el-form-item label="推荐码" :label-width="formLabelWidth">
+          <el-input v-model="formzc.recommendCode" clearable></el-input>
+        </el-form-item>
         <el-form-item prop="phone" label="电话" :label-width="formLabelWidth">
           <el-row>
             <el-col :span="10">
@@ -225,6 +228,7 @@ export default {
         'userName': this.formzc.userName,
         'userPwd': this.formzc.userPwd,
         'vcode': this.formzc.vcode
+        // 'recommendCode': this.formzc.recommendCode
       }
       this.$http.post('/pf/user/reg', dto).then((res) => {
         if (res.data.code === 0) {

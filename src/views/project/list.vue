@@ -10,8 +10,8 @@
          <el-form-item>
            <el-select v-model="screen_projectType" placeholder="项目类型">
             <el-option label="全部类型" value='' ></el-option>
-            <el-option label="工程队" value=1 ></el-option>
-            <el-option label="散户" value=0 ></el-option>
+            <el-option label="集团用户" value=1 ></el-option>
+            <el-option label="个人用户" value=0 ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -74,8 +74,8 @@
           :http-request="uploadImg"
           :show-file-list="false"
         >
-          <img :src="`http://xf.padssz.com:9265/pf` + imageUrl" class="avatar" />
-          <!-- <i class="el-icon-plus avatar-uploader-icon"></i> -->
+          <img v-if="imageUrl !== undefined" :src="`http://xf.padssz.com` + imageUrl" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
         <el-form-item label="项目名称" :label-width="formLabelWidth">
           <el-input v-model="dialogfrom.proName" auto-complete="off"></el-input>
@@ -86,7 +86,18 @@
         <el-form-item label="负责人电话" :label-width="formLabelWidth">
           <el-input v-model="dialogfrom.phone" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="省/市" :label-width="formLabelWidth">
+        <el-form-item label="地址" :label-width="formLabelWidth" v-show="!addressChange">
+          <el-input :disabled="!addressChange" v-model="allAddress" auto-complete="off"></el-input>
+          <el-button @click="changeDistpicker" type="warning" icon="el-icon-edit" circle></el-button>
+        </el-form-item>
+        <el-form-item label="地址区域" :label-width="formLabelWidth" v-show="addressChange">
+          <v-distpicker
+          :placeholders="placeholders"
+          :province="placeholders.province" :city="placeholders.city" :area="placeholders.area"
+          @selected="onChangedistpicker"
+        ></v-distpicker>
+        </el-form-item>
+        <!-- <el-form-item label="省/市" :label-width="formLabelWidth">
           <el-input
             v-model="dialogfrom.province"
             auto-complete="off"
@@ -97,8 +108,8 @@
         </el-form-item>
         <el-form-item label="县" :label-width="formLabelWidth">
           <el-input v-model="dialogfrom.county" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="详细地址" :label-width="formLabelWidth">
+        </el-form-item> -->
+        <el-form-item label="详细地址" :label-width="formLabelWidth" v-show="addressChange">
           <el-input
             v-model="dialogfrom.detailAddress"
             auto-complete="off"
@@ -107,8 +118,8 @@
         <el-form-item label="项目类型" :label-width="formLabelWidth">
           <!-- <el-input v-model="dialogfrom.proType" auto-complete="off"></el-input> -->
           <el-radio-group v-model="dialogfrom.proType">
-                            <el-radio :label=0>散户</el-radio>
-                            <el-radio :label=1>工程队</el-radio>
+                            <el-radio :label=0>个人用户</el-radio>
+                            <el-radio :label=1>集团用户</el-radio>
                          </el-radio-group>
         </el-form-item>
         <el-form-item v-show="dialogfrom.proType === 1" label="安装总数" :label-width="formLabelWidth">
@@ -156,7 +167,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogDetailed = false">取 消</el-button>
-        <el-button type="primary" @click="changePro">确定修改</el-button>
+        <el-button style="margin-left:20px" type="primary" @click="changePro">确定修改</el-button>
       </div>
     </el-dialog>
   </div>
@@ -165,6 +176,7 @@
 import FileSaver from 'file-saver'
 import XLSX from 'xlsx'
 import dayjs from 'dayjs'
+import VDistpicker from 'v-distpicker'
 // import { EventBus } from '@/eventBus.js'
 export default {
   data () {
@@ -188,10 +200,17 @@ export default {
       // 页容量
       pageRow: 10,
       imageUrl: '', // 图片地址
-      uploadUrl: 'http://xf.padssz.com:9265/pf/file/upload/proimg'
+      uploadUrl: 'http://xf.padssz.com:9265/pf/file/upload/proimg',
+      placeholders: {
+        province: '------ 省 ------',
+        city: '------ 市 ------',
+        area: '------ 区 ------'
+      },
+      addressChange: false,
+      allAddress: ''
     }
   },
-
+  components: { VDistpicker },
   created () {
     this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     this.getDataList()
@@ -256,18 +275,35 @@ export default {
       this.$router.push({ name: 'project/new' })
     },
     // 获取项目信息
-    getProjectInfo (row) {
+    async getProjectInfo (row) {
       this.dialogDetailed = true
-      this.$http.get(`/pf/project/${row.proId}`).then((res) => {
+      await this.$http.get(`/pf/project/${row.proId}`).then((res) => {
         this.dialogfrom = res.data.data
         console.log(this.dialogfrom)
         this.imageUrl = res.data.data.img
+        this.allAddress = !(this.dialogfrom.province + this.dialogfrom.city + this.dialogfrom.county + this.dialogfrom.detailAddress) ? '无' : this.dialogfrom.province + this.dialogfrom.city + this.dialogfrom.county + this.dialogfrom.detailAddress
         this.dialogfrom.createTime = dayjs(res.data.data.createTime).format('YYYY-MM-DD')
+        if (this.dialogfrom.province) {
+          this.placeholders.province = this.dialogfrom.province
+          this.placeholders.city = this.dialogfrom.city
+          this.placeholders.area = this.dialogfrom.county
+        } else {
+          this.placeholders.province = '------ 省 ------'
+          this.placeholders.city = '------ 市 ------'
+          this.placeholders.area = '------ 区 ------'
+        }
       })
+      console.log(this.placeholders)
       this.userProId = row.proId
       this.$store.commit('setProId', this.userProId)
     },
 
+    changeDistpicker () {
+      this.addressChange = true
+      this.placeholders.province = '------ 省 ------'
+      this.placeholders.city = '------ 市 ------'
+      this.placeholders.area = '------ 区 ------'
+    },
     // 修改
     changePro (row) {
       const dto = {
@@ -298,6 +334,7 @@ export default {
               type: 'success'
             })
             this.getDataList()
+            this.addressChange = false
           }
         } else {
           this.$message({
@@ -344,14 +381,22 @@ export default {
         this.imageUrl = res.data.data
       })
     },
+    onChangedistpicker (a) {
+      // this.province = (a.province.value + a.city.value + a.area.value)
+      this.dialogfrom.province = a.province.value
+      this.dialogfrom.city = a.city.value
+      this.dialogfrom.county = a.area.value
+      console.log(this.dialogfrom)
+      console.log(a)
+    },
     formatter (row, column) {
       return dayjs(row.createTime).format('YYYY-MM-DD')
     },
     protype (row) {
       if (row.proType === 1) {
-        return '工程队'
+        return '集团用户'
       } else if (row.proType === 0) {
-        return '散户'
+        return '个人用户'
       }
     },
     address (row, column, cellValue) {
@@ -404,7 +449,7 @@ export default {
 /deep/.distpicker-address-wrapper {
       float: left;
     select {
-      width: 113px;
+      width: 99px;
       padding: 0 ;
       font-size: 14px;
       border-radius:2px;
@@ -412,4 +457,28 @@ export default {
       border-radius: 4px;
     }
     }
+    .avatar-uploader .el-upload {
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader-icon {
+      position: absolute;
+  right: 150px;
+  top: 100px;
+    font-size: 28px;
+    color: #ccc;
+    width: 170px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+    border: 2px dashed #ccc;
+    margin-bottom: 10px;
+    z-index: 10;
+  }
+  .avatar-uploader-icon:hover {
+    border-color: #0094ff;
+    color: #0094ff;
+  }
 </style>

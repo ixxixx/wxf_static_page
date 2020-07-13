@@ -206,7 +206,6 @@ export default {
     })
     this.timer = setInterval(() => {
       this.initEcharts()
-      console.log('11111')
       // 30分钟刷新一次
     }, 1800000)
   },
